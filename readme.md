@@ -1,51 +1,48 @@
-# Arch linux
+# Linux
 
-## Arch iso
+This repo is there to record solution for linux related problems.
 
-Shell script to create a custom **Arch linux live iso** image.
+## Arch Linux
 
-**Note:** The script uses Arch linux specific commands (like pacman), therefore it has to be executed on a Arch linux system.
+The folder [arch](arch) contains Arch linux related solutions.
 
-### Create iso image
+### Arch ISO
 
-1. Run the script [./arch/iso/create-archiso.sh](./arch/iso/create-archiso.sh). This will create a **~/ArchLiveISO** folder containing the baseline configuration for creating the iso image.
-2. Inside the ArchLiveISO you'll find a build script (**~/ArchLiveISO/build.sh**) which will create the iso image from the basline configuration. The iso image will be placed inside the **~/ArchLiveISO/out** folder.
+The folder [iso](arch/iso) contains a [archiso](https://wiki.archlinux.org/title/Archiso)
+configurator script [create-archiso.sh](arch/iso/create-archiso.sh).
 
-#### ISO customizations
+The _create-archiso.sh_ is a Arch linux bash script. When executed, it will
+create a customized _Live Arch ISO_ image inside the **~/ArchLiveISO** folder.
 
-1. Locale: `hu_HU.UTF-8`
-2. Istalled packages: git
+The next step is to run the _build.sh_ sctipt also found inside the
+**~/ArchLiveISO** folder.
 
-## Arch install
+The _build.sh_ script will create the custom iso image. It will be placed
+inside the **~/ArchLiveISO/out** folder. The custom _Live Arch ISO_ image when
+booted it will clone this [repository](https://github.com/devbysp/linux)
+into the home folder.
 
-1. Boot the **Arch live iso** image.
-2. Run the script inside the home directory (**~/install.sh**).
+This repository contains a custom linux [installer](arch/install/install.sh)
+script too. The script automates the linux installation on the computer. For
+more details see the chapter _Arch installer_.
 
+### Arch installer
 
-### Notes
+The purpose of the installer is to automate the installation of the Arch linux.
 
-- The **install.sh** script defaultly installs the linux system on `/dev/sda`.
-- If you would like to change the default drive you have to pass in as an argument `install.sh /dev/vda`.
-- Intalls the system on a single partition. Uses `BIOS` booting with `grub` as a boot manager placed in the `MRB`. 
-- Creates a single user: **root** / default passwd: **admin**
-- Locale: hu_HU.UTF-8
-- Keymap: hu101
-- Apps installed:
-    - NetworkManager
-    - base-devel, make, gcc
-    - wget, git, vim (with config: https://github.com/devbysp/.vim.git)
-    - dosfstools, ntfsprogs, ntfs-3g
-    - ufw:
-    - default deny outgoing
-        - default deny incoming
-        - default deny redirect
-        - allow out http
-        - allow out https
-        - allow out dns
-        - allow out ssh
-    - htop, mc, lynx
-    - zsh (oh-my-zsh)
-    - xorg-server, xorg-xinit, xorg-xrandr, xorg-xsetroot, nitrogen, picom, webkit2gtk, mesa, xf86-video-ati
-    - dwm, st, dmenu, dwmstatus
-    - alsa-utils
-    - firefox
+It can be started by running the script [install.sh](arch/install/install.sh).
+
+The script has the following options:
+
+- `--hdd /dev/sda`: The option `--hdd` specifies on which hard disk will the
+  linux be installed. Caution the script will format the hard disk and might
+  create also new partitions, therefore all data will be lost on that
+  hard disk. If the option is not specified then the `/dev/sda` hard disk
+  will be the default.
+- `--gui dwm | gnome`: The option `--gui` specifies if graphical user
+  interface should be installed and which one. There are two choices **dwm**
+  or **gnome**. If the option is not specified then no gui will be installed.
+- `--vboxguest`: If the option is specified then the virtual box guest will
+  be installed, otherwise it won't be installed.
+- `--dev`: If the option is specified all the softwares needed for development
+  will be installed, otherwise it won't be installed.
