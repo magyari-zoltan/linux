@@ -9,17 +9,22 @@ echo "--------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 #
 # Default values
+boot="bios"
 hdd=/dev/sda
 hostname="arch-linux"
 root_pwd="admin"
 #
 # Parse command line options
 if [ ! -z "$1" ]; then
-    hdd="$1"
+    boot="$1"
+fi
+if [ ! -z "$2" ]; then
+    hdd="$2"
 fi
 #
 # Display the options
 echo "Selected options:"
+echo " - boot: $boot"
 echo " - hdd: $hdd"
 
 # ------------------------------------------------------------------------------
@@ -76,9 +81,19 @@ mkinitcpio -P
 #
 # Grub boot loader
 pacman -S grub --noconfirm
-grub-install --target=i386-pc ${hdd}
-grub-mkconfig -o /boot/grub/grub.cfg
+if [ "$boot" == "uefi" ]; then
+  pacman -S efibootmgr --noconfirm
+
+  ls
+  grub-mkconfig -o /boot/grub/grub.cfg
+  grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
+  grub-mkconfig -o /boot/grub/grub.cfg
+else
+  grub-install --target=i386-pc ${hdd}
+  grub-mkconfig -o /boot/grub/grub.cfg
+fi
 echo "[✔] Configure grub"
+
 #
 # Uncomplicated firewall
 pacman -S ufw --noconfirm

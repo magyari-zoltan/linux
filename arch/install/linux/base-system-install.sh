@@ -9,7 +9,7 @@ echo "--------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 #
 # Install essetial packages
-pacstrap /mnt base linux linux-firmware --noconfirm
+pacstrap -K /mnt base linux linux-firmware --noconfirm
 echo "[✔] Base linux system installed"
 #
 # ------------------------------------------------------------------------------

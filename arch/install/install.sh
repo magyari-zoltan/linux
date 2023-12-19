@@ -9,9 +9,10 @@ usage() {
   echo "Usage: $0 [OPTIONS]"
   echo "Options:"
   echo "  --hdd /dev/sda        The hard disk on which the operating system will be installed on."
-  echo "  --gui dwm|gnome       The graphical user interface to be installed (if not specified, echo no gui will be installed)."
+  echo "  --gui dwm | gnome     The graphical user interface to be installed (if not specified, no gui will be installed)."
   echo "  --vboxguest           Installs vbox guest additions for virtual box like environment."
   echo "  --dev                 Installs development environtment."
+  echo "  --boot bios | uefi    The boot mode to be installed. (if not specified it will default to bios)."
   exit 1
 }
 #
@@ -20,6 +21,7 @@ hdd=/dev/sda
 gui=""
 vboxguest="false"
 dev="false"
+boot="bios"
 #
 # Parse command line options
 while [[ $# -gt 0 ]]; do
@@ -40,6 +42,10 @@ while [[ $# -gt 0 ]]; do
       dev="true"
       shift
       ;;
+    --boot)
+      boot="$2"
+      shift 2
+      ;;
     --help)
       usage
       ;;
@@ -59,10 +65,11 @@ echo " - hdd: $hdd"
 echo " - gui: $gui"
 echo " - vboxguest: $vboxguest"
 echo " - dev: $dev"
+echo " - boot: $boot"
 
 # Environment basic config
 ./configure-env.sh
-./create-partition.sh ${hdd}
+./create-partition.sh ${boot} ${hdd}
 
 linux=linux
 ./${linux}/base-system-install.sh
@@ -70,20 +77,22 @@ linux=linux
 # Create root home folder
 home=/mnt/root
 mkdir -p ${home}
-echo "[x] Create root folder ('${home}')"
+echo "[✔] Create root folder ('${home}')"
 
 # Installa Arch Linux
 basesystem_configure=base-system-configure.sh
 cp ${linux}/${basesystem_configure} ${home}
-arch-chroot /mnt /bin/bash -c "/root/${basesystem_configure}" "${hdd}"
+arch-chroot /mnt /bin/bash -c "/root/${basesystem_configure} ${boot} ${hdd}"
 rm ${home}/${basesystem_configure}
 #
 basesystem_applications=basic-applications.sh
 cp ${linux}/${basesystem_applications} ${home}
-arch-chroot /mnt /bin/bash -c "/root/${basesystem_applications}" "${hdd}"
+arch-chroot /mnt /bin/bash -c "/root/${basesystem_applications} ${hdd}"
 rm ${home}/${basesystem_applications}
 
+# ------------------------------------------------------------------------------
 # Z Shell config
+# ------------------------------------------------------------------------------
 zshell=zsh.sh
 cp ${linux}/${zshell} ${home}
 arch-chroot /mnt /bin/bash -c "/root/${zshell}"
@@ -101,7 +110,12 @@ cp -r ${mc} ${root_config}
 mkdir -p ${skel_config}
 cp -r ${mc} ${skel_config}
 
+# ------------------------------------------------------------------------------
+# User interfaces
+# ------------------------------------------------------------------------------
 gui_folder=gui
+console_folder=console
+#
 # DWM
 if [ "$gui" == "dwm" ]; then
   # Dynamic Window Manager
@@ -126,7 +140,7 @@ if [ "$gui" == "dwm" ]; then
   arch-chroot /mnt /bin/bash -c "/root/${dwm}"
   rm ${home}/${dwm}
 fi
-
+#
 # Gnome
 if [ "$gui" == "gnome" ]; then
   gnome=gnome.sh
@@ -134,16 +148,25 @@ if [ "$gui" == "gnome" ]; then
   arch-chroot /mnt /bin/bash -c "/root/${gnome}"
   rm ${home}/${gnome}
 fi
-
-# Install basic gui apps
+#
+# If gui option was chosen
 if [ ! -z "$gui" ]; then
+  # Install basic gui apps
   basesystem_gui_apps=applications.sh
   cp ${gui_folder}/${basesystem_gui_apps} ${home}
   arch-chroot /mnt /bin/bash -c "/root/${basesystem_gui_apps}"
   rm ${home}/${basesystem_gui_apps}
+else
+  # Configure console mode
+  console=configure.sh
+  cp ${console_folder}/${console} ${home}
+  arch-chroot /mnt /bin/bash -c "/root/${console}"
+  rm ${home}/${console}
 fi
 
+# ------------------------------------------------------------------------------
 # Virtual Box Guest
+# ------------------------------------------------------------------------------
 vbox=virtualbox
 if [ "$vboxguest" == "true" ]; then
   guest=guest.sh
@@ -152,7 +175,9 @@ if [ "$vboxguest" == "true" ]; then
   rm ${home}/${guest}
 fi
 
+# ------------------------------------------------------------------------------
 # Development tools
+# ------------------------------------------------------------------------------
 devtools_folder=dev
 if [ "$dev" == "true" ]; then
   devtools=tools.sh

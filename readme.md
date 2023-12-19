@@ -46,3 +46,6 @@ The script has the following options:
   be installed, otherwise it won't be installed.
 - `--dev`: If the option is specified all the softwares needed for development
   will be installed, otherwise it won't be installed.
+- `--boot bios | uefi`: The option `--boot` specifies the boot method of the
+  operating system. There are two choices **bios** or **uefi**. If the option
+  is not specified then the installer defaults to bios.
