@@ -17,6 +17,9 @@ pacman -S jdk-openjdk --noconfirm
 npm install --global typescript eslint prettier fixjson stdio
 pacman -S python-lsp-server ruff python-pylint --noconfirm
 
+# Pure script
+npm install --global purescript purescript-language-server purty spago
+
 # Docker
 # ------
 #
