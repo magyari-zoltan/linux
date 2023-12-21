@@ -34,7 +34,11 @@ echo " - hdd: $hdd"
 # # - FAT & NTFS file system manager
 # # - htop
 # # - mc
+# # - ranger
 # # - lynx
+# # - thefuck
+# # - tldr
+# # - neofetch
 # ------------------------------------------------------------------------------
 #
 # Network Manager
@@ -67,6 +71,21 @@ echo "[✔] Install htop"
 pacman -S mc --noconfirm
 echo "[✔] Install mc"
 #
+pacman -S ranger --noconfirm
+echo "[✔] Install ranger"
+#
 # Textbased web browser
 pacman -S lynx --noconfirm
 echo "[✔] Install lynx"
+#
+# The fuck: Autocorrect command
+packman -S thefuck --noconfirm
+echo "[✔] Install thefuck"
+#
+# tldr: Cheat sheet for commands
+packman -S tldr --noconfirm
+echo "[✔] Install tldr"
+#
+# Neofetch: Display system info
+packman -S neofetch --noconfirm
+echo "[✔] Install neofetch"
