@@ -5,7 +5,18 @@ echo "Install development area"
 echo "-------------------------------------------------------------------------------"
 
 # JavaScript
-pacman -S nodejs npm --noconfirm
+# ----------
+# n-installer: Node version manager
+#
+# Instead of installing a fix version of node with the following command:
+# \> pacman -S nodejs npm --noconfirm
+#
+# It can be installed any version of node any time with the following commands:
+# \> n install 14.15.4
+# \> n latest
+#
+curl -L https://git.io/n-install | bash -s -- -y -a arch
+n lts
 
 # Python
 pacman -S python --noconfirm
