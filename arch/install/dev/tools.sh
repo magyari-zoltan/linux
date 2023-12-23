@@ -25,11 +25,12 @@ pacman -S python --noconfirm
 pacman -S jdk-openjdk --noconfirm
 
 # Vim linters
+# TODO: this might be obsolate with the new vim-lsp plugin
 npm install --global typescript eslint prettier fixjson stdio
 pacman -S python-lsp-server ruff python-pylint --noconfirm
 
-# Pure script
-npm install --global purescript purescript-language-server purty spago
+# Pure script formatter
+npm install --global purs-tidy
 
 # Docker
 # ------
