@@ -73,7 +73,7 @@ rm ~/dwm -r
 cd ~
 git clone https://git.suckless.org/st
 cd ~/st
-sed -i 's/static char \*font = ".*";/static char \*font = "Courier:pixelsize=16:antialias=true:autohint=true";/g' config.def.h
+sed -i 's/\(.*\)font = ".*:pixelsize=12\(.*\)";/\1font = "FreeMono:pixelsize=16\2";/g' config.def.h
 sed -i 's/".*", \/\* default background colour \*\//"gray10", \/\* default background colour \*\//g' config.def.h
 make clean install
 cd ~
