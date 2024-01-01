@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 echo "-------------------------------------------------------------------------------"
 echo "Install development area"
@@ -15,7 +15,12 @@ echo "--------------------------------------------------------------------------
 # \> n install 14.15.4
 # \> n latest
 #
-curl -L https://git.io/n-install | bash -s -- -y -a arch
+home=~
+zshrc=.zshrc
+curl -L https://git.io/n-install | sh -s -- -y -a arch
+echo 'export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).' >> ${home}/${zshrc}
+export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"
+#
 n lts
 
 # Python

@@ -7,33 +7,40 @@ echo "--------------------------------------------------------------------------
 # Install prerequisits for GUI
 # ----------------------------
 #
-# Xorg packages
-pacman -S xorg-server xorg-xinit xorg-xrandr xorg-xsetroot --noconfirm
+# Update system
+pacman -Syu --noconfirm
 #
-# Rendering background
-pacman -S nitrogen --noconfirm
+# Minimal X server running on a Linux system
+#  - xorg-server: provides the infrastructure for creating and managing graphical user interfaces
+#  - xorg-xinit: starts the X server and loads config from .xinitrc
+#  - xorg-xrandr: hotplug, screen resolution, rotation, orientation ...
+pacman -S xorg-server xorg-xinit xorg-xrandr --noconfirm
 #
-# Window compositor: transparency, transition animations, shadows ...
-pacman -S picom --noconfirm
+# Set the root window properties of the X server.
+#  - background color:\> xsetroot -solid black
+#  - backgriund image:\> xsetroot -bitmap /path/to/background.png
+pacman -S xorg-xsetroot --noconfirm
+#
+#  - libx11: provides the basic functionality for communicating with the X Window System server.
+#  - libxinerama: nables multiple physical monitors to be treated as a single, logical display.
+#  - libfxt: rendering fonts in graphical applications
+pacman -S libx11 libxinerama libfxt
 #
 # It is needed to start dwm.
+# It provides a set of libraries and tools for embedding web content in GTK+ applications.
 pacman -S webkit2gtk --noconfirm
 #
 # Graphical card driver
 pacman -S mesa --noconfirm
-pacman -S xf86-video-ati --noconfirm
+pacman -S xf86-video-ati --noconfirm      # AMD
+pacman -S xf86-video-intel --noconfirm    # Intel
+pacman -S xf86-video-nvidia --noconfirm   # NVIDIA
 
 # Configure .xinitrc
 # ------------------
 #
-# Copy .xinitrc template to home folder
-cp /etc/X11/xinit/xinitrc ~/.xinitrc
-#
-# Disable some setting
-sed -i 's/^twm/# twm/g' ~/.xinitrc
-sed -i 's/^xclock/# xclock/g' ~/.xinitrc
-sed -i 's/^xterm/# xterm/g' ~/.xinitrc
-sed -i 's/^exec xterm/# exec xterm/g' ~/.xinitrc
+# Create .xinitrc
+touch ~/.xinitrc
 #
 # Keyboard Layout
 echo 'setxkbmap hu -model "pc101" -variant "101_qwerty_comma_dead" &' >> ~/.xinitrc
@@ -41,11 +48,8 @@ echo 'setxkbmap hu -model "pc101" -variant "101_qwerty_comma_dead" &' >> ~/.xini
 # Display Resolution
 echo 'xrandr --output Virtual-1 --mode 1920x1080 &' >> ~/.xinitrc
 #
-# Compositor
-echo 'picom -f &' >> ~/.xinitrc
-#
-# Set wallpaper
-echo 'nitrogen --restore &' >> ~/.xinitrc
+# Display Resolution
+echo 'xsetroot -solid "#1D2133"' >> ~/.xinitrc
 #
 # Status display
 echo 'avdd "disk mem bat dt" &' >> ~/.xinitrc
@@ -76,7 +80,7 @@ cd ~/st
 #
 # Apply color scheme patches
 patch=$(curl -s https://st.suckless.org/patches/colorschemes/ | grep -o 'st-colorschemes-[0-9\.]*\.diff' | head -n 1)
-git apply < <(curl -L curl -s https://st.suckless.org/patches/colorschemes/${patch})
+git apply < <(curl -s https://st.suckless.org/patches/colorschemes/${patch})
 #
 config_def=config.def.h
 temp_file=/tmp/moved_lines

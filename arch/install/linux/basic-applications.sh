@@ -24,22 +24,21 @@ echo " - hdd: $hdd"
 
 # ------------------------------------------------------------------------------
 # Install basic apps
-#
-# # - Network Manager
-# # - vim
-# # - git
-# # - base-devel
-# # - make
-# # - gcc
-# # - FAT & NTFS file system manager
-# # - htop
-# # - mc
-# # - ranger
-# # - lynx
-# # - thefuck
-# # - tldr
-# # - neofetch
-# # - exa
+#  - Network Manager
+#  - vim
+#  - git
+#  - base-devel
+#  - make
+#  - gcc
+#  - FAT & NTFS file system manager
+#  - htop
+#  - mc
+#  - ranger
+#  - lynx
+#  - thefuck
+#  - tldr
+#  - neofetch
+#  - exa
 # ------------------------------------------------------------------------------
 #
 # Network Manager
@@ -92,5 +91,9 @@ pacman -S neofetch --noconfirm
 echo "[✔] Install neofetch"
 #
 # exa: commind line 'ls' command with steroids: colors and icons
-pacman -S exa --noconfirm
+pacman -S exa ttf-arimo-nerd --noconfirm
 echo "[✔] Install exa"
+#
+# zip, unzip
+pacman -S zip unzip --noconfirm
+echo "[✔] Install zip unzip"

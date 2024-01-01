@@ -29,16 +29,15 @@ echo " - hdd: $hdd"
 
 # ------------------------------------------------------------------------------
 # Basic configuration
-#
-# # - hardware clock
-# # - locale
-# # - keyboard
-# # - host name
-# # - local hosts
-# # - update keyring
-# # - grub boot loader
-# # - ufw
-# # - root password
+#  - hardware clock
+#  - locale
+#  - keyboard
+#  - host name
+#  - local hosts
+#  - update keyring
+#  - grub boot loader
+#  - ufw
+#  - root password
 # ------------------------------------------------------------------------------
 #
 # Set timezone

@@ -22,6 +22,7 @@ echo " - dev: $dev"
 # Global configuration
 # ------------------------------------------------------------------------------
 echo 'alias ls="exa --icons"' >> ~/.zshrc
+echo 'alias help="tldr"' >> ~/.zshrc
 
 # ------------------------------------------------------------------------------
 # Dev env config option

@@ -28,8 +28,8 @@ echo " - hdd: $hdd"
 # ------------------------------------------------------------------------------
 # Partitioning the hard disk
 #
-# # this configuration might change depending on the machine you are installing
-# # on
+# this configuration might change depending on the machine you are installing
+# on
 # ------------------------------------------------------------------------------
 #
 # Creating partitions
