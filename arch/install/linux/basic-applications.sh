@@ -79,13 +79,13 @@ pacman -S lynx --noconfirm
 echo "[✔] Install lynx"
 #
 # The fuck: Autocorrect command
-packman -S thefuck --noconfirm
+pacman -S thefuck --noconfirm
 echo "[✔] Install thefuck"
 #
 # tldr: Cheat sheet for commands
-packman -S tldr --noconfirm
+pacman -S tldr --noconfirm
 echo "[✔] Install tldr"
 #
 # Neofetch: Display system info
-packman -S neofetch --noconfirm
+pacman -S neofetch --noconfirm
 echo "[✔] Install neofetch"
