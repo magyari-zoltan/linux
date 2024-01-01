@@ -39,6 +39,7 @@ echo " - hdd: $hdd"
 # # - thefuck
 # # - tldr
 # # - neofetch
+# # - exa
 # ------------------------------------------------------------------------------
 #
 # Network Manager
@@ -89,3 +90,7 @@ echo "[✔] Install tldr"
 # Neofetch: Display system info
 pacman -S neofetch --noconfirm
 echo "[✔] Install neofetch"
+#
+# exa: commind line 'ls' command with steroids: colors and icons
+pacman -S exa --noconfirm
+echo "[✔] Install exa"
