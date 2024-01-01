@@ -41,12 +41,6 @@ tar -xzvf docker-24.0.5.tgz
 cp docker/* /usr/local/bin
 rm docker -r
 #
-# Creating aliases
-# dockerd       : start docker daemon
-# dockerd-stop  : stop docker daemon
-echo 'alias dockerd="/usr/local/bin/dockerd &> /dev/null&"' >> ~/.zshrc
-echo 'alias dockerd-stop="pkill dockerd -e&"' >> ~/.zshrc
-#
 # Install docker compose
 curl -s https://api.github.com/repos/docker/compose/releases/latest | grep browser_download_url | grep docker-compose-linux-x86_64 | cut -d '"' -f 4 | wget -qi -
 chmod +x docker-compose-linux-x86_64

@@ -91,7 +91,7 @@ arch-chroot /mnt /bin/bash -c "/root/${basesystem_applications} ${hdd}"
 rm ${home}/${basesystem_applications}
 
 # ------------------------------------------------------------------------------
-# Z Shell config
+# Z Shell install
 # ------------------------------------------------------------------------------
 zshell=zsh.sh
 cp ${linux}/${zshell} ${home}
@@ -185,6 +185,14 @@ if [ "$dev" == "true" ]; then
   arch-chroot /mnt /bin/bash -c "/root/${devtools}"
   rm ${home}/${devtools}
 fi
+
+# ------------------------------------------------------------------------------
+# Z Shell config
+# ------------------------------------------------------------------------------
+zshell_config=zsh-configure.sh
+cp ${linux}/${zshell_config} ${home}
+arch-chroot /mnt /bin/bash -c "/root/${zshell_config} ${dev}"
+rm ${home}/${zshell_config}
 
 # ------------------------------------------------------------------------------
 # System shutdown
