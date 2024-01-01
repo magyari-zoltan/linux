@@ -22,7 +22,7 @@ n lts
 pacman -S python --noconfirm
 
 # Java
-pacman -S jdk-openjdk --noconfirm
+# pacman -S jdk-openjdk --noconfirm
 
 # Vim linters
 # TODO: this might be obsolate with the new vim-lsp plugin
