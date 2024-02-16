@@ -27,10 +27,17 @@ n lts
 pacman -S python --noconfirm
 
 # Java
-# pacman -S jdk-openjdk --noconfirm
+pacman -S jdk-openjdk --noconfirm
+pacman -S maven --noconfirm
+
+# Clojure
+pacman -S leiningen --noconfirm
+
+# Purescript
+npm install -g purescript
+npm install -g spago
 
 # Vim linters
-# TODO: this might be obsolate with the new vim-lsp plugin
 npm install --global typescript eslint prettier fixjson stdio
 pacman -S python-lsp-server ruff python-pylint --noconfirm
 
