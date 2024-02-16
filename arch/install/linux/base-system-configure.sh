@@ -95,24 +95,24 @@ echo "[✔] Configure grub"
 
 #
 # Uncomplicated firewall
-pacman -S ufw --noconfirm
+#pacman -S ufw --noconfirm
 #
-systemctl enable ufw
-systemctl start ufw
-systemctl status ufw
+#systemctl enable ufw
+#systemctl start ufw
+#systemctl status ufw
 #
-ufw enable
-ufw default deny outgoing
-ufw default deny incoming
-ufw default deny routed
+#ufw enable
+#ufw default deny outgoing
+#ufw default deny incoming
+#ufw default deny routed
 #
-ufw allow out http
-ufw allow out https
-ufw allow out dns
-ufw allow out ssh
-ufw allow out on docker0
-ufw status
-echo "[✔] Firewall setup"
+#ufw allow out http
+#ufw allow out https
+#ufw allow out dns
+#ufw allow out ssh
+#ufw allow out on docker0
+#ufw status
+#echo "[✔] Firewall setup"
 #
 # Root password
 echo -en "${root_pwd}\n${root_pwd}\n" | passwd
