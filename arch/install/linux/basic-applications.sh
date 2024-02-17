@@ -97,3 +97,7 @@ echo "[✔] Install exa"
 # zip, unzip
 pacman -S zip unzip --noconfirm
 echo "[✔] Install zip unzip"
+#
+# trasnsmission
+pacman -S transmission-cli --noconfirm
+echo "[✔] transmission-cli"
