@@ -16,5 +16,9 @@ ufw allow out https
 ufw allow out dns
 ufw allow out ssh
 ufw allow out on docker0
+#
+ufw allow 51413/tcp comment 'transmission-cli / peer-port'
+ufw allow 51413/udp comment 'transmission-cli / peer-port'
+ufw allow 6881/udp comment  'transmission-cli / DHT protocol (finding peers more quickly)'
 ufw status
 echo "[✔] Firewall setup"
