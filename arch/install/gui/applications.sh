@@ -15,3 +15,7 @@ echo "[✔] File manager"
 # Install Gnome
 pacman -S firefox --noconfirm
 echo "[✔] Firefox"
+#
+# Virtualbox
+pacman -S virtualbox virtualbox-guest-iso virtualbox-host-modules-arch virtualbox-guest-utils --noconfirm
+echo "[✔] Firefox"
