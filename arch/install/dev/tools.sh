@@ -4,6 +4,9 @@ echo "--------------------------------------------------------------------------
 echo "Install development area"
 echo "-------------------------------------------------------------------------------"
 
+# Needed by n-install script
+pacman -Sy make --noconfirm
+
 # JavaScript
 # ----------
 # n-installer: Node version manager
@@ -17,7 +20,7 @@ echo "--------------------------------------------------------------------------
 #
 home=~
 zshrc=.zshrc
-curl -L https://git.io/n-install | bash -s -- -y -a arch
+curl -L https://git.io/n-install | bash -s -- -y -a
 echo 'export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).' >> ${home}/${zshrc}
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"
 #
