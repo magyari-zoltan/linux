@@ -192,10 +192,10 @@ rm ${home}/${zshell_config}
 # ------------------------------------------------------------------------------
 # Firewall setup
 # ------------------------------------------------------------------------------
-# firewall_setup=firewall.sh
-# cp ${linux}/${firewall_setup} ${home}
-# arch-chroot /mnt /bin/bash -c "/root/${firewall_setup}"
-# rm ${home}/${firewall_setup}
+firewall_setup=firewall.sh
+cp ${linux}/${firewall_setup} ${home}
+arch-chroot /mnt /bin/bash -c "/root/${firewall_setup}"
+rm ${home}/${firewall_setup}
 
 # ------------------------------------------------------------------------------
 # System shutdown

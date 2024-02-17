@@ -1,6 +1,6 @@
 #
 # Uncomplicated firewall
-pacman -S ufw --noconfirm
+# pacman -S ufw --noconfirm
 #
 systemctl enable ufw
 systemctl start ufw
