@@ -177,7 +177,7 @@ devtools_folder=dev
 if [ "$dev" == "true" ]; then
   devtools=tools.sh
   cp ${devtools_folder}/${devtools} ${home}
-  arch-chroot /mnt /bin/sh -c "/root/${devtools}"
+  arch-chroot /mnt /bin/bash -c "/root/${devtools}"
   rm ${home}/${devtools}
 fi
 
