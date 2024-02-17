@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 echo "-------------------------------------------------------------------------------"
 echo "Install development area"
@@ -20,7 +20,7 @@ pacman -Sy make --noconfirm
 #
 home=~
 zshrc=.zshrc
-curl -L https://git.io/n-install | bash -s -- -y -a
+curl -L https://git.io/n-install | /bin/zsh -s -- -y -a arch
 echo 'export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).' >> ${home}/${zshrc}
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"
 #
