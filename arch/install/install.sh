@@ -139,6 +139,8 @@ fi
 # Gnome
 if [ "$gui" == "gnome" ]; then
   gnome=gnome.sh
+  autostart=autostart
+  cp -r ${config}/${autostart} ${root_config}
   cp ${gui_folder}/${gnome} ${home}
   arch-chroot /mnt /bin/bash -c "/root/${gnome}"
   rm ${home}/${gnome}
