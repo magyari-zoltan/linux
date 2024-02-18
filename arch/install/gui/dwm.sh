@@ -56,6 +56,10 @@ echo 'avdd "disk mem bat dt" &' >> ~/.xinitrc
 echo 'avds "bat dt" m true &' >> ~/.xinitrc
 echo 'avds "disk mem" 5000 true &' >> ~/.xinitrc
 #
+# Pulsewire
+echo 'pipewire &' >> ~/.xinitrc
+echo 'pipewire-pulse & ' >> ~/.xinitrc
+#
 # Execute DWM
 echo 'exec dwm' >> ~/.xinitrc
 #
