@@ -192,6 +192,16 @@ arch-chroot /mnt /bin/bash -c "/root/${zshell_config} ${dev}"
 rm ${home}/${zshell_config}
 
 # ------------------------------------------------------------------------------
+# Firewall install
+# ------------------------------------------------------------------------------
+firewall=firewall.sh
+modules=/lib/modules
+mount --bind ${modules} /mnt/${modules}
+cp ${linux}/${firewall} ${home}
+arch-chroot /mnt /bin/bash -c "/root/${firewall}"
+rm ${home}/${firewall}
+
+# ------------------------------------------------------------------------------
 # System shutdown
 # ------------------------------------------------------------------------------
 umount -R /mnt
