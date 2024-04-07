@@ -25,7 +25,7 @@ echo " - hdd: $hdd"
 # ------------------------------------------------------------------------------
 # Install basic apps
 #  - Network Manager
-#  - vim
+#  - neovim
 #  - git
 #  - base-devel
 #  - make
@@ -51,17 +51,17 @@ pacman -S pulsemixer --noconfirm
 echo "[✔] pulsemixer"
 #
 # Install essatial apps
-pacman -S vim git wget --noconfirm
-echo "[✔] Install vim and git"
+pacman -S neovim git wget --noconfirm
+echo "[✔] Install Neo vim and git"
 pacman -S base-devel make gcc --noconfirm
 echo "[✔] Install base-devel, make, gcc"
 #
 # Vim configuration
+cd ~/.config
+git clone https://github.com/devbysp/nvim
 cd ~
-git clone https://github.com/devbysp/.vim.git
-cp .vim/.vimrc .
-vim +PlugInstall +qall
-echo "[✔] Configure vim"
+nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+echo "[✔] Configure Neo vim"
 #
 # FAT and NTFS filesystems
 pacman -S dosfstools ntfsprogs ntfs-3g --noconfirm

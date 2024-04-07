@@ -49,9 +49,9 @@ profiledef=profiledef.sh
 sed -i '/file_permissions/a \ \ ["/root/.init.sh"]="0:0:700"' ${archliveiso}/${profile}/${profiledef}
 sed -i '/^APPEND/ s/$/ script=.init.sh/' ${ArchLiveISO}/${profile}/syslinux/archiso_sys-linux.cfg
 
-# Vim config
-vim=.vim
-git clone https://github.com/devbysp/.vim.git
+# Neo vim config
+vim=.config/nvim
+git clone https://github.com/devbysp/nvim
 cp -r ${vim} ${ArchLiveISO}/${profile}/${root}/${home}
 cp ${vim}/.vimrc ${ArchLiveISO}/${profile}/${root}/${home}
 rm -r ${vim}
