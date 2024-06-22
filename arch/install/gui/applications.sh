@@ -9,7 +9,7 @@ echo "--------------------------------------------------------------------------
 pacman -S pcmanfm --noconfirm
 echo "[✔] File manager"
 #
-# Install Gnome
+# Firefox
 pacman -S firefox --noconfirm
 echo "[✔] Firefox"
 #

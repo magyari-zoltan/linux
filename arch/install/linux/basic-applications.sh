@@ -59,8 +59,6 @@ echo "[✔] Install base-devel, make, gcc"
 # Vim configuration
 cd ~/.config
 git clone https://github.com/devbysp/nvim
-cd ~
-nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 echo "[✔] Configure Neo vim"
 #
 # FAT and NTFS filesystems

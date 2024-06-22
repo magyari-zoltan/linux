@@ -98,7 +98,14 @@ cp ${linux}/${zshell} ${home}
 arch-chroot /mnt /bin/bash -c "/root/${zshell}"
 rm ${home}/${zshell}
 
-# Copy config files
+zshell_config=zsh-configure.sh
+cp ${linux}/${zshell_config} ${home}
+arch-chroot /mnt /bin/bash -c "/root/${zshell_config} ${dev}"
+rm ${home}/${zshell_config}
+
+# ------------------------------------------------------------------------------
+# Copy config files 
+# ------------------------------------------------------------------------------
 config=.config
 mc=${config}/mc
 root_config=/mnt/root/.config
@@ -182,14 +189,6 @@ if [ "$dev" == "true" ]; then
   arch-chroot /mnt /bin/zsh -c "/root/${devtools}"
   rm ${home}/${devtools}
 fi
-
-# ------------------------------------------------------------------------------
-# Z Shell config
-# ------------------------------------------------------------------------------
-zshell_config=zsh-configure.sh
-cp ${linux}/${zshell_config} ${home}
-arch-chroot /mnt /bin/bash -c "/root/${zshell_config} ${dev}"
-rm ${home}/${zshell_config}
 
 # ------------------------------------------------------------------------------
 # Firewall install
