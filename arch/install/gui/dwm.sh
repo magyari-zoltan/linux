@@ -119,7 +119,8 @@ make clean install
 cd ${install}
 git clone https://git.suckless.org/slstatus
 cd ${install}/slstatus
-mv -f ~/config.def.h .
+# Configure status
+sed -i 's/\(.*\)datetime,\(.*\)$/  { cpu_perc,     "  %s%% |",          NULL              },\n  { ram_used,     "  %s",              NULL              },\n  { ram_total,    " (free: %s) |",      NULL              },\n  { disk_used,    "  %s",              "/"               },\n  { disk_total,   " (free: %s) |",      "/"               },\n	{ datetime,     " %s ",                "%A %d | %H:%M"  }\n/g' config.def.h
 #
 make clean install
 
