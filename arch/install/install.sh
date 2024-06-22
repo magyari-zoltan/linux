@@ -122,23 +122,14 @@ cp -r ${mc} ${skel_config}
 # ------------------------------------------------------------------------------
 gui_folder=gui
 console_folder=console
+dwm_slstatus_config_folder=.config/dwm/slstatus
 #
 # DWM
 if [ "$gui" == "dwm" ]; then
   # Dynamic Window Manager
-  #
-  # DWM status
-  dwm_status=${config}/dwm/dwmstatus
-  local_bin=/mnt/usr/local/bin
-  cp ${dwm_status}/avdd ${local_bin}
-  cp ${dwm_status}/avds ${local_bin}
-  cp ${dwm_status}/rpid ${local_bin}
-  cp ${dwm_status}/util ${local_bin}
-  cp ${dwm_status}/mod  ${local_bin} -r
-  #
-  # DWM install
   dwm=dwm.sh
   cp ${gui_folder}/${dwm} ${home}
+  cp ${dwm_slstatus_config_folder}/config.def.h ${home}
   arch-chroot /mnt /bin/bash -c "/root/${dwm}"
   rm ${home}/${dwm}
 fi

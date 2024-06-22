@@ -57,7 +57,9 @@ pacman -S base-devel make gcc --noconfirm
 echo "[✔] Install base-devel, make, gcc"
 #
 # Vim configuration
-cd ~/.config
+config_folder=~/.config
+mkdir -p ${config_folder}
+cd ${config_folder}
 git clone https://github.com/devbysp/nvim
 echo "[✔] Configure Neo vim"
 #
@@ -103,3 +105,7 @@ echo "[✔] Install zip unzip"
 # trasnsmission
 pacman -S transmission-cli --noconfirm
 echo "[✔] transmission-cli"
+#
+# node
+pacman -S nodejs npm --noconfirm
+echo "[✔] nodejs"

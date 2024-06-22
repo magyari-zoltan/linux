@@ -48,13 +48,11 @@ echo 'setxkbmap hu -model "pc101" -variant "101_qwerty_comma_dead" &' >> ~/.xini
 # Display Resolution
 echo 'xrandr --output Virtual-1 --mode 1920x1080 &' >> ~/.xinitrc
 #
+# Status display
+echo 'slstatus &' >> ~/.xinitrc
+#
 # Display Resolution
 echo 'xsetroot -solid "#1D2133"' >> ~/.xinitrc
-#
-# Status display
-echo 'avdd "disk mem bat dt" &' >> ~/.xinitrc
-echo 'avds "bat dt" m true &' >> ~/.xinitrc
-echo 'avds "disk mem" 5000 true &' >> ~/.xinitrc
 #
 # Pulsewire
 echo 'pipewire &' >> ~/.xinitrc
@@ -66,21 +64,26 @@ echo 'exec dwm' >> ~/.xinitrc
 # Copy config file to skel
 cp ~/.xinitrc /etc/skel/.xinitrc
 
+install=~/.install
+mkdir -p ${install}
+
 # Install suckless apps
 # ---------------------
 #
 # DWM
-cd ~
+cd ${install}
 git clone https://git.suckless.org/dwm
-cd ~/dwm
+cd ${install}/dwm
+#
+# Set default font
+sed -i 's/\(.*\)col_cyan\[\]\( *\)= "#\([0-9]\{6\}\)";/\1col_cyan[]\2= "#202530";/g' config.def.h
+#
 make clean install
-cd ~
-rm ~/dwm -r
 
 # Install siple terminal from suckless
-cd ~
+cd ${install}
 git clone https://git.suckless.org/st
-cd ~/st
+cd ${install}/st
 #
 # Apply color scheme patches
 patch=$(curl -s https://st.suckless.org/patches/colorschemes/ | grep -o 'st-colorschemes-[0-9\.]*\.diff' | head -n 1)
@@ -100,17 +103,25 @@ rm $temp_file
 # Set default font
 sed -i 's/\(.*\)font = ".*:pixelsize=12\(.*\)";/\1font = "FreeMono:pixelsize=16\2";/g' config.def.h
 #
+# Status display
+echo 'slstatus &' >> ~/.xinitrc
+#
 make clean install
-cd ~
-rm ~/st -r
 
 # Install dmenu from suckless
-cd ~
+cd ${install}
 git clone https://git.suckless.org/dmenu
-cd ~/dmenu
+cd ${install}/dmenu
+#
 make clean install
-cd ~
-rm ~/dmenu -r
+
+# Install sltatus from suckless
+cd ${install}
+git clone https://git.suckless.org/slstatus
+cd ${install}/slstatus
+mv -f ~/config.def.h .
+#
+make clean install
 
 # Install alsa utils
 # ------------------------------------------------------------------------------
