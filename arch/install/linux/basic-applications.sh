@@ -39,6 +39,11 @@ echo " - hdd: $hdd"
 #  - tldr
 #  - neofetch
 #  - exa
+#  - zip & unzip
+#  - transmission-cli
+#  - nodejs & npm
+#  - pass wl-clipboard xclip
+#  - rmlint-shredder
 # ------------------------------------------------------------------------------
 #
 # Network Manager
@@ -109,3 +114,12 @@ echo "[✔] transmission-cli"
 # node
 pacman -S nodejs npm --noconfirm
 echo "[✔] nodejs"
+#
+# pass, wl-clipboard, xclip
+pacman -S pass wl-clipboard xclip kleopatra --noconfirm
+echo "[✔] pass wl-clipboard xclip kleopatra"
+#
+# rmlint-shredder
+pacman -S rmlint-shredder --noconfirm
+echo "[✔] rmlint-shredder
+
