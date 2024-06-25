@@ -43,7 +43,6 @@ echo " - hdd: $hdd"
 #  - transmission-cli
 #  - nodejs & npm
 #  - pass wl-clipboard xclip
-#  - rmlint-shredder
 # ------------------------------------------------------------------------------
 #
 # Network Manager
@@ -119,7 +118,6 @@ echo "[✔] nodejs"
 pacman -S pass wl-clipboard xclip kleopatra --noconfirm
 echo "[✔] pass wl-clipboard xclip kleopatra"
 #
-# rmlint-shredder
-pacman -S rmlint-shredder --noconfirm
-echo "[✔] rmlint-shredder
-
+# qrencode
+pacman -S qrencode zbar --noconfirm
+echo "[✔] qrencode zbar"
