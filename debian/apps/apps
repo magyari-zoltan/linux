@@ -1,0 +1,14 @@
+#!/bin/bash
+
+source apps/configure
+source apps/build
+
+# Install applications
+function install_applications() {
+  install "git wget"
+  install "${BASE_DEVEL} make cmake gcc gettext"
+  install "nodejs npm"
+
+  build_apps_from_src
+  configure_installed_apps
+}

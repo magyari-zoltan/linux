@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Install package passed in as argument
+function install() {
+  local packages=$1
+  $PACKAGE_MANAGER $packages $NOCONFIRM
+}
+ 
+# Clones an app from github url ($1) into the /tmp/$2 folder
+function clone() {
+  local orig_path=$(pwd)
+  local download="$TMP/$2"
+
+  mkdir -p $download && cd $download
+  git clone $1
+  cd $orig_path
+}

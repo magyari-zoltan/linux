@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# User related configurations
+function configure_user() {
+  usermod -aG sudo $USER
+  passwd -d root
+  passwd -l root
+  echo "configure user"
+}
