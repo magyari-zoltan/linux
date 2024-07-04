@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Install sudo
+function install_sudo() {
+  install "sudo"
+}
+
+# Add user to sudoers
+function add_user_to_sudoers() {
+  sudo usermod -aG sudo $USER
+}
+
+# Disable root user
+function disable_root() {
+  passwd -d root
+  passwd -l root
+}
+
+# User related configurations
+function configure_users() {
+  install_sudo
+  add_user_to_sudoers
+  disable_root
+}

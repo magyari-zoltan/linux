@@ -1,0 +1,5 @@
+#!/bin/bash
+
+function install_make() {
+  install "make cmake gettext"
+}

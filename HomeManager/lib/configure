@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Install package passed in as argument
+function install() {
+  local packages=$1
+  $PACKAGE_MANAGER $INSTALL $packages $NOCONFIRM
+}
+ 
+# Clones an app from github url ($1) into the /tmp/$2 folder
+function clone() {
+  local orig_path=$(pwd)
+  local download="$2"
+
+  mkdir -p $download && cd $download
+
+  git clone $1
+
+  cd $orig_path
+}
+
+# Update debian packages
+function update_debian_packages() {
+  $PACKAGE_MANAGER update $NOCONFIRM
+  $PACKAGE_MANAGER upgrade $NOCONFIRM
+}
+
+# Update packages
+function update_packages() {
+  local linux=$1
+
+  [[ $linux == "debian" ]] && update_debian_packages
+}

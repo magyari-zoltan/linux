@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# ------------------------------------------------------------------------------
+# Imports
+# ------------------------------------------------------------------------------
+
+source user/configure
+source lib/configure
+source app/install
+source dotfiles/dotfiles
+
+# ------------------------------------------------------------------------------
+# Globals
+# ------------------------------------------------------------------------------
+
+# Configure linux dependent globals
+function configure_linux_options() {
+  if [[ $1 == "debian" ]]; then
+    declare -g PACKAGE_MANAGER="apt"              # Package manager
+    declare -g INSTALL="install"                  # Install command
+    declare -g NOCONFIRM="-y"                     # No confirmation option for package manager
+    declare -g BASE_DEVEL=build-essential         # TODO: should be move to application install script
+  else
+    usage; exit;                                  # Exit on wrong option
+  fi
+}
+
+# ------------------------------------------------------------------------------
+# Setup orchestration 
+# ------------------------------------------------------------------------------
+
+# Setup linux
+function setup() {
+  local linux=$1
+
+  update_packages $linux
+  install_apps
+  configure_users
+  # restore_dotfiles
+  echo "Setup was successfull"
+}
+
+# ------------------------------------------------------------------------------
+# Bash option parser
+# ------------------------------------------------------------------------------
+
+# Define a function to display script usage
+function usage() {
+  echo "Usage: $0 [OPTIONS]"
+  echo "Options:"
+  echo "  --linux arch | debian"
+  exit 1
+}
+
+# Exit on no option
+[[ $# -gt 0 ]] || (usage; exit) 
+
+# Parsing options
+case "$1" in
+  --linux)
+    [[ $# -gt 1 ]] || (usage; exit)
+    configure_linux_options $2
+    setup $2 # API: external method to be called
+    ;;
+  --help)
+    usage
+    shift 1
+    ;;
+  *)
+    echo "Error: Unknown option $1"
+    usage
+    ;;
+esac
