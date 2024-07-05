@@ -1,6 +1,8 @@
 #!/bin/bash
 
 function install_nodejs() {
+  # TODO: Install nodejs and npm with n-install
+
   # Install nodejs and node package manager
   install "nodejs npm"
 

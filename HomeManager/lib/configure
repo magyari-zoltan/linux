@@ -3,25 +3,23 @@
 # Install package passed in as argument
 function install() {
   local packages=$1
-  $PACKAGE_MANAGER $INSTALL $packages $NOCONFIRM
+  $PACKAGE_MANAGER $INSTALL $packages $NO_CONFIRM
 }
- 
+
 # Clones an app from github url ($1) into the /tmp/$2 folder
 function clone() {
-  local orig_path=$(pwd)
-  local download="$2"
+  orig_path=$(pwd)
+  download="$2"
 
-  mkdir -p $download && cd $download
-
-  git clone $1
-
-  cd $orig_path
+  mkdir -p "$download" && cd "$download" || exit 1
+  git clone "$1"
+  cd "$orig_path" || exit 1
 }
 
 # Update debian packages
 function update_debian_packages() {
-  $PACKAGE_MANAGER update $NOCONFIRM
-  $PACKAGE_MANAGER upgrade $NOCONFIRM
+  $PACKAGE_MANAGER update "$NO_CONFIRM"
+  $PACKAGE_MANAGER upgrade "$NO_CONFIRM"
 }
 
 # Update packages

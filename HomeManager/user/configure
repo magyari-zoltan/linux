@@ -7,7 +7,7 @@ function install_sudo() {
 
 # Add user to sudoers
 function add_user_to_sudoers() {
-  sudo usermod -aG sudo $USER
+  sudo usermod -aG sudo "$USER"
 }
 
 # Disable root user
