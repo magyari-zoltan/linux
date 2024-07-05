@@ -1,13 +1,12 @@
 #!/bin/bash
 
-source app/git
-source app/make
 source app/nodejs
 source app/neovim
 
 function install_apps() {
-  install_git
-  install_make
+  install "curl"
+  install "git"
+  install "make cmake gettext"
   install_nodejs
   install_neovim
 }
