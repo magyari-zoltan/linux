@@ -1,0 +1,7 @@
+#!/bin/bash
+
+function install_build_essential() {
+  install "build-essential"
+  install "git"
+  install "make"
+}
