@@ -7,65 +7,13 @@
 source user/configure
 source lib/configure
 source app/install
-source dotfiles/dotfiles
 
 # ------------------------------------------------------------------------------
-# Globals
+# Setup 
 # ------------------------------------------------------------------------------
 
-# Configure linux dependent globals
-function configure_linux_options() {
-  if [[ $1 == "debian" ]]; then
-    export PACKAGE_MANAGER="apt"              # Package manager
-    export INSTALL="install"                  # Install command
-    export NO_CONFIRM="-y"                    # No confirmation option for package manager
-  else
-    usage                                     # Exit on wrong option
-  fi
-}
-
-# ------------------------------------------------------------------------------
-# Setup orchestration
-# ------------------------------------------------------------------------------
-
-# Setup linux
-function setup() {
-  local linux=$1
-
-  update_packages "$linux"
-  install_apps
-  configure_users
-  # restore_dotfiles
-  echo "Setup was successful"
-}
-
-# ------------------------------------------------------------------------------
-# Bash option parser
-# ------------------------------------------------------------------------------
-
-# Define a function to display script usage
-function usage() {
-  echo "Usage: $0 [OPTIONS]"
-  echo "Options:"
-  echo "  --linux arch | debian"
-  exit 1
-}
-
-# Exit on no option
-[[ $# -gt 0 ]] || usage
-
-# Parsing options
-case "$1" in
-  --linux)
-    [[ $# -gt 1 ]] || usage
-    configure_linux_options "$2"
-    setup "$2" # API: external method to be called
-    ;;
-  --help)
-    usage
-    ;;
-  *)
-    echo "Error: Unknown option $1"
-    usage
-    ;;
-esac
+configure_globals
+update_packages
+install_apps
+configure_users
+echo "Setup was successful"
