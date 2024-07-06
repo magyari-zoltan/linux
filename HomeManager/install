@@ -4,9 +4,9 @@
 # Imports
 # ------------------------------------------------------------------------------
 
-source user/configure
-source lib/configure
+source ../.common/configure
 source app/install
+source user/configure
 
 # ------------------------------------------------------------------------------
 # Setup 

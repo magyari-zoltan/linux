@@ -1,5 +1,9 @@
 #!/bin/bash
 
+
+# ------------------------------------------------------------------------------
+# Globals
+# ------------------------------------------------------------------------------
 # Configure linux dependent globals
 function configure_globals() {
   . /etc/os-release                                         # Set linux distribution (debian | arch) into ID global
@@ -14,6 +18,9 @@ function configure_globals() {
   fi
 }
 
+# ------------------------------------------------------------------------------
+# System update
+# ------------------------------------------------------------------------------
 # Update packages
 function update_packages() {
   if [[ $LINUX == "debian" ]]; then 
@@ -22,12 +29,9 @@ function update_packages() {
   fi
 }
 
-# Install package passed in as argument
-function install() {
-  local packages=$1                                         # First argument: packages to be installed
-  $PACKAGE_MANAGER $INSTALL $packages $NO_CONFIRM
-}
-
+# ------------------------------------------------------------------------------
+# Clone
+# ------------------------------------------------------------------------------
 # Clones an app from github url ($1) into the /tmp/$2 folder
 function clone() {
   url="$1"                                                  # First argument: git repository url
@@ -39,3 +43,11 @@ function clone() {
   cd "$orig_path" || exit 1
 }
 
+# ------------------------------------------------------------------------------
+# Install
+# ------------------------------------------------------------------------------
+# Install package passed in as argument
+function install() {
+  local packages=$1                                         # First argument: packages to be installed
+  $PACKAGE_MANAGER $INSTALL $packages $NO_CONFIRM
+}
