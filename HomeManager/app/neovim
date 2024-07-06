@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# ------------------------------------------------------------------------------
+# Debian
+# ------------------------------------------------------------------------------
+
 # Download source code
 function download_neovim() {
   download_folder=$1
@@ -25,7 +29,7 @@ function build_neovim() {
 }
 
 # Build applications from source
-function install_neovim() {
+function install_neovim_debian() {
   orig_path=$(pwd)
   build_folder=/home/$USER/.install
 
@@ -35,4 +39,22 @@ function install_neovim() {
   build_neovim "$build_folder"
 
   cd "$orig_path" || exit 1
+}
+
+# ------------------------------------------------------------------------------
+# Arch
+# ------------------------------------------------------------------------------
+
+# Install app
+function install_neovim_arch() {
+  install "neovim"
+}
+
+# ------------------------------------------------------------------------------
+# Install script
+# ------------------------------------------------------------------------------
+
+function install_neovim() {
+  [[ $LINUX == "debian" ]] && install_neovim_debian
+  [[ $LINUX == "arch" ]] && install_neovim_arch
 }
