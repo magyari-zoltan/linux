@@ -6,7 +6,9 @@ source app/neovim
 function install_apps() {
   install "curl"
   install "git"
+  install "curl wget"
   install "make cmake gettext"
+
   install_nodejs
   install_neovim
 }
