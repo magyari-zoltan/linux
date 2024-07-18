@@ -1,0 +1,7 @@
+#!/bin/bash
+
+source gui/install
+
+function install_gui() {
+  install_xorg
+}

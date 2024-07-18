@@ -27,6 +27,13 @@ function update_packages() {
     $PACKAGE_MANAGER update "$NO_CONFIRM"
     $PACKAGE_MANAGER upgrade "$NO_CONFIRM"
   fi
+
+  if [[ $LINUX == "arch" ]]; then 
+    pacman-key --init
+    pacman-key --populate
+
+    $PACKAGE_MANAGER -Syu "$NO_CONFIRM"
+  fi
 }
 
 # ------------------------------------------------------------------------------

@@ -2,13 +2,12 @@
 
 source app/nodejs
 source app/neovim
+source app/base-devel
 
 function install_apps() {
-  install "curl"
-  install "git"
-  install "curl wget"
-  install "make cmake gettext"
+  install "git curl wget"
 
+  install_base_devel
   install_nodejs
   install_neovim
 }

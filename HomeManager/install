@@ -7,6 +7,7 @@
 source ../.common/configure
 source app/install
 source user/configure
+source gui/install
 
 # ------------------------------------------------------------------------------
 # Setup 
@@ -16,4 +17,6 @@ configure_globals
 update_packages
 install_apps
 configure_users
+install_gui
+
 echo "Setup was successful"

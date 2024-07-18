@@ -5,14 +5,22 @@
 # ------------------------------------------------------------------------------
 
 source ../.common/configure
+source partition
+source terminal
+source sound
 
 # ------------------------------------------------------------------------------
 # Setup 
 # ------------------------------------------------------------------------------
 
 configure_globals
+update_packages
 
-if [[ $LINUX == "arch" ]]; then
-  echo -e "o\nn\n\n\n\n\na\nw\n" | fdisk /dev/sda
-  mkfs.ext4 /dev/sda1
-fi
+create_partitions
+format_partitions
+mount_partitions
+
+install_terminal
+install_sound
+
+echo "Setup was successful"

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# ------------------------------------------------------------------------------
+# Create and format partitions
+# ------------------------------------------------------------------------------
+
+function create_partitions() {
+  if [[ $LINUX == "arch" ]]; then
+    echo -e "o\nn\n\n\n\n\na\nw\n" | fdisk /dev/sda
+  fi
+}
+
+function format_partitions() {
+  if [[ $LINUX == "arch" ]]; then
+    mkfs.ext4 /dev/sda1
+  fi
+}
+
+function mount_partitions() {
+  if [[ $LINUX == "arch" ]]; then
+    mkfs.ext4 /dev/sda1
+  fi
+}

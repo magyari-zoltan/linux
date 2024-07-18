@@ -1,0 +1,12 @@
+#!/bin/bash
+
+function install_base_devel() {
+  if [[ $LINUX == "debian" ]]; then
+    install "build-essential"
+    install "make cmake gettext"
+  fi
+
+  if [[ $LINUX == "arch" ]]; then
+    install "base-devel make gcc"
+  fi
+}
