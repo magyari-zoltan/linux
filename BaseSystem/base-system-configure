@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Set timezone
+ln -sf /usr/share/zoneinfo/Europe/Bucharest /etc/localtime
+hwclock --systohc
+
+# Localization
+sed -i 's/#\(hu_HU.UTF-8 UTF-8\)/\1/g' /etc/locale.gen
+locale-gen
+
+# Create the locale config file
+echo "LANG=hu_HU.UTF-8" > /etc/locale.conf
+
+# Create the console keyboard layout
+echo "KEYMAP=hu101" > /etc/vconsole.conf
+
+host=arch
+# Host name
+echo $host > /etc/hostname
+
+# Hosts
+echo "127.0.0.1       localhost" > /etc/hosts
+echo "::1             localhost" >> /etc/hosts
+echo "127.0.1.1       $host.localdomain $host" >> /etc/hosts       
+
+# Refresh keys
+pacman-key --init
+pacman-key --populate
+
+# Init ramfs
+mkinitcpio -P
+
+# Grub boot loader
+pacman -Sy grub --noconfirm
+
+grub-install --target=i386-pc /dev/sda
+grub-mkconfig -o /boot/grub/grub.cfg
+
+# Root password
+password="admin"
+echo -en "$password\n$password\n" | passwd
+
+exit

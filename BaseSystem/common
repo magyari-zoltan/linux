@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# ------------------------------------------------------------------------------
+# Globals
+# ------------------------------------------------------------------------------
+
+function ConfigureGlobals() {
+  . /etc/os-release                                         # Set linux distribution (debian | arch) into ID global
+  export LINUX="$ID"                                        # Linux distribution
+
+  if [[ $LINUX == "arch" ]]; then
+    export PACKAGE_MANAGER="pacman"                         # Package manager
+    export INSTALL="-S"                                     # Install command
+    export NOCONFIRM="--noconfirm"                          # No confirmation option for package manager
+    export UPDATE="-Syu"                                    # Update command
+  else
+    echo "This installation does not work for the" $LINUX "distribution!"
+    exit 1                                                  # Exit on wrong option
+  fi
+}
+
+function UpdatePackages() { 
+  pacman-key --init
+  pacman-key --populate
+  $PACKAGE_MANAGER $UPDATE $NOCONFIRM
+}
+
+function UpdateTime() {
+  timedatectl set-ntp true                                  # Update time
+}
+
+# ------------------------------------------------------------------------------
+# Partition
+# ------------------------------------------------------------------------------
+
+function CreatePartitions() {
+  echo -e "o\nn\n\n\n\n\na\nw\n" | fdisk /dev/sda
+}
+
+function FormatPartitions() {
+  mkfs.ext4 /dev/sda1
+}
+
+function MountPartitions() {
+  mkdir -p /mnt
+  mount /dev/sda1 /mnt
+}
+
+function UmountPartitions() {
+  umount -R /mnt
+}
+
+function ShutdownSystem() {
+  shutdown -h now
+}

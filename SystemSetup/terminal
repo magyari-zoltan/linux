@@ -1,5 +1,0 @@
-#!/bin/bash
-
-function install_terminal() {
-  install "alacritty"
-}

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+source common
+source base-system-install
+
+# ------------------------------------------------------------------------------
+# Main
+# ------------------------------------------------------------------------------
+
+ConfigureGlobals
+UpdatePackages
+
+CreatePartitions
+FormatPartitions
+MountPartitions
+
+InstallBaseLinux
+CreateFstab
+ConfigureBaseSystem
+
+UmountPartitions
+ShutdownSystem
