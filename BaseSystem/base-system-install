@@ -10,5 +10,15 @@ function CreateFstab() {
 
 function ConfigureBaseSystem() {
   script=$(cat base-system-configure)
-  arch-chroot /mnt /bin/bash -c "echo \"$script\" | bash"
+  arch-chroot /mnt /bin/bash -c $script
+}
+
+function InstallBaseSystemApps() {
+  script=$(sed '1r common' 'base-system-apps' | sed '1d')
+  arch-chroot /mnt /bin/bash -c $script
+}
+
+function ConfigureBaseSystemSecurity() {
+  script=$(sed '1r common' 'base-system-security' | sed '1d')
+  arch-chroot /mnt /bin/bash -c $script
 }

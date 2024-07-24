@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Network manager to have access to the internet
+Install "networkmanager"
+EnableService "NetworkManager"
+
+# Git to be able to clone the home manager repo
+Install "git"
+

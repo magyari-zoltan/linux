@@ -17,6 +17,8 @@ MountPartitions
 InstallBaseLinux
 CreateFstab
 ConfigureBaseSystem
+InstallBaseSystemApps
+ConfigureBaseSystemSecurity
 
-UmountPartitions
-ShutdownSystem
+# UmountPartitions
+# ShutdownSystem
