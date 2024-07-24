@@ -14,8 +14,8 @@ echo "LANG=hu_HU.UTF-8" > /etc/locale.conf
 # Create the console keyboard layout
 echo "KEYMAP=hu101" > /etc/vconsole.conf
 
-host=arch
 # Host name
+host=arch
 echo $host > /etc/hostname
 
 # Hosts
@@ -40,4 +40,5 @@ grub-mkconfig -o /boot/grub/grub.cfg
 password="admin"
 echo -en "$password\n$password\n" | passwd
 
-exit
+# return success
+exit 0

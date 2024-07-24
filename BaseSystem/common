@@ -8,12 +8,7 @@ function ConfigureGlobals() {
   . /etc/os-release                                         # Set linux distribution (debian | arch) into ID global
   export LINUX="$ID"                                        # Linux distribution
 
-  if [[ $LINUX == "arch" ]]; then
-    export PACKAGE_MANAGER="pacman"                         # Package manager
-    export INSTALL="-S"                                     # Install command
-    export NOCONFIRM="--noconfirm"                          # No confirmation option for package manager
-    export UPDATE="-Syu"                                    # Update command
-  else
+  if [[ $LINUX != "arch" ]]; then
     echo "This installation does not work for the" $LINUX "distribution!"
     exit 1                                                  # Exit on wrong option
   fi
@@ -22,17 +17,22 @@ function ConfigureGlobals() {
 function UpdatePackages() { 
   pacman-key --init
   pacman-key --populate
-  $PACKAGE_MANAGER $UPDATE $NOCONFIRM
+  pacman -Syu --noconfirm
 }
 
 function Install() {
-  packages=$1                                         # First argument: packages to be installed
+  packages=$1                                               # First argument: packages to be installed
   pacman -S $packages --noconfirm
 }
 
 function EnableService() {
   service=$1
   systemctl enable $service
+}
+
+function CopySetupScript() {
+  mkdir -p /mnt/root/.install
+  cp -r ~/linux /mnt/root/.install
 }
 
 # ------------------------------------------------------------------------------
@@ -59,4 +59,3 @@ function UmountPartitions() {
 function ShutdownSystem() {
   shutdown -h now
 }
-

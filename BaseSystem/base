@@ -1,0 +1,19 @@
+#!/bin/bash
+
+function InstallBaseLinux() {
+  pacstrap -K /mnt base linux linux-firmware --noconfirm
+}
+
+function CreateFstab() {
+  genfstab -U /mnt > /mnt/etc/fstab
+}
+
+function ConfigureBaseSystem() {
+  script=$(cat configure)
+  arch-chroot /mnt /bin/bash -c "echo $script | bash"
+}
+
+function InstallBaseSystemApps() {
+  script=$(sed "1r common" "apps" | sed "1d")
+  arch-chroot /mnt /bin/bash -c "echo $script | bash"
+}
