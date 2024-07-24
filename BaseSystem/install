@@ -4,6 +4,40 @@ source common
 source base
 
 # ------------------------------------------------------------------------------
+# Options
+# ------------------------------------------------------------------------------
+
+# Display script usage
+function usage() {
+  echo "Usage: $0 [OPTIONS]"
+  echo "Options:"
+  echo " --boot bios | uefi       The boot mode to be installed."
+}
+
+# Default values
+boot="uefi"
+
+if [[ $# -gt 0 ]]; then
+  # Interpret options
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -b | --boot)
+        boot=$2
+        if [[ $boot != "bios" ]] && [[ $boot != "uefi" ]]; then
+          usage
+          exit 1
+        fi
+        shift 2
+        ;;
+      *)
+        echo "ERROR: Unknown option $1"
+        usage
+        exit 1
+    esac
+  done
+fi
+
+# ------------------------------------------------------------------------------
 # Main
 # ------------------------------------------------------------------------------
 

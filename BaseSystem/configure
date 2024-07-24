@@ -33,8 +33,17 @@ mkinitcpio -P
 # Grub boot loader
 pacman -Sy grub --noconfirm
 
-grub-install --target=i386-pc /dev/sda
-grub-mkconfig -o /boot/grub/grub.cfg
+# Grub install
+if [[ $boot == "bios" ]]; then
+  grub-install --target=i386-pc /dev/sda
+  grub-mkconfig -o /boot/grub/grub.cfg
+fi
+
+if [[ $boot == "uefi" ]]; then
+  pacman -S efibootmgr --noconfirm
+  grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
+  grub-mkconfig -o /boot/grub/grub.cfg
+fi
 
 # Root password
 password="admin"

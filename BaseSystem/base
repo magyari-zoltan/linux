@@ -9,7 +9,7 @@ function CreateFstab() {
 }
 
 function ConfigureBaseSystem() {
-  script=$(cat configure)
+  script=$(sed "3 i\boot=$boot\n" configure)
   arch-chroot /mnt /bin/bash -c "echo $script | bash"
 }
 
