@@ -15,5 +15,7 @@ function ConfigureBaseSystem() {
 
 function InstallBaseSystemApps() {
   script=$(sed "1r common" "apps" | sed "1d")
+  mount --rbind /lib/modules /mnt/lib/modules
+
   arch-chroot /mnt /bin/bash -c "echo $script | bash"
 }

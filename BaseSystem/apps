@@ -1,11 +1,42 @@
 #!/bin/bash
 
+# ------------------------------------------------------------------------------
+# Functions
+# ------------------------------------------------------------------------------
+function ConfigureFirewall() {
+  systemctl enable ufw
+  systemctl start ufw
+
+  ufw enable 
+
+  ufw allow out http
+  ufw allow out https
+  ufw allow out dns
+  ufw allow out ssh
+
+  ufw default deny outgoing
+  ufw default deny incoming
+  ufw default deny routed
+}
+
+
+# ------------------------------------------------------------------------------
+# Configuration
+# ------------------------------------------------------------------------------
+
 # Network manager to have access to the internet
 Install "networkmanager"
 EnableService "NetworkManager"
 
 # Git to be able to clone the home manager repo
 Install "git"
+
+# Basic build tools
+Install "base-devel make gcc"
+
+# Firewall
+Install "ufw"
+ConfigureFirewall
 
 # return success
 exit 0
