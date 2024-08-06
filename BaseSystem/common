@@ -31,8 +31,8 @@ function EnableService() {
 }
 
 function CopySetupScript() {
-  mkdir -p /mnt/root/.install
-  cp -r ~/linux /mnt/root/.install
+  mkdir -p /mnt/home/$user/.install
+  cp -r ~/linux /mnt/home/$user/.install
 }
 
 # ------------------------------------------------------------------------------

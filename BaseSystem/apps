@@ -32,7 +32,7 @@ EnableService "NetworkManager"
 Install "git"
 
 # Basic build tools
-Install "base-devel make gcc"
+# Install "base-devel make gcc"
 
 # Firewall
 Install "ufw"

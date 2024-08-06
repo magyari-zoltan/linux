@@ -11,11 +11,13 @@ source base
 function usage() {
   echo "Usage: $0 [OPTIONS]"
   echo "Options:"
-  echo " --boot bios | uefi       The boot mode to be installed."
+  echo " [--user | -u] <user>               The user to be created. It is a mandatory field." 
+  echo " [--boot | -b] bios | uefi          The boot mode to be installed. Default value is uefi."
 }
 
 # Default values
 boot="uefi"
+user=""
 
 if [[ $# -gt 0 ]]; then
   # Interpret options
@@ -24,6 +26,14 @@ if [[ $# -gt 0 ]]; then
       -b | --boot)
         boot=$2
         if [[ $boot != "bios" ]] && [[ $boot != "uefi" ]]; then
+          usage
+          exit 1
+        fi
+        shift 2
+        ;;
+      -u | --user)
+        user=$2
+        if [[ -z "$user" ]]; then
           usage
           exit 1
         fi
@@ -52,7 +62,9 @@ InstallBaseLinux
 CreateFstab
 ConfigureBaseSystem
 InstallBaseSystemApps
+ConfigureUser
 
 CopySetupScript
 UmountPartitions
+
 ShutdownSystem

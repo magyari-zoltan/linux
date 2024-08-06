@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Install sudo
+function InstallSudo() {
+  Install "sudo"
+}
+
+# Create user
+function CreateUser() {
+  sudo useradd -m -s /bin/bash $user
+}
+
+# Set password
+function SetPassword() {
+  password="changeit"
+  echo -en "$password\n$password\n" | passwd $user
+}
+
+# Add user to sudoers
+function AddUserToSudoers() {
+  sudo usermod -aG wheel "$user"
+}
+
+# Disable root user
+function DisableRoot() {
+  sudo passwd -d root
+  sudo passwd -l root
+}
+
+# User related configurations
+InstallSudo
+CreateUser
+SetPassword
+AddUserToSudoers
+DisableRoot

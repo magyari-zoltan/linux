@@ -19,3 +19,8 @@ function InstallBaseSystemApps() {
 
   arch-chroot /mnt /bin/bash -c "echo $script | bash"
 }
+
+function ConfigureUser() {
+  script=$(sed "1r common" "user" | sed "1d" | sed "3 i\user=$user")
+  arch-chroot /mnt /bin/bash -c "echo $script | bash"
+}
