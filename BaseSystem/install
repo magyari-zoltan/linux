@@ -75,6 +75,7 @@ InstallBaseLinux
 CreateFstab
 ConfigureBaseSystem
 InstallBaseSystemApps
+SetupFirewall
 ConfigureUser
 
 # common

@@ -26,6 +26,11 @@ function InstallBaseSystemApps() {
   arch-chroot /mnt /bin/bash -c "echo $script | bash"
 }
 
+function SetupFirewall() {
+  script=$(cat firewall)
+  arch-chroot /mnt /bin/bash -c "echo $script | bash"
+}
+
 function ConfigureUser() {
   # Inject "common" content after the 1st row into "user" file after the 1st row 
   # Insert "user=$user" into the "user" file at the 3rd row
