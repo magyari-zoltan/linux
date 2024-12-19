@@ -19,7 +19,7 @@ function SetPassword() {
 # Add user to sudoers
 function AddUserToSudoers() {
   sudo usermod -aG wheel "$user"
-  sed -i 's/^# %wheel/%wheel/g' /etc/sudoers
+  sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /etc/sudoers
 }
 
 # Disable root user
