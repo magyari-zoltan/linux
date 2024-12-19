@@ -17,8 +17,8 @@ function usage() {
 }
 
 # Default values
-boot="uefi"
 user=""
+boot="uefi"
 disk="/dev/sda"
 
 if [[ $# -gt 0 ]]; then

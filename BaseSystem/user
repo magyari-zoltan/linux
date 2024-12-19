@@ -7,7 +7,7 @@ function InstallSudo() {
 
 # Create user
 function CreateUser() {
-  sudo useradd -m -s /bin/bash $user
+  sudo useradd --create-home --shell /bin/bash $user
 }
 
 # Set password
@@ -19,6 +19,7 @@ function SetPassword() {
 # Add user to sudoers
 function AddUserToSudoers() {
   sudo usermod -aG wheel "$user"
+  sed -i 's/^# %wheel/%wheel/g' /etc/sudoers
 }
 
 # Disable root user
