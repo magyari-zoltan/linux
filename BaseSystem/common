@@ -17,7 +17,6 @@ function ConfigureGlobals() {
 function UpdatePackages() { 
   pacman-key --init
   pacman-key --populate
-  pacman -Syu --noconfirm
   pacman -Sy archlinux-keyring --noconfirm
 }
 
@@ -29,6 +28,11 @@ function Install() {
 function EnableService() {
   service=$1
   systemctl enable $service
+}
+
+function StartService() {
+  service=$1
+  systemctl start $service
 }
 
 function CopySetupScript() {

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+function InstallGui() {
+  echo "pwd: " $pwd
+  echo "gui:" $gui
+
+  if [[ $gui == "gnome" ]] || [[ $gui == "dwm" ]]; then
+    ../Gui/gui --gui $gui
+  else
+    ../Gui/gui
+  fi
+
+  echo "Press Enter to continue..."
+  read  # Waits for user to press Enter
+
+}

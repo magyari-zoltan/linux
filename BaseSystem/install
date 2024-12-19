@@ -2,6 +2,7 @@
 
 source common
 source base
+source gui
 
 # ------------------------------------------------------------------------------
 # Options
@@ -14,12 +15,14 @@ function usage() {
   echo " [--user | -u] <user>               The user to be created. It is a mandatory field." 
   echo " [--boot | -b] bios | uefi          The boot mode to be installed. Default value is uefi."
   echo " [--disk | -d] /dev/sda             The disk on which the linux will be installed."
+  echo " [--gui  | -g] gnome | dwm          Graphical user interface. Defaultly installs none."
 }
 
 # Default values
 user=""
 boot="uefi"
 disk="/dev/sda"
+gui=""
 
 if [[ $# -gt 0 ]]; then
   # Interpret options
@@ -44,6 +47,14 @@ if [[ $# -gt 0 ]]; then
       -d | --disk)
         disk=$2
         if [[ -z "$disk" ]]; then
+          usage
+          exit 1
+        fi
+        shift 2
+        ;;
+      -g | --gui)
+        gui=$2
+        if [[ $gui != "gnome" ]] && [[ $gui != "dwm" ]]; then
           usage
           exit 1
         fi
@@ -76,6 +87,11 @@ CreateFstab
 ConfigureBaseSystem
 InstallBaseSystemApps
 SetupFirewall
+
+# gui
+InstallGui
+
+# base
 ConfigureUser
 
 # common

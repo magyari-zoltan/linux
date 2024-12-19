@@ -27,7 +27,8 @@ function InstallBaseSystemApps() {
 }
 
 function SetupFirewall() {
-  script=$(cat firewall)
+  # Inject "common" content after the 1st row into "apps" file after the 1st row 
+  script=$(sed "1r common" "firewall" | sed "1d")
   arch-chroot /mnt /bin/bash -c "echo $script | bash"
 }
 

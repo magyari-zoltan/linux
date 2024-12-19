@@ -1,0 +1,12 @@
+#!/bin/bash
+
+function InstallGnome() {
+  if [[ -z "$gui" ]]; then
+    Install "xorg"
+  fi
+
+  if [[ $gui == "gnome" ]]; then
+    Install "gnome"
+    EnableService "gdm"
+  fi
+}
