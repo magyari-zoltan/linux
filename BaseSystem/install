@@ -13,11 +13,13 @@ function usage() {
   echo "Options:"
   echo " [--user | -u] <user>               The user to be created. It is a mandatory field." 
   echo " [--boot | -b] bios | uefi          The boot mode to be installed. Default value is uefi."
+  echo " [--disk | -d] /dev/sda             The disk on which the linux will be installed."
 }
 
 # Default values
 boot="uefi"
 user=""
+disk="/dev/sda"
 
 if [[ $# -gt 0 ]]; then
   # Interpret options
@@ -39,6 +41,14 @@ if [[ $# -gt 0 ]]; then
         fi
         shift 2
         ;;
+      -d | --disk)
+        disk=$2
+        if [[ -z "$disk" ]]; then
+          usage
+          exit 1
+        fi
+        shift 2
+        ;;
       *)
         echo "ERROR: Unknown option $1"
         usage
@@ -51,20 +61,25 @@ fi
 # Main
 # ------------------------------------------------------------------------------
 
+# common
 ConfigureGlobals
 UpdatePackages
 
+# common
 CreatePartitions
 FormatPartitions
 MountPartitions
 
+# base
 InstallBaseLinux
 CreateFstab
 ConfigureBaseSystem
 InstallBaseSystemApps
 ConfigureUser
 
+# common
 CopySetupScript
 UmountPartitions
 
+# common
 ShutdownSystem

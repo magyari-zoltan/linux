@@ -35,7 +35,7 @@ pacman -Sy grub --noconfirm
 
 # Grub install
 if [[ $boot == "bios" ]]; then
-  grub-install --target=i386-pc /dev/sda
+  grub-install --target=i386-pc $disk
   grub-mkconfig -o /boot/grub/grub.cfg
 fi
 

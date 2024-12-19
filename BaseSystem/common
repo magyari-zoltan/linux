@@ -41,34 +41,34 @@ function CopySetupScript() {
 
 function CreatePartitions() {
   if [[ $boot == "bios" ]]; then
-    echo -e "o\nn\n\n\n\n\na\nw\n" | fdisk /dev/sda
+    echo -e "o\nn\n\n\n\n\na\nw\n" | fdisk $disk
   fi 
 
   if [[ $boot == "uefi" ]]; then
-    echo -e "g\nn\n\n\n+1G\nt\nuefi\nn\n\n\n\nw\n" | fdisk /dev/sda
+    echo -e "g\nn\n\n\n+1G\nt\nuefi\nn\n\n\n\nw\n" | fdisk $disk
   fi
 }
 
 function FormatPartitions() {
   if [[ $boot == "bios" ]]; then
-    mkfs.ext4 /dev/sda1
+    mkfs.ext4 ${disk}1
   fi
 
   if [[ $boot == "uefi" ]]; then
-    mkfs.fat -F 32 /dev/sda1
-    mkfs.ext4 /dev/sda2
+    mkfs.fat -F 32 ${disk}1
+    mkfs.ext4 ${disk}2
   fi
 }
 
 function MountPartitions() {
   mkdir -p /mnt
   if [[ $boot == "bios" ]]; then
-    mount /dev/sda1 /mnt
+    mount ${disk}1 /mnt
   fi
 
   if [[ $boot == "uefi" ]]; then
-    mount /dev/sda2 /mnt
-    mount --mkdir /dev/sda1 /mnt/boot/efi
+    mount ${disk}2 /mnt
+    mount --mkdir ${disk}1 /mnt/boot/efi
   fi
 }
 

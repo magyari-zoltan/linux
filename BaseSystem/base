@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#
+# It depends on the "apps, user" scripts
+#
+
 function InstallBaseLinux() {
   pacstrap -K /mnt base linux linux-firmware --noconfirm
 }
@@ -14,6 +18,7 @@ function ConfigureBaseSystem() {
 }
 
 function InstallBaseSystemApps() {
+  # It depends on the "apps" script
   script=$(sed "1r common" "apps" | sed "1d")
   mount --rbind /lib/modules /mnt/lib/modules
 
@@ -21,6 +26,7 @@ function InstallBaseSystemApps() {
 }
 
 function ConfigureUser() {
+  # It depends on the "user" script
   script=$(sed "1r common" "user" | sed "1d" | sed "3 i\user=$user")
   arch-chroot /mnt /bin/bash -c "echo $script | bash"
 }
