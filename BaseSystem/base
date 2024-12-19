@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# It depends on the "apps, user" scripts
+# It depends on the "apps, user, configure" scripts
 #
 
 function InstallBaseLinux() {
@@ -13,12 +13,13 @@ function CreateFstab() {
 }
 
 function ConfigureBaseSystem() {
+  # Insert "boot=$boot" into the "configure" at the 3rd row
   script=$(sed "3 i\boot=$boot\n" configure)
   arch-chroot /mnt /bin/bash -c "echo $script | bash"
 }
 
 function InstallBaseSystemApps() {
-  # It depends on the "apps" script
+  # Inject "common" content after the 1st row into "apps" file after the 1st row 
   script=$(sed "1r common" "apps" | sed "1d")
   mount --rbind /lib/modules /mnt/lib/modules
 
@@ -26,7 +27,8 @@ function InstallBaseSystemApps() {
 }
 
 function ConfigureUser() {
-  # It depends on the "user" script
+  # Inject "common" content after the 1st row into "user" file after the 1st row 
+  # Insert "user=$user" into the "user" file at the 3rd row
   script=$(sed "1r common" "user" | sed "1d" | sed "3 i\user=$user")
   arch-chroot /mnt /bin/bash -c "echo $script | bash"
 }
