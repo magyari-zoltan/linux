@@ -4,6 +4,10 @@
 # It depends on the "apps, user, configure" scripts
 #
 
+# ------------------------------------------------------------------------------
+# Functions
+# ------------------------------------------------------------------------------
+
 function InstallBaseLinux() {
   pacstrap -K /mnt base linux linux-firmware --noconfirm
 }

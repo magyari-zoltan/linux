@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ------------------------------------------------------------------------------
-# Options
+# Functions
 # ------------------------------------------------------------------------------
 
 function usage() {
@@ -9,6 +9,18 @@ function usage() {
   echo "Options:"
   echo " [--gui | -g] gnome | dwm   Graphical user interface. Defaultly installs none."
 }
+
+function InstallGui() {
+  if [[ $gui != "gnome" ]]; then
+    # Inject "common" content after the 1st row into "gnome" file after the 1st row 
+    script=$(sed "1r common" "gnome" | sed "1d")
+    arch-chroot /mnt /bin/bash -c "echo $script | bash"
+  fi
+}
+
+# ------------------------------------------------------------------------------
+# Options
+# ------------------------------------------------------------------------------
 
 # Default values
 gui="none"
@@ -33,16 +45,8 @@ if [[ $# -gt 0 ]]; then
   done
 fi
 
-function InstallGui() {
-  if [[ $gui != "gnome" ]]; then
-    # Inject "common" content after the 1st row into "gnome" file after the 1st row 
-    script=$(sed "1r common" "gnome" | sed "1d")
-    arch-chroot /mnt /bin/bash -c "echo $script | bash"
-  fi
-}
-
 # ------------------------------------------------------------------------------
-# Main
+# Gui setup
 # ------------------------------------------------------------------------------
 
 InstallGui

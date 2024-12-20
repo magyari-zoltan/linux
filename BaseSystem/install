@@ -5,7 +5,7 @@ source base
 source gui
 
 # ------------------------------------------------------------------------------
-# Options
+# Functions
 # ------------------------------------------------------------------------------
 
 # Display script usage
@@ -17,6 +17,10 @@ function usage() {
   echo " [--disk | -d] /dev/sda             The disk on which the linux will be installed."
   echo " [--gui  | -g] gnome | dwm          Graphical user interface. Defaultly installs none."
 }
+
+# ------------------------------------------------------------------------------
+# Options
+# ------------------------------------------------------------------------------
 
 # Default values
 user=""
