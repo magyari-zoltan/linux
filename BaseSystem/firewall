@@ -28,4 +28,5 @@ function ConfigureFirewall() {
 Install "ufw"
 ConfigureFirewall
 
+# return success
 exit 0

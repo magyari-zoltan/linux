@@ -5,16 +5,9 @@
 # ------------------------------------------------------------------------------
 
 function InstallGui() {
-  echo "gui:" $gui
-
-  if [[ $gui == "gnome" ]] || [[ $gui == "dwm" ]]; then
-    echo "pwd: " $(pwd)
-    ../Gui/gui --gui $gui
-  else
-    ../Gui/gui
+  if [[ $gui == "gnome" ]]; then
+    # Inject "common" content after the 1st row into "gnome" file after the 1st row 
+    script=$(sed "1r common" "gnome" | sed "1d")
+    arch-chroot /mnt /bin/bash -c "echo $script | bash"
   fi
-
-  echo "Press Enter to continue..."
-  read  # Waits for user to press Enter
-
 }

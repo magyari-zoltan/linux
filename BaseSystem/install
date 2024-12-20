@@ -91,12 +91,10 @@ CreateFstab
 ConfigureBaseSystem
 InstallBaseSystemApps
 SetupFirewall
+ConfigureUser
 
 # gui
 InstallGui
-
-# base
-ConfigureUser
 
 # common
 CopySetupScript
