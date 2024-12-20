@@ -34,9 +34,5 @@ Install "git"
 # Basic build tools
 # Install "base-devel make gcc"
 
-# Firewall
-Install "ufw"
-ConfigureFirewall
-
 # return success
 exit 0

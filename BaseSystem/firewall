@@ -14,8 +14,8 @@ function ConfigureFirewall() {
   ufw allow out dns
   ufw allow out ssh
 
-  systemctl enable ufw
-  systemctl start ufw
+  EnableService "ufw"
+  StartService "ufw"
 
   ufw enable 
 }

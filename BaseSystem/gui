@@ -1,10 +1,10 @@
 #!/bin/bash
 
 function InstallGui() {
-  echo "pwd: " $pwd
   echo "gui:" $gui
 
   if [[ $gui == "gnome" ]] || [[ $gui == "dwm" ]]; then
+    echo "pwd: " $(pwd)
     ../Gui/gui --gui $gui
   else
     ../Gui/gui
