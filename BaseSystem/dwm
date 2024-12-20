@@ -1,0 +1,127 @@
+#!/bin/bash
+
+# ------------------------------------------------------------------------------
+# Install dependencies 
+# ------------------------------------------------------------------------------
+
+# Minimal X server running on a Linux system
+#  - xorg-server: provides the infrastructure for creating and managing graphical user interfaces
+#  - xorg-xinit: starts the X server and loads config from .xinitrc
+#  - xorg-xrandr: hotplug, screen resolution, rotation, orientation ...
+#  - xset-root: set the root window properties of the X server.
+#    - background color:\> xsetroot -solid black
+#    - background image:\> xsetroot -bitmap /path/to/background.png
+Install "xorg-server xorg-xinit xorg-xrandr xorg-xsetroot"
+
+#  - libx11: provides the basic functionality for communicating with the X Window System server.
+#  - libxinerama: nables multiple physical monitors to be treated as a single, logical display.
+#  - libfxt: rendering fonts in graphical applications
+Install "libx11 libxinerama libfxt"
+
+# It is needed to start dwm.
+# It provides a set of libraries and tools for embedding web content in GTK+ applications.
+Install "webkit2gtk"
+
+# Graphical card driver
+Install "mesa"
+Install "xf86-video-ati"    # AMD
+Install "xf86-video-intel"  # Intel
+Install "xf86-video-nvidia" # NVIDIA
+
+# Nerd fonts
+Install "ttf-ubuntu-mono-nerd"
+
+# ------------------------------------------------------------------------------
+# Create xinit config
+# ------------------------------------------------------------------------------
+touch ~/.xinitrc
+
+echo 'setxkbmap hu -model "pc101" -variant "101_qwerty_comma_dead" &' >> ~/.xinitrc
+echo 'xrandr --output Virtual-1 --mode 1920x1080 &' >> ~/.xinitrc
+echo 'slstatus &' >> ~/.xinitrc
+echo 'xsetroot -solid "#1D2133" &' >> ~/.xinitrc
+# echo 'pipewire &' >> ~/.xinitrc
+# echo 'pipewire-pulse & ' >> ~/.xinitrc
+echo 'exec dwm' >> ~/.xinitrc
+
+# ------------------------------------------------------------------------------
+# Create install folder
+# ------------------------------------------------------------------------------
+install=~/.install/dwm
+mkdir -p $install 
+
+# ------------------------------------------------------------------------------
+# Install Dynamic Window Manager
+# ------------------------------------------------------------------------------
+config_header=config.def.h
+temp_file=/tmp/moved_lines
+
+cd $install
+
+git clone https://git.suckless.org/dwm
+cd $install/dwm
+
+# Set default font
+sed -i 's/\(.*\)col_cyan\[\]\( *\)= "#\([0-9]\{6\}\)";/\1col_cyan[]\2= "#202530";/g' $config_header
+make clean install
+
+# ------------------------------------------------------------------------------
+# Install Simple Terminal
+# ------------------------------------------------------------------------------
+cd ${install}
+
+git clone https://git.suckless.org/st
+cd ${install}/st
+
+# Add color scheme feature available by applying the colorschemes patch
+patch=$(curl -s https://st.suckless.org/patches/colorschemes/ | grep -o 'st-colorschemes-[0-9\.]*\.diff' | head -n 1)
+curl -s https://st.suckless.org/patches/colorschemes/${patch} | git apply
+
+# Makes 'Alacritty (dark)' color scheme dafault by moving it to the first position in the scheme list
+target_line=$(grep -n "static const ColorScheme schemes" $config_header | cut -d':' -f1)
+start_line=$(grep -n "Alacritty (dark)" $config_header | cut -d':' -f1)
+end_line=$(expr ${start_line} + 6)
+
+sed -n "${start_line},${end_line}w ${temp_file}" $config_header
+sed -i "${start_line},${end_line}d" $config_header
+sed -i "${target_line}r ${temp_file}" $config_header
+rm $temp_file
+
+# Change terminal font to FreeMono:16
+sed -i 's/\(.*\)font = ".*:pixelsize=12\(.*\)";/\1font = "UbuntuMono:pixelsize=16\2";/g' $config_header
+
+make clean install
+
+# ------------------------------------------------------------------------------
+# Install Dmenu
+# ------------------------------------------------------------------------------
+cd ${install}
+git clone https://git.suckless.org/dmenu
+
+cd ${install}/dmenu
+make clean install
+
+# ------------------------------------------------------------------------------
+# Install Sltatus
+# ------------------------------------------------------------------------------
+cd ${install}
+git clone https://git.suckless.org/slstatus
+
+cd ${install}/slstatus
+# Configure status
+# Icons used from: https://www.nerdfonts.com/cheat-sheet
+sed -i 's/\(.*\)datetime,\(.*\)$/  { cpu_perc, "   %s%% |", NULL }, { ram_used, "   %s", NULL }, { ram_perc, " \(%s%%\) \/", NULL }, { ram_total, " %s |", NULL }, { disk_used, "   %s", "\/" }, { disk_perc, " \(%s%%\) \/", "\/" }, { disk_total, " %s |", "\/" }, { datetime, " %s ", "%A %d | %H:%M" }/g' $config_header
+make clean install
+
+# ------------------------------------------------------------------------------
+# Login manager (LightDM)
+# ------------------------------------------------------------------------------
+Install "lightdm"
+Install "lightdm-webkit2-greeter"
+EnableService "lightdm"
+StartService "lightdm"
+
+echo "greeter-session=lightdm-gtk-greeter" > /etc/lightdm/lightdm.conf
+
+# return success
+exit 0

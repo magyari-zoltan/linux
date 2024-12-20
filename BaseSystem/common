@@ -35,9 +35,20 @@ function StartService() {
   systemctl start $service
 }
 
+function CopyConfigurations(){
+  cp /mnt/root/.xinitrc /mnt/home/$user/
+
+  arch-chroot /mnt /bin/bash -c "chown ${user} /home/${user}/.xinitrc"
+  arch-chroot /mnt /bin/bash -c "chgrp ${user} /home/${user}/.xinitrc"
+}
+
 function CopySetupScript() {
   mkdir -p /mnt/home/$user/.install
-  cp -r ~/linux /mnt/home/$user/.install
+  cp -r ~/linux /mnt/home/$user/.install/
+  cp -r /mnt/root/.install/* /mnt/home/$user/.install/
+
+  arch-chroot /mnt /bin/bash -c "chown -R ${user} /home/${user}/.install"
+  arch-chroot /mnt /bin/bash -c "chgrp -R ${user} /home/${user}/.install"
 }
 
 # ------------------------------------------------------------------------------

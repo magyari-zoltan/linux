@@ -10,4 +10,10 @@ function InstallGui() {
     script=$(sed "1r common" "gnome" | sed "1d")
     arch-chroot /mnt /bin/bash -c "echo $script | bash"
   fi
+
+  if [[ $gui == "dwm" ]]; then
+    # Inject "common" content after the 1st row into "dwm" file after the 1st row 
+    script=$(sed "1r common" "dwm" | sed "1d")
+    arch-chroot /mnt /bin/bash -c "echo $script | bash"
+  fi
 }

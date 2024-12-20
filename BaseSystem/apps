@@ -12,7 +12,7 @@ EnableService "NetworkManager"
 Install "git"
 
 # Basic build tools
-# Install "base-devel make gcc"
+Install "base-devel make gcc"
 
 # return success
 exit 0

@@ -97,6 +97,7 @@ ConfigureUser
 InstallGui
 
 # common
+CopyConfigurations
 CopySetupScript
 UmountPartitions
 
