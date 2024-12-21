@@ -9,36 +9,35 @@
 # ------------------------------------------------------------------------------
 
 function InstallBaseLinux() {
-  pacstrap -K /mnt base linux linux-firmware --noconfirm
+  pacstrap -K ${MNT_FOLDER} base linux linux-firmware --noconfirm
 }
 
 function CreateFstab() {
-  genfstab -U /mnt > /mnt/etc/fstab
+  genfstab -U ${MNT_FOLDER} > ${MNT_FOLDER}/etc/fstab
 }
 
 function ConfigureBaseSystem() {
   # Insert "boot=$boot" into the "configure" at the 3rd row
   script=$(sed "3 i\boot=$boot\n" configure)
-  arch-chroot /mnt /bin/bash -c "echo $script | bash"
+  arch-chroot ${MNT_FOLDER} /bin/bash -c "echo $script | bash"
 }
 
 function InstallBaseSystemApps() {
   # Inject "common" content after the 1st row into "apps" file after the 1st row 
   script=$(sed "1r common" "apps" | sed "1d")
-  mount --rbind /lib/modules /mnt/lib/modules
-
-  arch-chroot /mnt /bin/bash -c "echo $script | bash"
+  mount --rbind --mkdir /lib/modules ${MNT_FOLDER}/lib/modules
+  arch-chroot ${MNT_FOLDER} /bin/bash -c "echo $script | bash"
 }
 
 function SetupFirewall() {
   # Inject "common" content after the 1st row into "apps" file after the 1st row 
   script=$(sed "1r common" "firewall" | sed "1d")
-  arch-chroot /mnt /bin/bash -c "echo $script | bash"
+  arch-chroot ${MNT_FOLDER} /bin/bash -c "echo $script | bash"
 }
 
 function ConfigureUser() {
   # Inject "common" content after the 1st row into "user" file after the 1st row 
   # Insert "user=$user" into the "user" file at the 3rd row
   script=$(sed "1r common" "user" | sed "1d" | sed "3 i\user=$user")
-  arch-chroot /mnt /bin/bash -c "echo $script | bash"
+  arch-chroot ${MNT_FOLDER} /bin/bash -c "echo $script | bash"
 }

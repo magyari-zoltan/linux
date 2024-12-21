@@ -14,5 +14,10 @@ Install "git"
 # Basic build tools
 Install "base-devel make gcc"
 
+# Neo vim
+Install "neovim"
+GitHubClone "devbysp/nvim" "~/${INSTALL_FOLDER}/nvim"
+ln -s ~/${INSTALL_FOLDER}/nvim ~/${CONFIG}/nvim
+
 # return success
 exit 0

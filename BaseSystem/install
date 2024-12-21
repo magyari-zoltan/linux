@@ -84,9 +84,15 @@ UpdatePackages
 CreatePartitions
 FormatPartitions
 MountPartitions
+CreateEssentialFolders
 
 # base
 InstallBaseLinux
+
+# common
+CreateEssentialFolders
+
+# base
 CreateFstab
 ConfigureBaseSystem
 InstallBaseSystemApps
@@ -100,6 +106,4 @@ InstallGui
 CopyConfigurations
 CopySetupScript
 UmountPartitions
-
-# common
 ShutdownSystem

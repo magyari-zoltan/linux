@@ -40,26 +40,17 @@ echo 'setxkbmap hu -model "pc101" -variant "101_qwerty_comma_dead" &' >> ~/.xini
 echo 'xrandr --output Virtual-1 --mode 1920x1080 &' >> ~/.xinitrc
 echo 'slstatus &' >> ~/.xinitrc
 echo 'xsetroot -solid "#1D2133" &' >> ~/.xinitrc
-# echo 'pipewire &' >> ~/.xinitrc
-# echo 'pipewire-pulse & ' >> ~/.xinitrc
 echo 'exec dwm' >> ~/.xinitrc
-
-# ------------------------------------------------------------------------------
-# Create install folder
-# ------------------------------------------------------------------------------
-install=~/.install/dwm
-mkdir -p $install 
 
 # ------------------------------------------------------------------------------
 # Install Dynamic Window Manager
 # ------------------------------------------------------------------------------
 config_header=config.def.h
-temp_file=/tmp/moved_lines
 
-cd $install
+cd ~/${INSTALL_FOLDER}
 
-git clone https://git.suckless.org/dwm
-cd $install/dwm
+GitClone "https://git.suckless.org/dwm"
+cd ~/${INSTALL_FOLDER}/dwm
 
 # Set default font
 sed -i 's/\(.*\)col_cyan\[\]\( *\)= "#\([0-9]\{6\}\)";/\1col_cyan[]\2= "#202530";/g' $config_header
@@ -68,10 +59,10 @@ make clean install
 # ------------------------------------------------------------------------------
 # Install Simple Terminal
 # ------------------------------------------------------------------------------
-cd ${install}
+cd ~/${INSTALL_FOLDER}
 
-git clone https://git.suckless.org/st
-cd ${install}/st
+GitClone "https://git.suckless.org/st"
+cd ~/${INSTALL_FOLDER}/st
 
 # Add color scheme feature available by applying the colorschemes patch
 patch=$(curl -s https://st.suckless.org/patches/colorschemes/ | grep -o 'st-colorschemes-[0-9\.]*\.diff' | head -n 1)
@@ -82,10 +73,10 @@ target_line=$(grep -n "static const ColorScheme schemes" $config_header | cut -d
 start_line=$(grep -n "Alacritty (dark)" $config_header | cut -d':' -f1)
 end_line=$(expr ${start_line} + 6)
 
-sed -n "${start_line},${end_line}w ${temp_file}" $config_header
+sed -n "${start_line},${end_line}w ${TEMP_FILE}" $config_header
 sed -i "${start_line},${end_line}d" $config_header
-sed -i "${target_line}r ${temp_file}" $config_header
-rm $temp_file
+sed -i "${target_line}r ${TEMP_FILE}" $config_header
+rm $TEMP_FILE
 
 # Change terminal font to FreeMono:16
 sed -i 's/\(.*\)font = ".*:pixelsize=12\(.*\)";/\1font = "UbuntuMono:pixelsize=16\2";/g' $config_header
@@ -95,33 +86,27 @@ make clean install
 # ------------------------------------------------------------------------------
 # Install Dmenu
 # ------------------------------------------------------------------------------
-cd ${install}
-git clone https://git.suckless.org/dmenu
+cd ~/${INSTALL_FOLDER}
+GitClone "https://git.suckless.org/dmenu"
 
-cd ${install}/dmenu
+cd ~/${INSTALL_FOLDER}/dmenu
 make clean install
 
 # ------------------------------------------------------------------------------
 # Install Sltatus
 # ------------------------------------------------------------------------------
-cd ${install}
-git clone https://git.suckless.org/slstatus
+cd ~/${INSTALL_FOLDER}
+GitClone "https://git.suckless.org/slstatus"
 
-cd ${install}/slstatus
+cd ~/${INSTALL_FOLDER}/slstatus
 # Configure status
 # Icons used from: https://www.nerdfonts.com/cheat-sheet
 sed -i 's/\(.*\)datetime,\(.*\)$/  { cpu_perc, "   %s%% |", NULL }, { ram_used, "   %s", NULL }, { ram_perc, " \(%s%%\) \/", NULL }, { ram_total, " %s |", NULL }, { disk_used, "   %s", "\/" }, { disk_perc, " \(%s%%\) \/", "\/" }, { disk_total, " %s |", "\/" }, { datetime, " %s ", "%A %d | %H:%M" }/g' $config_header
 make clean install
 
 # ------------------------------------------------------------------------------
-# Login manager (LightDM)
+# Login manager
 # ------------------------------------------------------------------------------
-Install "lightdm"
-Install "lightdm-webkit2-greeter"
-EnableService "lightdm"
-StartService "lightdm"
-
-echo "greeter-session=lightdm-gtk-greeter" > /etc/lightdm/lightdm.conf
 
 # return success
 exit 0

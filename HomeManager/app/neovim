@@ -31,7 +31,7 @@ function build_neovim() {
 # Build applications from source
 function install_neovim_debian() {
   orig_path=$(pwd)
-  build_folder=/home/$USER/.install
+  build_folder=/home/$user/${CONFIG_FOLDER}
 
   mkdir -p "$build_folder"
 
