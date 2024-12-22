@@ -26,12 +26,13 @@ echo "127.0.1.1       $host.localdomain $host" >> /etc/hosts
 # Refresh keys
 pacman-key --init
 pacman-key --populate
+pacman -Sy archlinux-keyring --noconfirm
 
 # Init ramfs
 mkinitcpio -P
 
 # Grub boot loader
-pacman -Sy grub --noconfirm
+pacman -S grub --noconfirm
 
 # Grub install
 if [[ $boot == "bios" ]]; then

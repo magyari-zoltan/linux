@@ -1,0 +1,33 @@
+#!/bin/bash
+
+function CommonHomeConfigurations() {
+  if [[ $gui == "dwm" ]]; then
+    # ~/.xinitrc
+    arch-chroot ${MNT_FOLDER} /bin/bash -c "cp -r ~/.xinitrc /home/${user}/.xinitrc"
+    arch-chroot ${MNT_FOLDER} /bin/bash -c "chown ${user} /home/${user}/.xinitrc"
+    arch-chroot ${MNT_FOLDER} /bin/bash -c "chgrp ${user} /home/${user}/.xinitrc"
+  fi
+
+  # Neovim 
+  GitHubClone "devbysp/nvim" "${MNT_FOLDER}/root/${INSTALL_FOLDER}/nvim"
+
+  # Copy /root/${INSTALL_FOLDER} into /homer̨/${user}/${INSTALL_FOLDER}
+  mkdir -p ${MNT_FOLDER}/home/${user}/${INSTALL_FOLDER}
+  mkdir -p ${MNT_FOLDER}/home/${user}/${CONFIG_FOLDER}
+
+  cp -r ~/linux ${MNT_FOLDER}/home/${user}/${INSTALL_FOLDER}/
+  cp -r ${MNT_FOLDER}/root/${INSTALL_FOLDER}/* ${MNT_FOLDER}/home/${user}/${INSTALL_FOLDER}/
+
+
+  # Neovim config soft link
+  arch-chroot ${MNT_FOLDER} /bin/bash -c "ln -s ~/${INSTALL_FOLDER}/nvim ~/${CONFIG_FOLDER}/nvim"
+  arch-chroot ${MNT_FOLDER} /bin/bash -c "ln -s /home/${user}/${INSTALL_FOLDER}/nvim /home/${user}/${CONFIG_FOLDER}/nvim"
+
+  # Set ownership for ~/$CONFIG_FOLDER folder content
+  arch-chroot ${MNT_FOLDER} /bin/bash -c "chown -R ${user} /home/${user}/${CONFIG_FOLDER}"
+  arch-chroot ${MNT_FOLDER} /bin/bash -c "chgrp -R ${user} /home/${user}/${CONFIG_FOLDER}"
+  
+  # Set ownership for ~/$INSTALL_FOLDER folder content
+  arch-chroot ${MNT_FOLDER} /bin/bash -c "chown -R ${user} /home/${user}/${INSTALL_FOLDER}"
+  arch-chroot ${MNT_FOLDER} /bin/bash -c "chgrp -R ${user} /home/${user}/${INSTALL_FOLDER}"
+}

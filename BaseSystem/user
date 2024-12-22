@@ -42,3 +42,6 @@ CreateUser
 SetPassword
 AddUserToSudoers
 DisableRoot
+
+# return success
+exit 0

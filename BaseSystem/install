@@ -3,6 +3,7 @@
 source common
 source base
 source gui
+source home/common
 
 # ------------------------------------------------------------------------------
 # Functions
@@ -84,7 +85,6 @@ UpdatePackages
 CreatePartitions
 FormatPartitions
 MountPartitions
-CreateEssentialFolders
 
 # base
 InstallBaseLinux
@@ -96,14 +96,16 @@ CreateEssentialFolders
 CreateFstab
 ConfigureBaseSystem
 InstallBaseSystemApps
+
 SetupFirewall
 ConfigureUser
 
 # gui
 InstallGui
 
+# home/common
+CommonHomeConfigurations
+
 # common
-CopyConfigurations
-CopySetupScript
 UmountPartitions
 ShutdownSystem

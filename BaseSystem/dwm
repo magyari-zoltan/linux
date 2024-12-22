@@ -47,10 +47,11 @@ echo 'exec dwm' >> ~/.xinitrc
 # ------------------------------------------------------------------------------
 config_header=config.def.h
 
-cd ~/${INSTALL_FOLDER}
+mkdir -p ~/${INSTALL_FOLDER}/dwm
+cd ~/${INSTALL_FOLDER}/dwm
 
 GitClone "https://git.suckless.org/dwm"
-cd ~/${INSTALL_FOLDER}/dwm
+cd ~/${INSTALL_FOLDER}/dwm/dwm
 
 # Set default font
 sed -i 's/\(.*\)col_cyan\[\]\( *\)= "#\([0-9]\{6\}\)";/\1col_cyan[]\2= "#202530";/g' $config_header
@@ -59,10 +60,10 @@ make clean install
 # ------------------------------------------------------------------------------
 # Install Simple Terminal
 # ------------------------------------------------------------------------------
-cd ~/${INSTALL_FOLDER}
+cd ~/${INSTALL_FOLDER}/dwm
 
 GitClone "https://git.suckless.org/st"
-cd ~/${INSTALL_FOLDER}/st
+cd ~/${INSTALL_FOLDER}/dwm/st
 
 # Add color scheme feature available by applying the colorschemes patch
 patch=$(curl -s https://st.suckless.org/patches/colorschemes/ | grep -o 'st-colorschemes-[0-9\.]*\.diff' | head -n 1)
@@ -86,19 +87,19 @@ make clean install
 # ------------------------------------------------------------------------------
 # Install Dmenu
 # ------------------------------------------------------------------------------
-cd ~/${INSTALL_FOLDER}
+cd ~/${INSTALL_FOLDER}/dwm
 GitClone "https://git.suckless.org/dmenu"
 
-cd ~/${INSTALL_FOLDER}/dmenu
+cd ~/${INSTALL_FOLDER}/dwm/dmenu
 make clean install
 
 # ------------------------------------------------------------------------------
 # Install Sltatus
 # ------------------------------------------------------------------------------
-cd ~/${INSTALL_FOLDER}
+cd ~/${INSTALL_FOLDER}/dwm
 GitClone "https://git.suckless.org/slstatus"
 
-cd ~/${INSTALL_FOLDER}/slstatus
+cd ~/${INSTALL_FOLDER}/dwm/slstatus
 # Configure status
 # Icons used from: https://www.nerdfonts.com/cheat-sheet
 sed -i 's/\(.*\)datetime,\(.*\)$/  { cpu_perc, "   %s%% |", NULL }, { ram_used, "   %s", NULL }, { ram_perc, " \(%s%%\) \/", NULL }, { ram_total, " %s |", NULL }, { disk_used, "   %s", "\/" }, { disk_perc, " \(%s%%\) \/", "\/" }, { disk_total, " %s |", "\/" }, { datetime, " %s ", "%A %d | %H:%M" }/g' $config_header
