@@ -1,9 +1,0 @@
-#!/bin/bash
-
-function install_nodejs() {
-  # Install nodejs and node package manager
-  install "nodejs npm"
-
-  # Install some default libraries
-  npm install -g typescript
-}
