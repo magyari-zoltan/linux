@@ -18,7 +18,7 @@ function CreateFstab() {
 
 function ConfigureBaseSystem() {
   # Insert "boot=$boot" into the "configure" at the 3rd row
-  script=$(sed "3 i\boot=$boot\n" configure)
+  script=$(sed "3 i\boot=$boot\ndisk=$disk\n" configure)
   arch-chroot ${MNT_FOLDER} /bin/bash -c "echo $script | bash"
 }
 
