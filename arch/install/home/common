@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function CommonHomeConfigurations() {
+function InstallFolder() {
   if [[ $gui == "dwm" ]]; then
     # ~/.xinitrc
     arch-chroot ${MNT_FOLDER} /bin/bash -c "cp -r ~/.xinitrc /home/${user}/.xinitrc"
@@ -30,4 +30,21 @@ function CommonHomeConfigurations() {
   # Set ownership for ~/$INSTALL_FOLDER folder content
   arch-chroot ${MNT_FOLDER} /bin/bash -c "chown -R ${user} /home/${user}/${INSTALL_FOLDER}"
   arch-chroot ${MNT_FOLDER} /bin/bash -c "chgrp -R ${user} /home/${user}/${INSTALL_FOLDER}"
+}
+
+function DesktopBackground() {
+  if [[ $gui == "gnome" ]]; then
+    mkdir -p ${MNT_FOLDER}/${BACKGROUND}
+    arch-chroot ${MNT_FOLDER} /bin/bash -c "
+      cp /home/${user}/${INSTALL_FOLDER}/linux/arch/install/home/signature-color.png ${BACKGROUND}/
+      chown -R ${user} ${BACKGROUND}
+      chgrp -R ${user} ${BACKGROUND}
+      sudo -u ${user} dbus-launch gsettings set org.gnome.desktop.background picture-uri '${BACKGROUND}/signature-color.png'
+      sudo -u ${user} dbus-launch gsettings set org.gnome.desktop.background picture-options 'zoom'"
+  fi
+}
+
+function HomeConfigurations() {
+  InstallFolder
+  DesktopBackground
 }

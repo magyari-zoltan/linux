@@ -13,9 +13,9 @@ source home/common
 function usage() {
   echo "Usage: $0 [OPTIONS]"
   echo "Options:"
-  echo " [--user | -u] <user>               The user to be created. It is a mandatory field." 
   echo " [--boot | -b] bios | uefi          The boot mode to be installed. Default value is uefi."
   echo " [--disk | -d] /dev/sda             The disk on which the linux will be installed."
+  echo " [--user | -u] <user>               The user to be created. It is a mandatory field." 
   echo " [--gui  | -g] gnome | dwm          Graphical user interface. Defaultly installs none."
 }
 
@@ -25,7 +25,7 @@ function usage() {
 
 # Default values
 user=""
-boot="uefi"
+boot="bios"
 disk="/dev/sda"
 gui=""
 
@@ -103,7 +103,7 @@ ConfigureUser
 InstallGui
 
 # home/common
-CommonHomeConfigurations
+HomeConfigurations
 
 # common
 UmountPartitions
