@@ -34,12 +34,12 @@ function InstallFolder() {
 
 function DesktopBackground() {
   if [[ $gui == "gnome" ]]; then
-    mkdir -p ${MNT_FOLDER}/${BACKGROUND}
+    mkdir -p ${MNT_FOLDER}/${BACKGROUND_IMGS_FOLDER}
     arch-chroot ${MNT_FOLDER} /bin/bash -c "
-      cp /home/${user}/${INSTALL_FOLDER}/linux/arch/install/home/signature-color.png ${BACKGROUND}/
-      chown -R ${user} ${BACKGROUND}
-      chgrp -R ${user} ${BACKGROUND}
-      sudo -u ${user} dbus-launch gsettings set org.gnome.desktop.background picture-uri '${BACKGROUND}/signature-color.png'
+      cp /home/${user}/${INSTALL_FOLDER}/linux/arch/install/home/signature-color.png ${BACKGROUND_IMGS_FOLDER}/
+      chown -R ${user} ${BACKGROUND_IMGS_FOLDER}
+      chgrp -R ${user} ${BACKGROUND_IMGS_FOLDER}
+      sudo -u ${user} dbus-launch gsettings set org.gnome.desktop.background picture-uri '${BACKGROUND_IMGS_FOLDER}/signature-color.png'
       sudo -u ${user} dbus-launch gsettings set org.gnome.desktop.background picture-options 'zoom'"
   fi
 }

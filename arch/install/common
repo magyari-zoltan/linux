@@ -11,7 +11,7 @@ function ConfigureGlobals() {
   export CONFIG_FOLDER=.config
   export MNT_FOLDER=/mnt
   export TEMP_FILE=/tmp/tempfile
-  export BACKGROUND=/usr/share/backgrounds
+  export BACKGROUND_IMGS_FOLDER=/usr/share/backgrounds
 
 
   if [[ $LINUX != "arch" ]]; then

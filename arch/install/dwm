@@ -39,7 +39,7 @@ touch ~/.xinitrc
 echo 'setxkbmap hu -model "pc101" -variant "101_qwerty_comma_dead" &' >> ~/.xinitrc
 echo 'xrandr --output Virtual-1 --mode 1920x1080 &' >> ~/.xinitrc
 echo 'slstatus &' >> ~/.xinitrc
-echo 'xsetroot -solid "#1D2133" &' >> ~/.xinitrc
+echo 'xsetroot -solid "#101e26" &' >> ~/.xinitrc
 echo 'exec dwm' >> ~/.xinitrc
 
 # ------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ GitClone "https://git.suckless.org/dwm"
 cd ~/${INSTALL_FOLDER}/dwm/dwm
 
 # Set default font
-sed -i 's/\(.*\)col_cyan\[\]\( *\)= "#\([0-9]\{6\}\)";/\1col_cyan[]\2= "#202530";/g' $config_header
+sed -i 's/\(.*\)col_cyan\[\]\( *\)= "#\([0-9]\{6\}\)";/\1col_cyan[]\2= "#1d2133";/g' $config_header
 make clean install
 
 # ------------------------------------------------------------------------------
