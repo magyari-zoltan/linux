@@ -3,13 +3,13 @@
 set -- --boot bios --disk /dev/sda --gui gnome --user developer
 source options/interpreter
 source common/distro
+source common/globals
 
 # ------------------------------------------------------------------------------
 # Main
 # ------------------------------------------------------------------------------
 
 # init
-define_globals
 update_arch_keys
 
 # partitions

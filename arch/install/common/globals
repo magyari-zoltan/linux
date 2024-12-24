@@ -1,0 +1,22 @@
+#!/bin/bash
+
+LINUX="$ID"                                               # Linux distribution
+
+FOLDER_INSTALL=.install
+FOLDER_CONFIG=.config
+FOLDER_MNT=/mnt
+FOLDER_BACKGROUND_IMGS=/usr/share/backgrounds
+
+FILE_TEMP=/tmp/tempfile
+
+echo "--------------------------------------------------------------------------------"
+echo "Globals were defined successfully"
+echo "LINUX:" $LINUX
+echo "FOLDER_INSTALL:" $FOLDER_INSTALL
+echo "FOLDER_CONFIG:" $FOLDER_CONFIG
+echo "FOLDER_MNT:" $FOLDER_MNT
+echo "FOLDER_BACKGROUND_IMGS:" $FOLDER_BACKGROUND_IMGS
+echo "FILE_TEMP:" $FILE_TEMP
+echo "Press Enter to  ontinue, or wait 5 seconds..."
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+echo "--------------------------------------------------------------------------------"
