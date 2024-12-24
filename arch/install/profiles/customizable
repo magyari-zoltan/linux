@@ -4,13 +4,11 @@ set -- --boot bios --disk /dev/sda --gui gnome --user developer
 source options/interpreter
 source common/distro
 source common/globals
+source common/keys
 
 # ------------------------------------------------------------------------------
 # Main
 # ------------------------------------------------------------------------------
-
-# init
-update_arch_keys
 
 # partitions
 create_partitions_$boot
