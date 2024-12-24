@@ -1,0 +1,15 @@
+#!/bin/bash
+
+source /etc/os-release                                    # Set linux distribution (arch) into ID global
+
+# The script works only on arch distro
+if [[ $ID != "arch" ]]; then
+  echo "This installation does not work for the" $LINUX "distribution!"
+  exit 1                                                  # Exit on wrong distro
+fi
+
+echo "--------------------------------------------------------------------------------"
+echo "Linux ditro is correct:" $ID
+echo "Press Enter to  ontinue, or wait 5 seconds..."
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+echo "--------------------------------------------------------------------------------"

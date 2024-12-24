@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# set -- --boot bios --disk /dev/sda --gui gnome --user developer
+set -- --boot bios --disk /dev/sda --gui gnome --user developer
 source options/interpreter
+source common/distro
 
 # ------------------------------------------------------------------------------
 # Main
 # ------------------------------------------------------------------------------
 
 # init
-validate_linux_distribution 
 define_globals
 update_arch_keys
 
