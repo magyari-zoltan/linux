@@ -1,0 +1,7 @@
+#!/bin/bash
+
+function read_username() {
+  read -p "Enter username (arch): " username
+  user=${username:-arch} # Use 'arch' if no input is provided
+}
+

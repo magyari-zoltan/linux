@@ -1,0 +1,130 @@
+#!/bin/bash
+
+# Display script usage
+function usage() {
+  echo "The '$0' profile was called with wrong option(s)."
+  echo "Valid options:"
+  echo " [--boot | -b] bios | uefi          The boot mode to be installed. Default value is uefi."
+  echo " [--disk | -d] /dev/sda             The disk on which the linux will be installed."
+  echo " [--user | -u] <user>               The user to be created. It is a mandatory field." 
+  echo " [--gui  | -g] gnome | dwm          Graphical user interface. Defaultly installs none."
+}
+
+# default option values
+user=""
+boot=""
+disk=""
+gui=""
+
+# Process options
+if [[ $# -gt 0 ]]; then
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -b | --boot)
+        boot=$2
+
+        if [[ $boot != "bios" ]] && [[ $boot != "uefi" ]]; then
+          usage
+          exit 1
+        fi
+
+        shift 2
+        ;;
+
+      -d | --disk)
+        disk=$2
+
+        if [[ -z "$disk" ]]; then
+          usage
+          exit 1
+        fi
+
+        shift 2
+        ;;
+
+      -g | --gui)
+        gui=$2
+
+        if [[ $gui != "gnome" ]] && [[ $gui != "dwm" ]]; then
+          usage
+          exit 1
+        fi
+
+        shift 2
+        ;;
+
+      -u | --user)
+        user=$2
+
+        if [[ -z "$user" ]]; then
+          usage
+          exit 1
+        fi
+
+        shift 2
+        ;;
+
+      *)
+        echo "ERROR: Unknown option $1"
+        usage
+        exit 1
+    esac
+  done
+fi
+
+# Choose boot option
+source options/lib/boot
+while true; do
+  if [[ -z "$boot" ]]; then
+    choose_boot_option
+  fi
+
+  if [[ -n "$boot" ]]; then
+      break
+  else
+      echo "Input cannot be empty. Please try again."
+  fi
+done
+
+# Read installation device
+source options/lib/disk
+while true; do
+  if [[ -z "$disk" ]]; then
+    read_installation_device
+  fi
+
+  if [[ -n "$disk" ]]; then
+      break
+  else
+      echo "Input cannot be empty. Please try again."
+  fi
+done
+
+# Choose gui option
+source options/lib/gui
+while true; do
+  if [[ -z "$gui" ]]; then
+    choose_gui_option
+  fi
+
+  if [[ -n "$gui" ]]; then
+      break
+  else
+      echo "Input cannot be empty. Please try again."
+  fi
+done
+
+# Read user name
+source options/lib/user
+while true; do
+  if [[ -z "$user" ]]; then
+    read_username
+  fi
+
+  if [[ -n "$user" ]]; then
+      break
+  else
+      echo "Input cannot be empty. Please try again."
+  fi
+done
+

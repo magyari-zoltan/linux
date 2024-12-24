@@ -1,0 +1,6 @@
+#!/bin/bash
+
+function read_installation_device() {
+  read -p "Enter installation device (/dev/sda): " installation_device
+  disk=${installation_device:-/dev/sda} # Use '/dev/sda' if no input is provided
+}

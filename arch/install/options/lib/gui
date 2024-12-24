@@ -1,0 +1,27 @@
+#!/bin/bash
+
+function choose_gui_option() {
+  echo "Please choose the graphical user interface to be installed:"
+
+  options=("gnome" "dwm" "Quit")
+
+  select choice in "${options[@]}"; do
+      case $choice in
+          "gnome")
+              gui="gnome"
+              break
+              ;;
+          "dwm")
+              gui="dwm"
+              break
+              ;;
+          "Quit")
+              echo "Exiting..."
+              break
+              ;;
+          *)
+              echo "Invalid option. Please try again."
+              ;;
+      esac
+  done
+}

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# set -- --boot bios --disk /dev/sda --gui gnome --user developer
+source options/interpreter
+
+# ------------------------------------------------------------------------------
+# Main
+# ------------------------------------------------------------------------------
+
+# init
+validate_linux_distribution 
+define_globals
+update_arch_keys
+
+# partitions
+create_partitions_$boot
+FormatPartitions
+MountPartitions
+
+# base
+InstallBaseLinux
+
+# common
+CreateEssentialFolders
+
+# base
+CreateFstab
+
+ConfigureBaseSystem # $boot, $disk
+InstallBaseSystemApps
+SetupFirewall
+ConfigureUser
+
+# gui
+InstallGui
+
+# home/common
+HomeConfigurations
+
+# common
+UmountPartitions
+ShutdownSystem
+

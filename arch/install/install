@@ -7,7 +7,8 @@ options=("Customizable" "Quit")
 select choice in "${options[@]}"; do
     case $choice in
         "Customizable")
-            echo "You chose Customizable option"
+            profile=./profiles/customizable
+            break
             ;;
         "Quit")
             echo "Exiting..."
@@ -18,3 +19,5 @@ select choice in "${options[@]}"; do
             ;;
     esac
 done
+
+source "$profile"

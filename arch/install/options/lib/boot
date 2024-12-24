@@ -1,0 +1,28 @@
+#!/bin/bash
+
+function choose_boot_option() {
+  echo "Please choose the boot method:"
+
+  options=("bios" "uefi" "Quit")
+
+  echo $choice
+  select choice in "${options[@]}"; do
+      case $choice in
+          "bios")
+              boot="bios"
+              break
+              ;;
+          "uefi")
+              boot="uefi"
+              break
+              ;;
+          "Quit")
+              echo "Exiting..."
+              break
+              ;;
+          *)
+              echo "Invalid option. Please try again."
+              ;;
+      esac
+  done
+}
