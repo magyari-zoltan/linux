@@ -1,110 +1,20 @@
 #!/bin/bash
 
-source common
-source base
-source gui
-source home/common
+echo "Please choose the installation profile:"
 
-# ------------------------------------------------------------------------------
-# Functions
-# ------------------------------------------------------------------------------
+options=("Customizable" "Quit")
 
-# Display script usage
-function usage() {
-  echo "Usage: $0 [OPTIONS]"
-  echo "Options:"
-  echo " [--boot | -b] bios | uefi          The boot mode to be installed. Default value is uefi."
-  echo " [--disk | -d] /dev/sda             The disk on which the linux will be installed."
-  echo " [--user | -u] <user>               The user to be created. It is a mandatory field." 
-  echo " [--gui  | -g] gnome | dwm          Graphical user interface. Defaultly installs none."
-}
-
-# ------------------------------------------------------------------------------
-# Options
-# ------------------------------------------------------------------------------
-
-# Default values
-user=""
-boot="bios"
-disk="/dev/sda"
-gui=""
-
-if [[ $# -gt 0 ]]; then
-  # Interpret options
-  while [[ $# -gt 0 ]]; do
-    case "$1" in
-      -b | --boot)
-        boot=$2
-        if [[ $boot != "bios" ]] && [[ $boot != "uefi" ]]; then
-          usage
-          exit 1
-        fi
-        shift 2
-        ;;
-      -u | --user)
-        user=$2
-        if [[ -z "$user" ]]; then
-          usage
-          exit 1
-        fi
-        shift 2
-        ;;
-      -d | --disk)
-        disk=$2
-        if [[ -z "$disk" ]]; then
-          usage
-          exit 1
-        fi
-        shift 2
-        ;;
-      -g | --gui)
-        gui=$2
-        if [[ $gui != "gnome" ]] && [[ $gui != "dwm" ]]; then
-          usage
-          exit 1
-        fi
-        shift 2
-        ;;
-      *)
-        echo "ERROR: Unknown option $1"
-        usage
-        exit 1
+select choice in "${options[@]}"; do
+    case $choice in
+        "Customizable")
+            echo "You chose Customizable option"
+            ;;
+        "Quit")
+            echo "Exiting..."
+            break
+            ;;
+        *)
+            echo "Invalid option. Please try again."
+            ;;
     esac
-  done
-fi
-
-# ------------------------------------------------------------------------------
-# Main
-# ------------------------------------------------------------------------------
-
-# common
-ConfigureGlobals
-UpdatePackages
-
-# common
-CreatePartitions
-FormatPartitions
-MountPartitions
-
-# base
-InstallBaseLinux
-
-# common
-CreateEssentialFolders
-
-# base
-CreateFstab
-ConfigureBaseSystem
-InstallBaseSystemApps
-SetupFirewall
-ConfigureUser
-
-# gui
-InstallGui
-
-# home/common
-HomeConfigurations
-
-# common
-UmountPartitions
-ShutdownSystem
+done
