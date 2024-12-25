@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# Set timezone
+ln -sf /usr/share/zoneinfo/Europe/Bucharest /etc/localtime
+hwclock --systohc
+
+# Localization
+sed -i 's/#\(hu_HU.UTF-8 UTF-8\)/\1/g' /etc/locale.gen
+locale-gen
+
+# Create the locale config file
+echo "LANG=hu_HU.UTF-8" > /etc/locale.conf
+
+# Create the console keyboard layout
+echo "KEYMAP=hu101" > /etc/vconsole.conf
+
+# Host name
+host=arch
+echo $host > /etc/hostname
+
+# Hosts
+echo "127.0.0.1       localhost" > /etc/hosts
+echo "::1             localhost" >> /etc/hosts
+echo "127.0.1.1       $host.localdomain $host" >> /etc/hosts       
+
+# Refresh keys
+pacman-key --init
+pacman-key --populate
+pacman -Sy archlinux-keyring --noconfirm
+
+# Init ramfs
+mkinitcpio -P
+
+# Grub boot loader
+pacman -S grub --noconfirm
+
+# Grub install
+pacman -S efibootmgr --noconfirm
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
+grub-mkconfig -o /boot/grub/grub.cfg
+
+# Root password
+password="admin"
+echo -en "$password\n$password\n" | passwd
+
+echo "--------------------------------------------------------------------------------"
+echo "Base system has been configured successfully"
+echo "locale.gen ->" $(cat /etc/locale.gen | grep "hu_HU.UTF-8")
+echo "locale.conf ->" $(cat /etc/locale.conf | grep "LANG")
+echo "vconsole.conf ->" $(cat /etc/vconsole.conf | grep "KEYMAP")
+echo "hostname ->" $(cat /etc/hostname)
+echo "hosts ->" $(cat /etc/hosts)
+echo "grub.cfg ->" $(cat /boot/grub/grub.cfg)
+echo "password ->" $password
+
+echo "Press Enter to  ontinue, or wait 5 seconds..."
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+echo "--------------------------------------------------------------------------------"

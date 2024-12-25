@@ -35,20 +35,23 @@ mkinitcpio -P
 pacman -S grub --noconfirm
 
 # Grub install
-if [[ $boot == "bios" ]]; then
-  grub-install --target=i386-pc $disk
-  grub-mkconfig -o /boot/grub/grub.cfg
-fi
-
-if [[ $boot == "uefi" ]]; then
-  pacman -S efibootmgr --noconfirm
-  grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
-  grub-mkconfig -o /boot/grub/grub.cfg
-fi
+grub-install --target=i386-pc $disk
+grub-mkconfig -o /boot/grub/grub.cfg
 
 # Root password
 password="admin"
 echo -en "$password\n$password\n" | passwd
 
-# return success
-exit 0
+echo "--------------------------------------------------------------------------------"
+echo "Base system has been configured successfully"
+echo "locale.gen ->" $(cat /etc/locale.gen | grep "hu_HU.UTF-8")
+echo "locale.conf ->" $(cat /etc/locale.conf | grep "LANG")
+echo "vconsole.conf ->" $(cat /etc/vconsole.conf | grep "KEYMAP")
+echo "hostname ->" $(cat /etc/hostname)
+echo "hosts ->" $(cat /etc/hosts)
+echo "grub.cfg ->" $(cat /boot/grub/grub.cfg)
+echo "password ->" $password
+
+echo "Press Enter to  ontinue, or wait 5 seconds..."
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+echo "--------------------------------------------------------------------------------"

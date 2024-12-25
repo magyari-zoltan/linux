@@ -9,33 +9,13 @@ source common/keys
 source partition/create
 source partition/format
 source partition/mount
+source base/install
+source base/folders
+source base/create-fstab
+source base/chroot-install
+# source gui/chroot-install
 
-
-
-# base
-InstallBaseLinux
-
-# common
-CreateEssentialFolders
-
-# base
-CreateFstab
-
-ConfigureBaseSystem # $boot, $disk
-InstallBaseSystemApps
-SetupFirewall
-ConfigureUser
-
-# gui
-InstallGui
-
-# home/common
-HomeConfigurations
-
-# common
-UmountPartitions
-ShutdownSystem
-
+# home configuration
 
 source partition/umount
-
+shutdown -h now

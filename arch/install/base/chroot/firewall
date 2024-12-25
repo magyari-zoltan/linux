@@ -1,0 +1,25 @@
+#!/bin/bash
+
+pacman -S ufw --noconfirm
+
+ufw default deny outgoing
+ufw default deny incoming
+ufw default deny routed
+
+ufw allow out http
+ufw allow out https
+ufw allow out dns
+ufw allow out ssh
+
+systemctl enable ufw
+systemctl start ufw
+
+ufw enable 
+
+echo "--------------------------------------------------------------------------------"
+echo "Firewall has been configured" 
+ufw status
+
+echo "Press Enter to  ontinue, or wait 5 seconds..."
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+echo "--------------------------------------------------------------------------------"

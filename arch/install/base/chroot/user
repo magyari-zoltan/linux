@@ -1,0 +1,20 @@
+#!/bin/bash
+
+pacman -S sudo --noconfirm
+sudo useradd --create-home --shell /bin/bash $user
+
+echo -en "$password\n$password\n" | sudo passwd $user
+
+sudo usermod -aG wheel $user
+sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /etc/sudoers
+
+sudo passwd -d root
+sudo passwd -l root
+
+echo "--------------------------------------------------------------------------------"
+echo "User '$user' has been created" 
+echo "The password for the user '$user' is '$password'" 
+
+echo "Press Enter to  ontinue, or wait 5 seconds..."
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+echo "--------------------------------------------------------------------------------"

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Network manager to have access to the internet
+pacman -S NetworkManager --noconfirm
+systemctl enable NetworkManager
+
+# Git to be able to clone application sources
+pacman -S git --noconfirm
+
+# Basic build tools to be able to build apps from their sources
+pacman -S base-devel make gcc --noconfirm
+
+# Neo vim
+pacman -S neovim --noconfirm
+
+echo "--------------------------------------------------------------------------------"
+echo "Base apps were installed successfully"
+echo "Press Enter to  ontinue, or wait 5 seconds..."
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+echo "--------------------------------------------------------------------------------"

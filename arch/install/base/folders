@@ -1,0 +1,12 @@
+#!/bin/bash
+
+mkdir -p $FOLDER_MNT/root/$FOLDER_INSTALL
+mkdir -p $FOLDER_MNT/root/$FOLDER_CONFIG
+
+echo "--------------------------------------------------------------------------------"
+echo "Base system install - create essential folders" 
+ls -hal $FOLDER_MNT/root
+
+echo "Press Enter to  ontinue, or wait 5 seconds..."
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+echo "--------------------------------------------------------------------------------"

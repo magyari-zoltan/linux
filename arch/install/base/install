@@ -1,0 +1,11 @@
+#!/bin/bash
+
+pacstrap -K $FOLDER_MNT base linux linux-firmware --noconfirm
+
+echo "--------------------------------------------------------------------------------"
+echo "Base system install" 
+ls -hal $FOLDER_MNT
+
+echo "Press Enter to  ontinue, or wait 5 seconds..."
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+echo "--------------------------------------------------------------------------------"

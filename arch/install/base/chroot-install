@@ -1,0 +1,13 @@
+#!/bin/bash
+
+mkdir -p $FOLDER_MNT/root/$FOLDER_INSTALL/base
+mount --bind base/chroot $FOLDER_MNT/root/$FOLDER_INSTALL/base
+
+arch-chroot $FOLDER_MNT env disk="$disk" /bin/bash -c "~/$FOLDER_INSTALL/base/configure/$boot"
+arch-chroot $FOLDER_MNT /bin/bash -c "~/$FOLDER_INSTALL/base/apps"
+arch-chroot $FOLDER_MNT /bin/bash -c "~/$FOLDER_INSTALL/base/firewall"
+arch-chroot $FOLDER_MNT env user="$user" password="changeit" /bin/bash -c "~/$FOLDER_INSTALL/base/user"
+
+umount $FOLDER_MNT/root/$FOLDER_INSTALL/base
+rm -r $FOLDER_MNT/root/$FOLDER_INSTALL/base
+

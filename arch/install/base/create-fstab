@@ -1,0 +1,11 @@
+#!/bin/bash
+
+genfstab -U $FOLDER_MNT > $FOLDER_MNT/etc/fstab
+
+echo "--------------------------------------------------------------------------------"
+echo "Base system install - creating fstab" 
+cat $FOLDER_MNT/etc/fstab
+
+echo "Press Enter to  ontinue, or wait 5 seconds..."
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+echo "--------------------------------------------------------------------------------"
