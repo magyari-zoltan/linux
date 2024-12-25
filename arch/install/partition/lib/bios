@@ -1,0 +1,48 @@
+#!/bin/bash
+
+function create_partitions() {
+  echo -e "o\nn\n\n\n\n\na\nw\n" | fdisk $disk
+
+  echo "--------------------------------------------------------------------------------"
+  echo "Partitions on '$disk' device have been created" 
+  fdisk --list $disk
+
+  echo "Press Enter to  ontinue, or wait 5 seconds..."
+  read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+  echo "--------------------------------------------------------------------------------"
+}
+
+function format_partitions() {
+  mkfs.ext4 ${disk}1
+
+  echo "--------------------------------------------------------------------------------"
+  echo "Partitions on '$disk' device have been formatted" 
+  lsblk --fs $disk
+
+  echo "Press Enter to  ontinue, or wait 5 seconds..."
+  read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+  echo "--------------------------------------------------------------------------------"
+}
+
+function mount_partitions() {
+  mount ${disk}1 $FOLDER_MNT
+
+  echo "--------------------------------------------------------------------------------"
+  echo "Partition '${disk}1' has been mounted on $FOLDER_MNT" 
+
+  echo "Press Enter to  ontinue, or wait 5 seconds..."
+  read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+  echo "--------------------------------------------------------------------------------"
+}
+
+function umount_partitions() {
+  umount -R $FOLDER_MNT
+
+  echo "--------------------------------------------------------------------------------"
+  echo "Partition '${disk}1' has been umounted from $FOLDER_MNT" 
+
+  echo "Press Enter to  ontinue, or wait 5 seconds..."
+  read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+  echo "--------------------------------------------------------------------------------"
+}
+

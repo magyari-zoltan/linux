@@ -2,18 +2,15 @@
 
 set -- --boot bios --disk /dev/sda --gui gnome --user developer
 source options/interpreter
+
 source common/distro
 source common/globals
 source common/keys
+source partition/create
+source partition/format
+source partition/mount
 
-# ------------------------------------------------------------------------------
-# Main
-# ------------------------------------------------------------------------------
 
-# partitions
-create_partitions_$boot
-FormatPartitions
-MountPartitions
 
 # base
 InstallBaseLinux
@@ -38,4 +35,7 @@ HomeConfigurations
 # common
 UmountPartitions
 ShutdownSystem
+
+
+source partition/umount
 

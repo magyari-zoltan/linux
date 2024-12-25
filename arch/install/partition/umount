@@ -1,0 +1,7 @@
+#!/bin/bash
+
+source partition/lib/$boot
+
+umount_partitions
+
+

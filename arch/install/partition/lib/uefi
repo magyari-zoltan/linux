@@ -1,0 +1,54 @@
+#!/bin/bash
+
+function create_partitions() {
+  echo -e "g\nn\n\n\n+1G\nt\nuefi\nn\n\n\n\nw\n" | fdisk $disk
+
+  echo "--------------------------------------------------------------------------------"
+  echo "Partitions on '$disk' device have been created" 
+  fdisk --list $disk
+
+  echo "Press Enter to  ontinue, or wait 5 seconds..."
+  read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+  echo "--------------------------------------------------------------------------------"
+}
+
+function FormatPartitions() {
+  mkfs.fat -F 32 ${disk}1
+  mkfs.ext4 ${disk}2
+
+  echo "--------------------------------------------------------------------------------"
+  echo "Partitions on '$disk' device have been formatted" 
+  lsblk --fs $disk
+
+  echo "Press Enter to  ontinue, or wait 5 seconds..."
+  read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+  echo "--------------------------------------------------------------------------------"
+}
+
+function mount_partitions() {
+  mount ${disk}2 $FOLDER_MNT
+  mount --mkdir ${disk}1 $FOLDER_MNT/boot/efi
+
+  echo "--------------------------------------------------------------------------------"
+  echo "Partition '${disk}1' has been mounted on $FOLDER_MNT" 
+  echo "Partition '${disk}2' has been mounted on $FOLDER_MNT/boot/efi" 
+
+  echo "Press Enter to  ontinue, or wait 5 seconds..."
+  read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+  echo "--------------------------------------------------------------------------------"
+}
+
+function umount_partitions() {
+  umount -R $FOLDER_MNT/boot/efi
+  umount -R $FOLDER_MNT
+
+  echo "--------------------------------------------------------------------------------"
+  echo "Partition '${disk}2' has been umounted from $FOLDER_MNT/boot/efi" 
+  echo "Partition '${disk}1' has been umounted from $FOLDER_MNT" 
+
+  echo "Press Enter to  ontinue, or wait 5 seconds..."
+  read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+  echo "--------------------------------------------------------------------------------"
+}
+
+

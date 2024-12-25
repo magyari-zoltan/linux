@@ -1,0 +1,6 @@
+#!/bin/bash
+
+source partition/lib/$boot
+
+format_partitions
+

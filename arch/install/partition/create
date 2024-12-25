@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source partition/lib/$boot
+
+create_partitions
