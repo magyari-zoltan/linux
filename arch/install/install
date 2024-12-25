@@ -20,4 +20,6 @@ select choice in "${options[@]}"; do
     esac
 done
 
-source "$profile"
+if [[ $choice != "Quit" ]]; then
+  source "$profile"
+fi
