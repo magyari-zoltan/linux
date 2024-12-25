@@ -2,12 +2,17 @@
 
 # Display script usage
 function usage() {
+  echo "--------------------------------------------------------------------------------"
   echo "The '$0' profile was called with wrong option(s)."
   echo "Valid options:"
   echo " [--boot | -b] bios | uefi          The boot mode to be installed. Default value is uefi."
   echo " [--disk | -d] /dev/sda             The disk on which the linux will be installed."
   echo " [--user | -u] <user>               The user to be created. It is a mandatory field." 
   echo " [--gui  | -g] gnome | dwm          Graphical user interface. Defaultly installs none."
+
+  echo "Press Enter to  ontinue, or wait 5 seconds..."
+  read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+  echo "--------------------------------------------------------------------------------"
 }
 
 # default option values
