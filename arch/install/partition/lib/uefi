@@ -12,7 +12,7 @@ function create_partitions() {
   echo "--------------------------------------------------------------------------------"
 }
 
-function FormatPartitions() {
+function format_partitions() {
   mkfs.fat -F 32 ${disk}1
   mkfs.ext4 ${disk}2
 
