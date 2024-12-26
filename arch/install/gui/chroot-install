@@ -1,0 +1,10 @@
+#!/bin/bash
+
+mkdir -p $FOLDER_MNT/root/$FOLDER_INSTALL/gui
+mount --bind gui/chroot $FOLDER_MNT/root/$FOLDER_INSTALL/gui
+
+arch-chroot $FOLDER_MNT /bin/bash -c "~/$FOLDER_INSTALL/gui/$gui"
+
+umount $FOLDER_MNT/root/$FOLDER_INSTALL/gui
+rm -r $FOLDER_MNT/root/$FOLDER_INSTALL/gui
+

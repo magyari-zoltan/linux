@@ -13,7 +13,7 @@ source base/install
 source base/folders
 source base/create-fstab
 source base/chroot-install
-# source gui/chroot-install
+source gui/chroot-install
 
 # home configuration
 

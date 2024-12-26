@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# ------------------------------------------------------------------------------
-# Install dependencies 
-# ------------------------------------------------------------------------------
-
 # Minimal X server running on a Linux system
 #  - xorg-server: provides the infrastructure for creating and managing graphical user interfaces
 #  - xorg-xinit: starts the X server and loads config from .xinitrc
@@ -11,25 +7,24 @@
 #  - xset-root: set the root window properties of the X server.
 #    - background color:\> xsetroot -solid black
 #    - background image:\> xsetroot -bitmap /path/to/background.png
-Install "xorg-server xorg-xinit xorg-xrandr xorg-xsetroot"
+pacman -S xorg-server xorg-xinit xorg-xrandr xorg-xsetroot --noconfirm
 
 #  - libx11: provides the basic functionality for communicating with the X Window System server.
 #  - libxinerama: nables multiple physical monitors to be treated as a single, logical display.
 #  - libfxt: rendering fonts in graphical applications
-Install "libx11 libxinerama libfxt"
+pacman -S libx11 libxinerama libfxt --noconfirm
 
-# It is needed to start dwm.
-# It provides a set of libraries and tools for embedding web content in GTK+ applications.
-Install "webkit2gtk"
+# It provides a set of libraries and tools for embedding web content in GTK+ applications. It is needed to start dwm.
+pacman -S webkit2gtk --noconfirm
 
 # Graphical card driver
-Install "mesa"
-Install "xf86-video-ati"    # AMD
-Install "xf86-video-intel"  # Intel
-Install "xf86-video-nvidia" # NVIDIA
+pacman -S mesa --noconfirm
+pacman -S xf86-video-ati --noconfirm      # AMD
+pacman -S xf86-video-intel --noconfirm    # Intel
+pacman -S xf86-video-nvidia --noconfirm   # NVIDIA
 
 # Nerd fonts
-Install "ttf-ubuntu-mono-nerd"
+pacmna -S ttf-ubuntu-mono-nerd --noconfirm
 
 # ------------------------------------------------------------------------------
 # Create xinit config
@@ -46,12 +41,12 @@ echo 'exec dwm' >> ~/.xinitrc
 # Install Dynamic Window Manager
 # ------------------------------------------------------------------------------
 config_header=config.def.h
+mkdir -p ~/$FOLDER_INSTALL/dwm
 
-mkdir -p ~/${INSTALL_FOLDER}/dwm
-cd ~/${INSTALL_FOLDER}/dwm
+cd ~/$FOLDER_INSTALL/dwm
+git clone https://git.suckless.org/dwm
 
-GitClone "https://git.suckless.org/dwm"
-cd ~/${INSTALL_FOLDER}/dwm/dwm
+cd ~/$FOLDER_INSTALL/dwm/dwm
 
 # Set default font
 sed -i 's/\(.*\)col_cyan\[\]\( *\)= "#\([0-9]\{6\}\)";/\1col_cyan[]\2= "#1d2133";/g' $config_header
@@ -60,10 +55,10 @@ make clean install
 # ------------------------------------------------------------------------------
 # Install Simple Terminal
 # ------------------------------------------------------------------------------
-cd ~/${INSTALL_FOLDER}/dwm
+cd ~/$FOLDER_INSTALL/dwm
+git clone https://git.suckless.org/st
 
-GitClone "https://git.suckless.org/st"
-cd ~/${INSTALL_FOLDER}/dwm/st
+cd ~/$FOLDER_INSTALL/dwm/st
 
 # Add color scheme feature available by applying the colorschemes patch
 patch=$(curl -s https://st.suckless.org/patches/colorschemes/ | grep -o 'st-colorschemes-[0-9\.]*\.diff' | head -n 1)
@@ -74,40 +69,39 @@ target_line=$(grep -n "static const ColorScheme schemes" $config_header | cut -d
 start_line=$(grep -n "Alacritty (dark)" $config_header | cut -d':' -f1)
 end_line=$(expr ${start_line} + 6)
 
-sed -n "${start_line},${end_line}w ${TEMP_FILE}" $config_header
+sed -n "${start_line},${end_line}w $FILE_TEMP" $config_header
 sed -i "${start_line},${end_line}d" $config_header
-sed -i "${target_line}r ${TEMP_FILE}" $config_header
-rm $TEMP_FILE
+sed -i "${target_line}r $FILE_TEMP" $config_header
+rm $FILE_TEMP
 
 # Change terminal font to FreeMono:16
 sed -i 's/\(.*\)font = ".*:pixelsize=12\(.*\)";/\1font = "UbuntuMono:pixelsize=16\2";/g' $config_header
-
 make clean install
 
 # ------------------------------------------------------------------------------
-# Install Dmenu
+# Install dmenu
 # ------------------------------------------------------------------------------
-cd ~/${INSTALL_FOLDER}/dwm
-GitClone "https://git.suckless.org/dmenu"
+cd ~/$FOLDER_INSTALL/dwm
+git clone https://git.suckless.org/dmenu
 
-cd ~/${INSTALL_FOLDER}/dwm/dmenu
+cd ~/$FOLDER_INSTALL/dwm/dmenu
 make clean install
 
 # ------------------------------------------------------------------------------
-# Install Sltatus
+# Install sltatus
 # ------------------------------------------------------------------------------
-cd ~/${INSTALL_FOLDER}/dwm
-GitClone "https://git.suckless.org/slstatus"
+cd ~/$FOLDER_INSTALL/dwm
+git clone https://git.suckless.org/slstatus
 
-cd ~/${INSTALL_FOLDER}/dwm/slstatus
+cd ~/$FOLDER_INSTALL/dwm/slstatus
+
 # Configure status
-# Icons used from: https://www.nerdfonts.com/cheat-sheet
+# Source for icons: https://www.nerdfonts.com/cheat-sheet
 sed -i 's/\(.*\)datetime,\(.*\)$/  { cpu_perc, "   %s%% |", NULL }, { ram_used, "   %s", NULL }, { ram_perc, " \(%s%%\) \/", NULL }, { ram_total, " %s |", NULL }, { disk_used, "   %s", "\/" }, { disk_perc, " \(%s%%\) \/", "\/" }, { disk_total, " %s |", "\/" }, { datetime, " %s ", "%A %d | %H:%M" }/g' $config_header
 make clean install
 
-# ------------------------------------------------------------------------------
-# Login manager
-# ------------------------------------------------------------------------------
-
-# return success
-exit 0
+echo "--------------------------------------------------------------------------------"
+echo "dwm has been installed"
+echo "Press Enter to  ontinue, or wait 5 seconds..."
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+echo "--------------------------------------------------------------------------------"
