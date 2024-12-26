@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -- --boot uefi --disk /dev/sda --gui gnome --user zoltan
 source options/interpreter
 
 source common/distro
@@ -18,3 +19,5 @@ source gui/chroot-install
 
 source partition/umount
 shutdown -h now
+
+

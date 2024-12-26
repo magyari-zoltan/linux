@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -- --boot bios --disk /dev/sda --gui dwm --user developer
 source options/interpreter
 
 source common/distro
@@ -18,3 +19,4 @@ source gui/chroot-install
 
 source partition/umount
 shutdown -h now
+
