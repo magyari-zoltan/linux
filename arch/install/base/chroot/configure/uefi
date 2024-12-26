@@ -50,7 +50,6 @@ echo "locale.conf ->" $(cat /etc/locale.conf | grep "LANG")
 echo "vconsole.conf ->" $(cat /etc/vconsole.conf | grep "KEYMAP")
 echo "hostname ->" $(cat /etc/hostname)
 echo "hosts ->" $(cat /etc/hosts)
-echo "grub.cfg ->" $(cat /boot/grub/grub.cfg)
 echo "password ->" $password
 
 echo "Press Enter to  ontinue, or wait 5 seconds..."
