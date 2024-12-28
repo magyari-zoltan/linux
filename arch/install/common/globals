@@ -5,9 +5,11 @@ LINUX="$ID"                                               # Linux distribution
 FOLDER_INSTALL=.install
 FOLDER_CONFIG=.config
 FOLDER_MNT=/mnt
-FOLDER_BACKGROUND_IMGS=/usr/share/backgrounds
+FOLDER_BACKGROUND_IMGS=usr/share/backgrounds
+FOLDER_CHROOT_INSTALL=/home/$user/$FOLDER_INSTALL/linux/arch/install
 
 FILE_TEMP=/tmp/tempfile
+FILE_DESKTOP_IMAGE=background.png
 
 echo "--------------------------------------------------------------------------------"
 echo "Globals were defined successfully"
@@ -17,6 +19,9 @@ echo "FOLDER_CONFIG:" $FOLDER_CONFIG
 echo "FOLDER_MNT:" $FOLDER_MNT
 echo "FOLDER_BACKGROUND_IMGS:" $FOLDER_BACKGROUND_IMGS
 echo "FILE_TEMP:" $FILE_TEMP
+echo "FILE_DESKTOP_IMAGE:" $FILE_DESKTOP_IMAGE
+echo "FOLDER_CHROOT_INSTALL" $FOLDER_CHROOT_INSTALL
+
 echo "Press Enter to  ontinue, or wait 5 seconds..."
 read -t 5 -n 1  # Wait for 5 seconds or a single keypress
 echo "--------------------------------------------------------------------------------"

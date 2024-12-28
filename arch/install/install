@@ -7,15 +7,15 @@ options=("Customizable" "Development" "Zoltán" "Quit")
 select choice in "${options[@]}"; do
     case $choice in
         "Customizable")
-            profile=./profiles/customizable
+            profile=customizable
             break
             ;;
         "Development")
-            profile=./profiles/development
+            profile=development
             break
             ;;
         "Zoltán")
-            profile=./profiles/zoltan
+            profile=zoltan
             break
             ;;
         "Quit")
@@ -29,5 +29,5 @@ select choice in "${options[@]}"; do
 done
 
 if [[ $choice != "Quit" ]]; then
-  source "$profile"
+  source ./profiles/"$profile"
 fi

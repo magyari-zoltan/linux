@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Copy linux install
+mkdir -p        $FOLDER_MNT/home/$user/$FOLDER_INSTALL
+mkdir -p        $FOLDER_MNT/home/$user/$FOLDER_CONFIG
+
+cp -r ~/linux   $FOLDER_MNT/home/$user/$FOLDER_INSTALL
+
+# Neovim config
+git clone https://github.com/devbysp/nvim   $FOLDER_MNT/root/$FOLDER_INSTALL/nvim
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  ln -s /root/$FOLDER_INSTALL/nvim          /root/$FOLDER_CONFIG/nvim
+  chmod 764                                 /root/$FOLDER_CONFIG/nvim
+"
+
+cp -r $FOLDER_MNT/root/$FOLDER_INSTALL/*    $FOLDER_MNT/home/$user/$FOLDER_INSTALL/
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  ln -s /home/$user/$FOLDER_INSTALL/nvim    /home/$user/$FOLDER_CONFIG/nvim
+  chmod 764                                 /root/$FOLDER_CONFIG/nvim
+"
+
+source home/common/install
+
+# Change ownership
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  chown -R $user /home/$user/$FOLDER_INSTALL
+  chgrp -R $user /home/$user/$FOLDER_INSTALL
+
+  chown -R $user /home/$user/$FOLDER_CONFIG
+  chgrp -R $user /home/$user/$FOLDER_CONFIG
+"
+
+echo "--------------------------------------------------------------------------------"
+echo "Gnome settings"
+ls $FOLDER_MNT/home/$user/$FOLDER_INSTALL/
+ls $FOLDER_MNT/home/$user/$FOLDER_CONFIG/
+
+echo "Press Enter to  ontinue, or wait 5 seconds..."
+echo "--------------------------------------------------------------------------------"
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress

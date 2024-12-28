@@ -133,3 +133,12 @@ while true; do
   fi
 done
 
+echo "--------------------------------------------------------------------------------"
+echo "Option interpreter"
+echo "boot:" $boot
+echo "disk:" $disk
+echo "gui: " $gui
+echo "user:" $user
+
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+echo "--------------------------------------------------------------------------------"

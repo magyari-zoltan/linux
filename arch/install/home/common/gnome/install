@@ -1,0 +1,35 @@
+#!/bin/bash
+
+PROFILE_DCONF=home/profiles/$profile/$gui/$FOLDER_CONFIG/dconf
+COMMON_DCONF=home/common/$gui/$FOLDER_CONFIG/dconf
+
+if [[ -e $PROFILE_DCONF ]]; then
+  cp -r $PROFILE_DCONF    $FOLDER_MNT/home/$user/$FOLDER_CONFIG/
+else
+  cp -r $COMMON_DCONF     $FOLDER_MNT/home/$user/$FOLDER_CONFIG/
+fi
+
+# Copy background image background image to /$OLDER_BACKGROUD_IMGS
+mkdir -p $FOLDER_MNT/$FOLDER_BACKGROUND_IMGS
+PROFILE_BACKGROUND_IMG=home/profiles/$profile/$gui/$FOLDER_CONFIG/$FILE_DESKTOP_IMAGE
+COMMON_BACKGROUND_IMG=home/common/$gui/$FOLDER_CONFIG/$FILE_DESKTOP_IMAGE
+
+if [[ -e $PROFILE_BACKGROUND_IMG ]]; then
+  cp $PROFILE_BACKGROUND_IMG  $FOLDER_MNT/$FOLDER_BACKGROUND_IMGS/
+else
+  cp $COMMON_BACKGROUND_IMG   $FOLDER_MNT/$FOLDER_BACKGROUND_IMGS/
+fi
+
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  chown -R $user /$FOLDER_BACKGROUND_IMGS
+  chgrp -R $user /$FOLDER_BACKGROUND_IMGS
+"
+
+echo "--------------------------------------------------------------------------------"
+echo "Common Gnome settings"
+ls $FOLDER_MNT/home/$user/$FOLDER_CONFIG/
+ls $FOLDER_MNT/$FOLDER_BACKGROUND_IMGS
+
+echo "Press Enter to  ontinue, or wait 5 seconds..."
+echo "--------------------------------------------------------------------------------"
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress
