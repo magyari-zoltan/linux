@@ -1,0 +1,28 @@
+#!/bin/bash
+
+function choose_vbox_option() {
+  echo "Please choose if vbox utils should be installed or not:"
+
+  options=("Yes" "No" "Quit")
+
+  select choice in "${options[@]}"; do
+      case $choice in
+          "Yes")
+              vboxutils="true"
+              break
+              ;;
+          "No")
+              vboxutils="false"
+              break
+              ;;
+          "Quit")
+              echo "Exiting..."
+              break
+              ;;
+          *)
+              echo "Invalid option. Please try again."
+              ;;
+      esac
+  done
+}
+

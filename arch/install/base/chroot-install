@@ -3,7 +3,10 @@
 mkdir -p $FOLDER_MNT/root/$FOLDER_INSTALL/base
 mount --bind base/chroot $FOLDER_MNT/root/$FOLDER_INSTALL/base
 
+# Configure booting
 arch-chroot $FOLDER_MNT env disk="$disk" /bin/bash -c "~/$FOLDER_INSTALL/base/configure/$boot"
+
+# Install basic applications
 arch-chroot $FOLDER_MNT /bin/bash -c "~/$FOLDER_INSTALL/base/apps"
 
 # Copy missing library '/lib/modules/6.12.1-arch1-1' into the chroot environment
@@ -13,9 +16,22 @@ if [ ! -d $FOLDER_MNT/lib/modules/"$libname" ]; then
   cp -r /lib/modules/"$libname" $FOLDER_MNT/lib/modules/
 fi
 
+# Install firewall
 arch-chroot $FOLDER_MNT /bin/bash -c "~/$FOLDER_INSTALL/base/firewall"
+
+# Add regular user $user
 arch-chroot $FOLDER_MNT env user="$user" password="changeit" /bin/bash -c "~/$FOLDER_INSTALL/base/user"
 
 umount $FOLDER_MNT/root/$FOLDER_INSTALL/base
 rm -r $FOLDER_MNT/root/$FOLDER_INSTALL/base
+
+# Install VBox utils
+if [[ $vboxutils == "true" ]]; then
+  arch-chroot $FOLDER_MNT /bin/bash -c "
+    pacman -S virtualbox-guest-utils linux-headers
+    systemctl enable vboxservice
+    systemctl start vboxservice
+    usermod -aG vboxsf $user
+  "
+fi
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -- --boot uefi --disk /dev/sda --gui gnome --user zoltan
+set -- --boot uefi --disk /dev/sda --gui gnome --user zoltan 
 source options/interpreter
 
 source common/distro

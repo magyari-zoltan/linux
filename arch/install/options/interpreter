@@ -5,10 +5,11 @@ function usage() {
   echo "--------------------------------------------------------------------------------"
   echo "The '$0' profile was called with wrong option(s)."
   echo "Valid options:"
-  echo " [--boot | -b] bios | uefi          The boot mode to be installed. Default value is uefi."
-  echo " [--disk | -d] /dev/sda             The disk on which the linux will be installed."
-  echo " [--user | -u] <user>               The user to be created. It is a mandatory field." 
-  echo " [--gui  | -g] gnome | dwm          Graphical user interface. Defaultly installs none."
+  echo " [--boot | -b] bios | uefi                        The boot mode to be installed. Default value is uefi."
+  echo " [--disk | -d] /dev/sda                           The disk on which the linux will be installed."
+  echo " [--user | -u] <user>                             The user to be created. It is a mandatory field." 
+  echo " [--gui  | -g] gnome | dwm                        Graphical user interface. Defaultly installs none."
+  echo " [--vboxutils | -v] true | false | undefined      Vbox Utils to run virtual machin inside a virtual box instance"
 
   echo "Press Enter to  ontinue, or wait 5 seconds..."
   read -t 5 -n 1  # Wait for 5 seconds or a single keypress
@@ -20,6 +21,7 @@ user=""
 boot=""
 disk=""
 gui=""
+vboxutils="false"
 
 # Process options
 if [[ $# -gt 0 ]]; then
@@ -62,6 +64,17 @@ if [[ $# -gt 0 ]]; then
         user=$2
 
         if [[ -z "$user" ]]; then
+          usage
+          exit 1
+        fi
+
+        shift 2
+        ;;
+
+      -v | --vboxutils)
+        vboxutils="$2"
+
+        if [[ -z "$vboxutils" ]]; then
           usage
           exit 1
         fi
@@ -133,12 +146,29 @@ while true; do
   fi
 done
 
+# Choose vbox utils install option
+source options/lib/vbox
+while true; do
+  if [[ "$vboxutils" == "undefined"]]; then
+    choose_vbox_option
+  fi
+
+  if [[ -n "$vboxutils" ]]; then
+      break
+  else
+      echo "Input cannot be empty. Please try again."
+  fi
+done
+
+
+
 echo "--------------------------------------------------------------------------------"
 echo "Option interpreter"
 echo "boot:" $boot
 echo "disk:" $disk
 echo "gui: " $gui
 echo "user:" $user
+echo "vboxutils:" $vboxutils
 
 read -t 5 -n 1  # Wait for 5 seconds or a single keypress
 echo "--------------------------------------------------------------------------------"
