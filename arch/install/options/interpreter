@@ -9,7 +9,8 @@ function usage() {
   echo " [--disk | -d] /dev/sda                           The disk on which the linux will be installed."
   echo " [--user | -u] <user>                             The user to be created. It is a mandatory field." 
   echo " [--gui  | -g] gnome | dwm                        Graphical user interface. Defaultly installs none."
-  echo " [--vboxutils | -v] true | false | undefined      Vbox Utils to run virtual machin inside a virtual box instance"
+  echo " [--vboxutils   | -v] true | false | undefined    Vbox Utils to run virtual machin inside a virtual box instance"
+  echo " [--development | -p] true | false | undefined    Install development tools"
 
   echo "Press Enter to  ontinue, or wait 5 seconds..."
   read -t 5 -n 1  # Wait for 5 seconds or a single keypress
@@ -22,6 +23,7 @@ boot=""
 disk=""
 gui=""
 vboxutils="false"
+development="false"
 
 # Process options
 if [[ $# -gt 0 ]]; then
@@ -80,6 +82,12 @@ if [[ $# -gt 0 ]]; then
         fi
 
         shift 2
+        ;;
+
+      -p | --development)
+        development="true"
+
+        shift 1
         ;;
 
       *)
@@ -160,7 +168,19 @@ while true; do
   fi
 done
 
+# Choose to install development tools
+source options/lib/dev
+while true; do
+  if [[ "$development" == "undefined" ]]; then
+    choose_dev_option
+  fi
 
+  if [[ -n "$development" ]]; then
+      break
+  else
+      echo "Input cannot be empty. Please try again."
+  fi
+done
 
 echo "--------------------------------------------------------------------------------"
 echo "Option interpreter"
@@ -169,6 +189,7 @@ echo "disk:" $disk
 echo "gui: " $gui
 echo "user:" $user
 echo "vboxutils:" $vboxutils
+echo "development:" $development
 
 read -t 5 -n 1  # Wait for 5 seconds or a single keypress
 echo "--------------------------------------------------------------------------------"
