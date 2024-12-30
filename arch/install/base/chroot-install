@@ -28,7 +28,7 @@ rm -r $FOLDER_MNT/root/$FOLDER_INSTALL/base
 # Install VBox utils
 if [[ $vboxutils == "true" ]]; then
   arch-chroot $FOLDER_MNT /bin/bash -c "
-    pacman -S virtualbox-guest-utils linux-headers
+    pacman -S virtualbox-guest-utils linux-headers --noconfirm
     systemctl enable vboxservice
     systemctl start vboxservice
     usermod -aG vboxsf $user

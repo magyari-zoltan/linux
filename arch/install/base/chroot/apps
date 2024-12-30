@@ -12,6 +12,7 @@ pacman -S base-devel make gcc --noconfirm
 
 # Neo vim
 pacman -S neovim --noconfirm
+pacman -S ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono --noconfirm
 
 echo "--------------------------------------------------------------------------------"
 echo "Base apps were installed successfully"
