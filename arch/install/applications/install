@@ -1,6 +1,37 @@
 #!/bin/bash
 
-# Development app istall
+# Install 'exa' a more advanced list command 
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  pacman -S exa --noconfirm
+"
+
+# Create .bashrc and aliases for basic ls commands
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  if [ ! -e ~/.bash_profile ]; then
+    touch ~/.bash_profile
+  fi
+
+  echo 'if [ -f ~/.bashrc ]; then' >> ~/.bash_profile
+  echo '  . ~/.bashrc' >> ~/.bash_profile
+  echo 'fi' >> ~/.bash_profile
+  source ~/.bash_profile
+
+  if [ ! -e ~/.bashrc ]; then
+    touch ~/.bashrc
+  fi
+
+  # Create bashrc
+  echo \"alias ls='exa --icons'\" >> ~/.bashrc
+  echo \"alias la='ls -hal --git --octal-permissions --smart-group'\" >> ~/.bashrc
+  echo \"alias lg='la --git-ignore'\" >> ~/.bashrc
+"
+
+# Development app install
 if [[ $development == "true" ]]; then
   source development/install
 fi
+
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  cp ~/.bashrc /home/$user/.bashrc
+"
+

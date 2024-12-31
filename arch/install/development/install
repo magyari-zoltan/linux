@@ -1,23 +1,5 @@
 #!/bin/bash
 
-# Install 'exa' a more advanced list command 
-arch-chroot $FOLDER_MNT /bin/bash -c "
-  pacman -S exa --noconfirm
-"
-
-# Create .bashrc and aliases for basic ls commands
-arch-chroot $FOLDER_MNT /bin/bash -c "
-  echo 'if [ -f ~/.bashrc ]; then' > ~/.bash_profile
-  echo '  . ~/.bashrc' >> ~/.bash_profile
-  echo 'fi' >> ~/.bash_profile
-  source ~/.bash_profile
-
-  # Create bashrc
-  echo \"alias ls='exa --icons'\" > ~/.bashrc
-  echo \"alias la='ls -hal --git --octal-permissions --smart-group'\" >> ~/.bashrc
-  echo \"alias lg='la --git-ignore'\" >> ~/.bashrc
-"
-
 # Install node manager
 arch-chroot $FOLDER_MNT /bin/bash -c "
   curl -L https://bit.ly/n-install | bash -s -- -y 
@@ -34,12 +16,8 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
 
   pacman -S docker-compose --noconfirm
 
-  echo \"alias up='docker-compose up -d --build'\" >> ~/.bashrc
-  echo \"alias down='docker-compose down'\" >> ~/.bashrc
-  echo \"alias ld='docker ps'\" >> ~/.bashrc
-  echo \"alias logs='docker-compose logs'\" >> ~/.bashrc
-"
-
-arch-chroot $FOLDER_MNT /bin/bash -c "
-  cp ~/.bashrc /home/$user/.bashrc
+  echo \"alias up='sudo docker-compose up -d --build'\" >> ~/.bashrc
+  echo \"alias down='sudo docker-compose down'\" >> ~/.bashrc
+  echo \"alias ld='sudo docker ps'\" >> ~/.bashrc
+  echo \"alias logs='sudo docker-compose logs'\" >> ~/.bashrc
 "

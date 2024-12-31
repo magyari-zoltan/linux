@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -- --boot uefi --disk /dev/sda --gui gnome --user zoltan 
+set -- --boot uefi --disk /dev/sda --gui gnome --user zoltan --vboxutils true --development
 source options/interpreter
 
 source common/distro
@@ -14,6 +14,7 @@ source base/folders
 source base/create-fstab
 source base/chroot-install
 source gui/chroot-install
+source applications/install
 source home/install
 source partition/umount
 shutdown -h now
