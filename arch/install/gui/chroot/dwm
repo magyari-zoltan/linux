@@ -49,7 +49,7 @@ git clone https://git.suckless.org/dwm
 cd ~/$FOLDER_INSTALL/dwm/dwm
 
 # Set default font
-sed -i 's/\(.*\)col_cyan\[\]\( *\)= "#\([0-9]\{6\}\)";/\1col_cyan[]\2= "#1d2133";/g' $config_header
+sed -i 's/\(.*\)col_cyan\[\]\( *\)= "#\([0-9]\{6\}\)";/\1col_cyan[]\2= "#2c2e33";/g' $config_header
 make clean install
 
 # ------------------------------------------------------------------------------
