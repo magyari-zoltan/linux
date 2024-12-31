@@ -3,7 +3,7 @@
 mkdir -p $FOLDER_MNT/root/$FOLDER_INSTALL/gui
 mount --bind gui/chroot $FOLDER_MNT/root/$FOLDER_INSTALL/gui
 
-arch-chroot $FOLDER_MNT /bin/bash -c "~/$FOLDER_INSTALL/gui/$gui"
+arch-chroot $FOLDER_MNT env FOLDER_INSTALL=$FOLDER_INSTALL FILE_TEMP=$FILE_TEMP /bin/bash -c "~/$FOLDER_INSTALL/gui/$gui"
 
 umount $FOLDER_MNT/root/$FOLDER_INSTALL/gui
 rm -r $FOLDER_MNT/root/$FOLDER_INSTALL/gui

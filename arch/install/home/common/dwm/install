@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Copy .xinitrc into users folder
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  cp ~/.xinitrc /home/$user/.xinitrc
+"

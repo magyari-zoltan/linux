@@ -74,7 +74,7 @@ if [[ $# -gt 0 ]]; then
         ;;
 
       -v | --vboxutils)
-        vboxutils="$2"
+        vboxutils=$2
 
         if [[ -z "$vboxutils" ]]; then
           usage
@@ -157,7 +157,7 @@ done
 # Choose vbox utils install option
 source options/lib/vbox
 while true; do
-  if [[ "$vboxutils" == "undefined"]]; then
+  if [[ "$vboxutils" == "undefined" ]]; then
     choose_vbox_option
   fi
 

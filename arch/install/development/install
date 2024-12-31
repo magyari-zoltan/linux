@@ -23,7 +23,6 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
   curl -L https://bit.ly/n-install | bash -s -- -y 
   sed -i 's|\$HOME/n|\$HOME/.install/n|g' ~/.bashrc 
 
-  n lts
   mv ~/n ~/$FOLDER_INSTALL/ 
 "
 

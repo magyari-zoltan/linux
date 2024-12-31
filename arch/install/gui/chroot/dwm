@@ -34,7 +34,7 @@ touch ~/.xinitrc
 echo 'setxkbmap hu -model "pc101" -variant "101_qwerty_comma_dead" &' >> ~/.xinitrc
 echo 'xrandr --output Virtual-1 --mode 1920x1080 &' >> ~/.xinitrc
 echo 'slstatus &' >> ~/.xinitrc
-echo 'xsetroot -solid "#101e26" &' >> ~/.xinitrc
+echo 'xsetroot -solid "#1d2133" &' >> ~/.xinitrc
 echo 'exec dwm' >> ~/.xinitrc
 
 # ------------------------------------------------------------------------------
@@ -48,35 +48,17 @@ git clone https://git.suckless.org/dwm
 
 cd ~/$FOLDER_INSTALL/dwm/dwm
 
+# Configure terminal
+sed -i 's/\(.*termcmd.*\) = { "st", NULL };/\1 = { "alacritty", NULL };/g' $config_header
+
 # Set default font
 sed -i 's/\(.*\)col_cyan\[\]\( *\)= "#\([0-9]\{6\}\)";/\1col_cyan[]\2= "#2c2e33";/g' $config_header
 make clean install
 
 # ------------------------------------------------------------------------------
-# Install Simple Terminal
+# Install alacritty
 # ------------------------------------------------------------------------------
-cd ~/$FOLDER_INSTALL/dwm
-git clone https://git.suckless.org/st
-
-cd ~/$FOLDER_INSTALL/dwm/st
-
-# Add color scheme feature available by applying the colorschemes patch
-patch=$(curl -s https://st.suckless.org/patches/colorschemes/ | grep -o 'st-colorschemes-[0-9\.]*\.diff' | head -n 1)
-curl -s https://st.suckless.org/patches/colorschemes/${patch} | git apply
-
-# Makes 'Alacritty (dark)' color scheme dafault by moving it to the first position in the scheme list
-target_line=$(grep -n "static const ColorScheme schemes" $config_header | cut -d':' -f1)
-start_line=$(grep -n "Alacritty (dark)" $config_header | cut -d':' -f1)
-end_line=$(expr ${start_line} + 6)
-
-sed -n "${start_line},${end_line}w $FILE_TEMP" $config_header
-sed -i "${start_line},${end_line}d" $config_header
-sed -i "${target_line}r $FILE_TEMP" $config_header
-rm $FILE_TEMP
-
-# Change terminal font to FreeMono:16
-sed -i 's/\(.*\)font = ".*:pixelsize=12\(.*\)";/\1font = "UbuntuMono:pixelsize=16\2";/g' $config_header
-make clean install
+pacman -S alacritty --noconfirm
 
 # ------------------------------------------------------------------------------
 # Install dmenu
@@ -95,7 +77,6 @@ git clone https://git.suckless.org/slstatus
 
 cd ~/$FOLDER_INSTALL/dwm/slstatus
 
-# Configure status
 # Source for icons: https://www.nerdfonts.com/cheat-sheet
 sed -i 's/\(.*\)datetime,\(.*\)$/  { cpu_perc, "   %s%% |", NULL }, { ram_used, "   %s", NULL }, { ram_perc, " \(%s%%\) \/", NULL }, { ram_total, " %s |", NULL }, { disk_used, "   %s", "\/" }, { disk_perc, " \(%s%%\) \/", "\/" }, { disk_total, " %s |", "\/" }, { datetime, " %s ", "%A %d | %H:%M" }/g' $config_header
 make clean install
@@ -103,5 +84,5 @@ make clean install
 echo "--------------------------------------------------------------------------------"
 echo "dwm has been installed"
 echo "Press Enter to  ontinue, or wait 5 seconds..."
-read -t 5 -n 1  # Wait for 5 seconds or a single keypress
 echo "--------------------------------------------------------------------------------"
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress
