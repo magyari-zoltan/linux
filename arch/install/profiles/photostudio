@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -- --boot uefi --disk /dev/sda --gui gnome --user zoltan --vboxutils true --development
+set -- --boot uefi --disk /dev/sda --gui dwm --user zoltan --vboxutils true 
 source options/interpreter
 
 source common/distro
@@ -15,6 +15,10 @@ source base/create-fstab
 source base/chroot-install
 source gui/chroot-install
 source applications/install
+source applications/photostudio
 source home/install
 source partition/umount
 shutdown -h now
+
+
+

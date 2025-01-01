@@ -190,6 +190,5 @@ echo "gui: " $gui
 echo "user:" $user
 echo "vboxutils:" $vboxutils
 echo "development:" $development
-
-read -t 5 -n 1  # Wait for 5 seconds or a single keypress
 echo "--------------------------------------------------------------------------------"
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress
