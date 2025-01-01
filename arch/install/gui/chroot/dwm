@@ -48,11 +48,18 @@ git clone https://git.suckless.org/dwm
 
 cd ~/$FOLDER_INSTALL/dwm/dwm
 
+# Spacing between windows
+sed -i 's/\(.*borderpx.*\) =.*;\(.*\)/\1 = 2;\2/g' $config_header
+
+# Configure dmenu font size
+sed -i 's/\(.*fonts.*\) = { ".*:size=.*" };/\1 = { "UbuntuMono:size=11" };/g' $config_header
+sed -i 's/\(.*dmenufont.*\) = ".*:size=.*";/\1 = "UbuntuMono:size=11";/g' $config_header
+
 # Configure terminal
 sed -i 's/\(.*termcmd.*\) = { "st", NULL };/\1 = { "alacritty", NULL };/g' $config_header
 
-# Set default font
-sed -i 's/\(.*\)col_cyan\[\]\( *\)= "#\([0-9]\{6\}\)";/\1col_cyan[]\2= "#2c2e33";/g' $config_header
+# Set default dmenu color
+sed -i 's/\(.*\)col_cyan\[\]\( *\)= "#\([0-9]\{6\}\)";/\1col_cyan[]\2= "#1a2f44";/g' $config_header
 make clean install
 
 # ------------------------------------------------------------------------------
@@ -76,9 +83,9 @@ cd ~/$FOLDER_INSTALL/dwm
 git clone https://git.suckless.org/slstatus
 
 cd ~/$FOLDER_INSTALL/dwm/slstatus
-
+ 
 # Source for icons: https://www.nerdfonts.com/cheat-sheet
-sed -i 's/\(.*\)datetime,\(.*\)$/  { cpu_perc, "   %s%% |", NULL }, { ram_used, "   %s", NULL }, { ram_perc, " \(%s%%\) \/", NULL }, { ram_total, " %s |", NULL }, { disk_used, "   %s", "\/" }, { disk_perc, " \(%s%%\) \/", "\/" }, { disk_total, " %s |", "\/" }, { datetime, " %s ", "%A %d | %H:%M" }/g' $config_header
+sed -i 's/\(.*\)datetime,\(.*\)$/  { cpu_perc, "   %s%%  |", NULL }, { ram_used, "    %s", NULL }, { ram_perc, "  \( %s%% \)  \/", NULL }, { ram_total, "  %s  |", NULL }, { disk_used, "    %s", "\/" }, { disk_perc, "  \( %s%% \)  \/", "\/" }, { disk_total, "  %s  |", "\/" }, { datetime, " %s ", " %A %d  |  %H:%M " }/g' $config_header
 make clean install
 
 echo "--------------------------------------------------------------------------------"
