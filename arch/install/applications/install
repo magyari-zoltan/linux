@@ -26,6 +26,10 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
   echo \"alias lg='la --git-ignore'\" >> ~/.bashrc
 "
 
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  pacman -S firefox --noconform
+"
+
 # Development app install
 if [[ $development == "true" ]]; then
   source development/install
