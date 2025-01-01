@@ -1,0 +1,17 @@
+#!/bin/bash
+
+pacman -S pipewire pipewire-pulse wireplumber --noconfirm
+
+sudo -u $user systemctl --user disable pulseaudio.service pulseaudio.socket
+sudo -u $user systemctl --user mask pulseaudio.service pulseaudio.socket
+
+sudo -u $user systemctl --user enable pipewire.service pipewire-pulse.socket
+sudo -u $user systemctl --user mask pipewire.service pipewire-pulse.socket
+
+pacman -S pavucontrol --noconfirm
+
+echo "--------------------------------------------------------------------------------"
+echo "Install dwm specific apps"
+echo "Press Enter to  ontinue, or wait 5 seconds..."
+echo "--------------------------------------------------------------------------------"
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress
