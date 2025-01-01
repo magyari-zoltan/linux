@@ -1,14 +1,18 @@
 #!/bin/bash
 
+# Install sound control
 pacman -S pipewire pipewire-pulse wireplumber --noconfirm
 
-sudo -u $user systemctl --user disable pulseaudio.service pulseaudio.socket
-sudo -u $user systemctl --user mask pulseaudio.service pulseaudio.socket
+# sudo -u $user systemctl --user disable pulseaudio.service pulseaudio.socket
+# sudo -u $user systemctl --user mask pulseaudio.service pulseaudio.socket
 
-sudo -u $user systemctl --user enable pipewire.service pipewire-pulse.socket
-sudo -u $user systemctl --user mask pipewire.service pipewire-pulse.socket
+# sudo -u $user systemctl --user enable pipewire.service pipewire-pulse.socket
+# sudo -u $user systemctl --user mask pipewire.service pipewire-pulse.socket
 
 pacman -S pavucontrol --noconfirm
+
+# Install file manager
+pacman -S pcmanfm --noconfirm
 
 echo "--------------------------------------------------------------------------------"
 echo "Install dwm specific apps"

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -- --boot uefi --disk /dev/sda --gui dwm --user zoltan --vboxutils true 
+set -- --boot uefi --disk /dev/sda --gui dwm --user zoltan --vboxutils true --development false
 source options/interpreter
 
 source common/distro
