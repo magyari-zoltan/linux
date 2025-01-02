@@ -26,10 +26,9 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
 "
 
 echo "--------------------------------------------------------------------------------"
-echo "Common Gnome settings"
+echo "Install Gnome specific home setting"
 ls $FOLDER_MNT/home/$user/$FOLDER_CONFIG/
 ls $FOLDER_MNT/$FOLDER_BACKGROUND_IMGS
 
 echo "Press Enter to  ontinue, or wait 5 seconds..."
-echo "--------------------------------------------------------------------------------"
 read -t 5 -n 1  # Wait for 5 seconds or a single keypress

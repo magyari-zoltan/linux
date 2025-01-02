@@ -24,4 +24,3 @@ echo "FOLDER_CHROOT_INSTALL" $FOLDER_CHROOT_INSTALL
 
 echo "Press Enter to  ontinue, or wait 5 seconds..."
 read -t 5 -n 1  # Wait for 5 seconds or a single keypress
-echo "--------------------------------------------------------------------------------"

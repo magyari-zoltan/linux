@@ -3,3 +3,8 @@
 arch-chroot $FOLDER_MNT /bin/bash -c "
   pacman -S libreoffice --noconfirm
 "
+
+echo "--------------------------------------------------------------------------------"
+echo "Install applications for $profile profile"
+echo "Press Enter to  ontinue, or wait 5 seconds..."
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress

@@ -91,5 +91,4 @@ make clean install
 echo "--------------------------------------------------------------------------------"
 echo "dwm has been installed"
 echo "Press Enter to  ontinue, or wait 5 seconds..."
-echo "--------------------------------------------------------------------------------"
 read -t 5 -n 1  # Wait for 5 seconds or a single keypress

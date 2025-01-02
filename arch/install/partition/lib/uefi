@@ -9,7 +9,6 @@ function create_partitions() {
 
   echo "Press Enter to  ontinue, or wait 5 seconds..."
   read -t 5 -n 1  # Wait for 5 seconds or a single keypress
-  echo "--------------------------------------------------------------------------------"
 }
 
 function format_partitions() {
@@ -22,7 +21,6 @@ function format_partitions() {
 
   echo "Press Enter to  ontinue, or wait 5 seconds..."
   read -t 5 -n 1  # Wait for 5 seconds or a single keypress
-  echo "--------------------------------------------------------------------------------"
 }
 
 function mount_partitions() {
@@ -35,7 +33,6 @@ function mount_partitions() {
 
   echo "Press Enter to  ontinue, or wait 5 seconds..."
   read -t 5 -n 1  # Wait for 5 seconds or a single keypress
-  echo "--------------------------------------------------------------------------------"
 }
 
 function umount_partitions() {
@@ -48,7 +45,6 @@ function umount_partitions() {
 
   echo "Press Enter to  ontinue, or wait 5 seconds..."
   read -t 5 -n 1  # Wait for 5 seconds or a single keypress
-  echo "--------------------------------------------------------------------------------"
 }
 
 
