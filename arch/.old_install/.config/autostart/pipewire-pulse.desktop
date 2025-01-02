@@ -1,7 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=PipeWire Pulse
-Exec=pipewire-pulse
-Hidden=false
-NoDisplay=false
-X-GNOME-Autostart-enabled=true
