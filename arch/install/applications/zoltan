@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Install virtual-box
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  pacman -S linux-headers virtualbox --noconfirm
+  usermod -aG vboxusers $user
+"
+
 arch-chroot $FOLDER_MNT /bin/bash -c "
   pacman -S libreoffice --noconfirm
 "
