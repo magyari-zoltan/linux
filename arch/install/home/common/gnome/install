@@ -25,6 +25,13 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
   chgrp -R $user /$FOLDER_BACKGROUND_IMGS
 "
 
+MONITORS_CONFIG=.config/monitors.xml
+PROFILE_MONITORS_CONFIG=home/profiles/$profile/$MONITORS_CONFIG
+
+if [[ -e $PROFILE_MONITORS_CONFIG ]]; then
+  cp $PROFILE_MONITORS_CONFIG $FOLDER_MNT/home/$user/$MONITORS_CONFIG
+fi
+
 GDM_CONFIG=etc/gdm/custom.conf
 PROFILE_GDM_CONFIG=home/profiles/$profile/$GDM_CONFIG
 
