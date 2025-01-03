@@ -49,7 +49,7 @@ git clone https://git.suckless.org/dwm
 cd ~/$FOLDER_INSTALL/dwm/dwm
 
 # Spacing between windows
-sed -i 's/\(.*borderpx.*\) =.*;\(.*\)/\1 = 2;\2/g' $config_header
+sed -i 's/\(.*borderpx.*\) =.*;\(.*\)/\1 = 6;\2/g' $config_header
 
 # Configure dmenu font size
 sed -i 's/\(.*fonts.*\) = { ".*:size=.*" };/\1 = { "UbuntuMono:size=11" };/g' $config_header
