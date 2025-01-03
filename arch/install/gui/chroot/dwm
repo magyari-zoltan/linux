@@ -59,7 +59,9 @@ sed -i 's/\(.*dmenufont.*\) = ".*:size=.*";/\1 = "UbuntuMono:size=11";/g' $confi
 sed -i 's/\(.*termcmd.*\) = { "st", NULL };/\1 = { "alacritty", NULL };/g' $config_header
 
 # Set default dmenu color
-sed -i 's/\(.*\)col_cyan\[\]\( *\)= "#\([0-9]\{6\}\)";/\1col_cyan[]\2= "#1a2f44";/g' $config_header
+sed -i 's/\(.*\)col_gray1\[\]\( *\)= "#\([0-9]\{6\}\)";/\1col_gray1[]\2= "#1d2133";/g' $config_header
+sed -i 's/\(.*\)col_cyan\[\]\( *\)= "#\([0-9]\{6\}\)";/\1col_cyan[]\2= "#31483A";/g' $config_header
+sed -i 's/\(.*\)\[SchemeSel\]\(.*\) = { \(.*\), col_cyan, \(.*\) }/\1[SchemeSel]\2 = { \3, col_gray1, \4}/g' $config_header
 make clean install
 
 # ------------------------------------------------------------------------------
