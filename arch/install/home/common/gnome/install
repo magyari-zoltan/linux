@@ -25,10 +25,18 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
   chgrp -R $user /$FOLDER_BACKGROUND_IMGS
 "
 
+GDM_CONFIG=etc/gdm/custom.conf
+PROFILE_GDM_CONFIG=home/profiles/$profile/$GDM_CONFIG
+
+if [[ -e $PROFILE_GDM_CONFIG ]]; then
+  cp $PROFILE_GDM_CONFIG $FOLDER_MNT/$GDM_CONFIG
+fi
+
 echo "--------------------------------------------------------------------------------"
 echo "Install Gnome specific home setting"
 ls $FOLDER_MNT/home/$user/$FOLDER_CONFIG/
 ls $FOLDER_MNT/$FOLDER_BACKGROUND_IMGS
+cat $FOLDER_MNT/$PROFILE_GDM_CONFIG
 
 echo "Press Enter to  ontinue, or wait 5 seconds..."
 read -t 5 -n 1  # Wait for 5 seconds or a single keypress
