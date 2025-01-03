@@ -59,7 +59,7 @@ sed -i 's/\(.*dmenufont.*\) = ".*:size=.*";/\1 = "UbuntuMono:size=11";/g' $confi
 sed -i 's/\(.*termcmd.*\) = { "st", NULL };/\1 = { "alacritty", NULL };/g' $config_header
 
 # Set default dmenu color
-sed -i 's/\(.*\)col_gray1\[\]\( *\)= "#\([0-9]\{6\}\)";/\1col_gray1[]\2= "#1d2133";/g' $config_header
+sed -i 's/\(.*\)col_gray2\[\]\( *\)= "#\([0-9]\{6\}\)";/\1col_gray2[]\2= "#1d2133";/g' $config_header
 sed -i 's/\(.*\)col_cyan\[\]\( *\)= "#\([0-9]\{6\}\)";/\1col_cyan[]\2= "#31483A";/g' $config_header
 sed -i 's/\(.*\)\[SchemeSel\]\(.*\) = { \(.*\), col_cyan, \(.*\) }/\1[SchemeSel]\2 = { \3, col_gray1, \4}/g' $config_header
 make clean install
@@ -87,7 +87,7 @@ git clone https://git.suckless.org/slstatus
 cd ~/$FOLDER_INSTALL/dwm/slstatus
  
 # Source for icons: https://www.nerdfonts.com/cheat-sheet
-sed -i 's/\(.*\)datetime,\(.*\)$/  { cpu_perc, "   %s%%  |", NULL }, { ram_used, "    %s", NULL }, { ram_perc, "  \( %s%% \)  \/", NULL }, { ram_total, "  %s  |", NULL }, { disk_used, "    %s", "\/" }, { disk_perc, "  \( %s%% \)  \/", "\/" }, { disk_total, "  %s  |", "\/" }, { datetime, " %s ", " %A %d  |  %H:%M " }/g' $config_header
+sed -i 's/\(.*\)datetime,\(.*\)$/  { cpu_perc, " %s%% |", NULL }, { ram_used, "  %s", NULL }, { ram_perc, "\(%s%%\) \/", NULL }, { ram_total, " %s |", NULL }, { disk_used, "  %s", "\/" }, { disk_perc, "\(%s%%\) \/", "\/" }, { disk_total, " %s |", "\/" }, { datetime, " %s ", "%A %d | %H:%M" }/g' $config_header
 make clean install
 
 echo "--------------------------------------------------------------------------------"
