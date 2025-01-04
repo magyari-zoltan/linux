@@ -23,9 +23,6 @@ pacman -S xf86-video-ati --noconfirm      # AMD
 pacman -S xf86-video-intel --noconfirm    # Intel
 pacman -S xf86-video-nvidia --noconfirm   # NVIDIA
 
-# Nerd fonts
-pacmna -S ttf-ubuntu-mono-nerd --noconfirm
-
 # Clipboard for terminal
 pacman -S clipmenu --noconfirm
 
@@ -35,7 +32,7 @@ pacman -S clipmenu --noconfirm
 touch ~/.xinitrc
 
 echo 'setxkbmap hu -model "pc101" -variant "101_qwerty_comma_dead" &' >> ~/.xinitrc
-echo 'xrandr --output Virtual-1 --mode 3440x1440 &' >> ~/.xinitrc
+echo 'xrandr -s 3440x1440 &' >> ~/.xinitrc
 echo 'slstatus &' >> ~/.xinitrc
 echo 'xsetroot -solid "#1d2133" &' >> ~/.xinitrc
 echo 'exec dwm' >> ~/.xinitrc
@@ -55,8 +52,11 @@ cd ~/$FOLDER_INSTALL/dwm/dwm
 sed -i 's/\(.*borderpx.*\) =.*;\(.*\)/\1 = 6;\2/g' $config_header
 
 # Configure dmenu font size
-sed -i 's/\(.*fonts.*\) = { ".*:size=.*" };/\1 = { "UbuntuNerdFont:size=18" };/g' $config_header
-sed -i 's/\(.*dmenufont.*\) = ".*:size=.*";/\1 = "UbuntuNerdFont:size=18";/g' $config_header
+sed -i 's/\(.*fonts.*\) = { "\(.*\):size=.*" };/\1 = { "\2:size=14" };/g' $config_header
+sed -i 's/\(.*dmenufont.*\) = "\(.*\):size=.*";/\1 = "\2:size=14";/g' $config_header
+
+# Number of desktops
+set -i 's/\(.*\) \*tags\[\]\(.*\) = {.*};/\1 *tags[]\2 = { "1", "2", "3", "4" };/g' $config_header
 
 # Configure terminal
 sed -i 's/\(.*termcmd.*\) = { "st", NULL };/\1 = { "alacritty", NULL };/g' $config_header
@@ -90,7 +90,14 @@ git clone https://git.suckless.org/slstatus
 cd ~/$FOLDER_INSTALL/dwm/slstatus
  
 # Source for icons: https://www.nerdfonts.com/cheat-sheet
-sed -i 's/\(.*\)datetime,\(.*\)$/  { cpu_perc, " %s%% |", NULL }, { ram_used, "  %s", NULL }, { ram_perc, "\(%s%%\) \/", NULL }, { ram_total, " %s |", NULL }, { disk_used, "  %s", "\/" }, { disk_perc, "\(%s%%\) \/", "\/" }, { disk_total, " %s |", "\/" }, { datetime, " %s ", "%A %d | %H:%M" }/g' $config_header
+sed -i "s/\(.*\)datetime,\(.*\)$/
+  { cpu_perc, ' %s%% |', NULL }, 
+  { ram_used,  '  %s ', NULL },
+  { ram_perc,  '\(%s%%\) |', NULL }, 
+  { disk_used, '  %s ', '\/' }, 
+  { disk_perc, '\(%s%%\) |', '\/' }, 
+  { datetime, ' %s ', '%A %d | %H:%M' }
+/g" $config_header
 make clean install
 
 echo "--------------------------------------------------------------------------------"
