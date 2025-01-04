@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -- --boot uefi --disk /dev/sda --gui dwm --user developer --vboxutils true --development true
+set -- --boot uefi --disk /dev/sda --gui dwm --user developer --vboxutils flase --development true
 source options/interpreter
 
 source common/distro
