@@ -26,6 +26,9 @@ pacman -S xf86-video-nvidia --noconfirm   # NVIDIA
 # Nerd fonts
 pacmna -S ttf-ubuntu-mono-nerd --noconfirm
 
+# Clipboard for terminal
+pacman -S clipmenu --noconfirm
+
 # ------------------------------------------------------------------------------
 # Create xinit config
 # ------------------------------------------------------------------------------
