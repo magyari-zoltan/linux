@@ -19,7 +19,29 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
   chmod 764                                 /root/$FOLDER_CONFIG/nvim
 "
 
-cp -r $FOLDER_MNT/root/$FOLDER_CONFIG/*     $FOLDER_MNT/home/$user/$FOLDER_CONFIG/
+# ------------------------------------------------------------------------------
+# Destination location
+mkdir -p $FOLDER_MNT/$FOLDER_BACKGROUND_IMGS
+
+# Profile specific background image
+PROFILE_BACKGROUND_IMG=home/profiles/$profile/$FOLDER_CONFIG/$FILE_DESKTOP_IMAGE
+
+# Is there a profile specific background image provided
+if [[ -e $PROFILE_BACKGROUND_IMG ]]; then
+  # Copy profile specific background
+  cp $PROFILE_BACKGROUND_IMG  $FOLDER_MNT/$FOLDER_BACKGROUND_IMGS/
+else
+  # Copy common background image to destination
+  COMMON_BACKGROUND_IMG=home/common/$gui/$FOLDER_CONFIG/$FILE_DESKTOP_IMAGE
+  cp $COMMON_BACKGROUND_IMG   $FOLDER_MNT/$FOLDER_BACKGROUND_IMGS/
+fi
+
+# Change ownership
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  chown -R $user /$FOLDER_BACKGROUND_IMGS
+  chgrp -R $user /$FOLDER_BACKGROUND_IMGS
+"
+# ------------------------------------------------------------------------------
 
 source home/common/install
 

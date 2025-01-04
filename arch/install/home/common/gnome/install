@@ -9,22 +9,6 @@ else
   cp -r $COMMON_DCONF     $FOLDER_MNT/home/$user/$FOLDER_CONFIG/
 fi
 
-# Copy background image background image to /$OLDER_BACKGROUD_IMGS
-mkdir -p $FOLDER_MNT/$FOLDER_BACKGROUND_IMGS
-PROFILE_BACKGROUND_IMG=home/profiles/$profile/$gui/$FOLDER_CONFIG/$FILE_DESKTOP_IMAGE
-COMMON_BACKGROUND_IMG=home/common/$gui/$FOLDER_CONFIG/$FILE_DESKTOP_IMAGE
-
-if [[ -e $PROFILE_BACKGROUND_IMG ]]; then
-  cp $PROFILE_BACKGROUND_IMG  $FOLDER_MNT/$FOLDER_BACKGROUND_IMGS/
-else
-  cp $COMMON_BACKGROUND_IMG   $FOLDER_MNT/$FOLDER_BACKGROUND_IMGS/
-fi
-
-arch-chroot $FOLDER_MNT /bin/bash -c "
-  chown -R $user /$FOLDER_BACKGROUND_IMGS
-  chgrp -R $user /$FOLDER_BACKGROUND_IMGS
-"
-
 MONITORS_CONFIG=.config/monitors.xml
 PROFILE_MONITORS_CONFIG=home/profiles/$profile/$MONITORS_CONFIG
 

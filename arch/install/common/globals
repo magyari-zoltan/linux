@@ -10,6 +10,8 @@ FOLDER_CHROOT_INSTALL=/home/$user/$FOLDER_INSTALL/linux/arch/install
 
 FILE_TEMP=/tmp/tempfile
 FILE_DESKTOP_IMAGE=background.png
+FILE_PICOM_CONF=picom.conf
+FILE_PICOM_CONF_TEMPLATE=/etc/xdg/$FILE_PICOM_CONF
 
 echo "--------------------------------------------------------------------------------"
 echo "Globals were defined successfully"

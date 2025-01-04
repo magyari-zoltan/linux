@@ -1,3 +1,4 @@
 #!/bin/bash
 
+# Delegate to gui specific calls
 source home/common/$gui/install

@@ -1,5 +1,16 @@
 #!/bin/bash
 
+
+# Create picom configuration file
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  cp $FILE_PICOM_CONF_TEMPLATE                ~/$FOLDER_CONFIG/$FILE_PICOM_CONF
+
+  # Disable shadows in X11 apps because they appear 100% black instead of transparent
+  sed -i 's/shadow = .*;/shadow = false;/g'   ~/$FOLDER_CONFIG/$FILE_PICOM_CONF
+
+  cp ~/$FOLDER_CONFIG/$FILE_PICOM_CONF        /home/$user/$FOLDER_CONFIG/$FILE_PICOM_CONF
+"
+
 # Copy .xinitrc into users folder
 arch-chroot $FOLDER_MNT /bin/bash -c "
   cp ~/.xinitrc /home/$user/.xinitrc

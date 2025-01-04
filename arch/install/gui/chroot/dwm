@@ -26,12 +26,11 @@ pacman -S xf86-video-nvidia --noconfirm   # NVIDIA
 # Clipboard for terminal
 pacman -S clipmenu --noconfirm
 
-# Menü shadows
+# Menu shadows
 pacman -S picom --noconfirm
 
-config_picom=.config/picom.conf
-cp /etc/xdg/picom.conf ~/$config_picom
-sed -i 's/shadow = .*;/shadow = false;/g' ~/$config_picom
+# Image viewer used also to set background image
+pacman -S feh --noconfirm
 
 # ------------------------------------------------------------------------------
 # Create xinit config
@@ -42,7 +41,7 @@ echo 'setxkbmap hu -model "pc101" -variant "101_qwerty_comma_dead" &' >> ~/.xini
 echo 'xrandr -s 3440x1440 &' >> ~/.xinitrc
 echo 'slstatus &' >> ~/.xinitrc
 echo 'picom --config ~/.config/picom.conf &' >> ~/.xinitrc 
-echo 'feh --bg-scale ~/.config/background.png &' >> ~/.xinitrc 
+echo 'feh --bg-scale /usr/share/backgrounds/background.png &' >> ~/.xinitrc 
 echo 'exec dwm' >> ~/.xinitrc
 
 # ------------------------------------------------------------------------------
