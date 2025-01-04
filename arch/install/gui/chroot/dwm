@@ -90,7 +90,7 @@ git clone https://git.suckless.org/slstatus
 cd ~/$FOLDER_INSTALL/dwm/slstatus
  
 # Source for icons: https://www.nerdfonts.com/cheat-sheet
-smonospaceed -i 's/\(.*\)datetime,\(.*\)$/  { cpu_perc, " %s%% |", NULL }, { ram_used, "  %s", NULL }, { ram_perc, "\(%s%%\) \/", NULL }, { ram_total, " %s |", NULL }, { disk_used, "  %s", "\/" }, { disk_perc, "\(%s%%\) \/", "\/" }, { disk_total, " %s |", "\/" }, { datetime, " %s ", "%A %d | %H:%M" }/g' $config_header
+sed -i 's/\(.*\)datetime,\(.*\)$/  { cpu_perc, " %s%% |", NULL }, { ram_used, "  %s", NULL }, { ram_perc, "\(%s%%\) \/", NULL }, { ram_total, " %s |", NULL }, { disk_used, "  %s", "\/" }, { disk_perc, "\(%s%%\) \/", "\/" }, { disk_total, " %s |", "\/" }, { datetime, " %s ", "%A %d | %H:%M" }/g' $config_header
 make clean install
 
 echo "--------------------------------------------------------------------------------"
