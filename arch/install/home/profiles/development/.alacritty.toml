@@ -1,0 +1,18 @@
+[font]
+size = 12.0
+
+[font.bold]
+family = "UbuntuMonoNerdFont"
+style = "Bold"
+
+[font.bold_italic]
+family = "UbuntuMonoNerdFont"
+style = "Bold Italic"
+
+[font.italic]
+family = "UbuntuMonoNerdFont"
+style = "Italic"
+
+[font.normal]
+family = "UbuntuMonoNerdFont"
+style = "Regular"
