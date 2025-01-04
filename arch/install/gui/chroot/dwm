@@ -52,8 +52,8 @@ cd ~/$FOLDER_INSTALL/dwm/dwm
 sed -i 's/\(.*borderpx.*\) =.*;\(.*\)/\1 = 6;\2/g' $config_header
 
 # Configure dmenu font size
-sed -i 's/\(.*fonts.*\) = { ".*:size=.*" };/\1 = { "UbuntuMono:size=11" };/g' $config_header
-sed -i 's/\(.*dmenufont.*\) = ".*:size=.*";/\1 = "UbuntuMono:size=11";/g' $config_header
+sed -i 's/\(.*fonts.*\) = { ".*:size=.*" };/\1 = { "UbuntuNerdFont:size=18" };/g' $config_header
+sed -i 's/\(.*dmenufont.*\) = ".*:size=.*";/\1 = "UbuntuNerdFont:size=18";/g' $config_header
 
 # Configure terminal
 sed -i 's/\(.*termcmd.*\) = { "st", NULL };/\1 = { "alacritty", NULL };/g' $config_header
@@ -87,7 +87,7 @@ git clone https://git.suckless.org/slstatus
 cd ~/$FOLDER_INSTALL/dwm/slstatus
  
 # Source for icons: https://www.nerdfonts.com/cheat-sheet
-sed -i 's/\(.*\)datetime,\(.*\)$/  { cpu_perc, " %s%% |", NULL }, { ram_used, "  %s", NULL }, { ram_perc, "\(%s%%\) \/", NULL }, { ram_total, " %s |", NULL }, { disk_used, "  %s", "\/" }, { disk_perc, "\(%s%%\) \/", "\/" }, { disk_total, " %s |", "\/" }, { datetime, " %s ", "%A %d | %H:%M" }/g' $config_header
+smonospaceed -i 's/\(.*\)datetime,\(.*\)$/  { cpu_perc, " %s%% |", NULL }, { ram_used, "  %s", NULL }, { ram_perc, "\(%s%%\) \/", NULL }, { ram_total, " %s |", NULL }, { disk_used, "  %s", "\/" }, { disk_perc, "\(%s%%\) \/", "\/" }, { disk_total, " %s |", "\/" }, { datetime, " %s ", "%A %d | %H:%M" }/g' $config_header
 make clean install
 
 echo "--------------------------------------------------------------------------------"
