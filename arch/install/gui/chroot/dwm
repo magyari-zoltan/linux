@@ -32,7 +32,7 @@ pacmna -S ttf-ubuntu-mono-nerd --noconfirm
 touch ~/.xinitrc
 
 echo 'setxkbmap hu -model "pc101" -variant "101_qwerty_comma_dead" &' >> ~/.xinitrc
-echo 'xrandr --output Virtual-1 --mode 1920x1080 &' >> ~/.xinitrc
+echo 'xrandr --output Virtual-1 --mode 3440x1440 &' >> ~/.xinitrc
 echo 'slstatus &' >> ~/.xinitrc
 echo 'xsetroot -solid "#1d2133" &' >> ~/.xinitrc
 echo 'exec dwm' >> ~/.xinitrc
