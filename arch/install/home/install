@@ -19,6 +19,8 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
   chmod 764                                 /root/$FOLDER_CONFIG/nvim
 "
 
+cp -r $FOLDER_MNT/root/$FOLDER_CONFIG/*     $FOLDER_MNT/home/$user/$FOLDER_CONFIG/
+
 source home/common/install
 
 # Change ownership
@@ -32,8 +34,8 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
 
 echo "--------------------------------------------------------------------------------"
 echo "Gnome settings"
-ls $FOLDER_MNT/home/$user/$FOLDER_INSTALL/
-ls $FOLDER_MNT/home/$user/$FOLDER_CONFIG/
+ls -hal $FOLDER_MNT/home/$user/$FOLDER_INSTALL/
+ls -hal $FOLDER_MNT/home/$user/$FOLDER_CONFIG/
 
 echo "Press Enter to  ontinue, or wait 5 seconds..."
 read -t 5 -n 1  # Wait for 5 seconds or a single keypress

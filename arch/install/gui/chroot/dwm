@@ -26,6 +26,13 @@ pacman -S xf86-video-nvidia --noconfirm   # NVIDIA
 # Clipboard for terminal
 pacman -S clipmenu --noconfirm
 
+# Menü shadows
+pacman -S picom --noconfirm
+
+config_picom=.config/picom.conf
+cp /etc/xdg/picom.conf ~/$config_picom
+sed -i 's/shadow = .*;/shadow = false;/g' ~/$config_picom
+
 # ------------------------------------------------------------------------------
 # Create xinit config
 # ------------------------------------------------------------------------------
@@ -34,7 +41,8 @@ touch ~/.xinitrc
 echo 'setxkbmap hu -model "pc101" -variant "101_qwerty_comma_dead" &' >> ~/.xinitrc
 echo 'xrandr -s 3440x1440 &' >> ~/.xinitrc
 echo 'slstatus &' >> ~/.xinitrc
-echo 'xsetroot -solid "#1d2133" &' >> ~/.xinitrc
+echo 'picom --config ~/.config/picom.conf &' >> ~/.xinitrc 
+echo 'feh --bg-scale ~/.config/background.png &' >> ~/.xinitrc 
 echo 'exec dwm' >> ~/.xinitrc
 
 # ------------------------------------------------------------------------------
@@ -54,9 +62,6 @@ sed -i 's/\(.*borderpx.*\) =.*;\(.*\)/\1 = 6;\2/g' $config_header
 # Configure dmenu font size
 sed -i 's/\(.*fonts.*\) = { "\(.*\):size=.*" };/\1 = { "\2:size=14" };/g' $config_header
 sed -i 's/\(.*dmenufont.*\) = "\(.*\):size=.*";/\1 = "\2:size=14";/g' $config_header
-
-# Number of desktops
-set -i 's/\(.*\) \*tags\[\]\(.*\) = {.*};/\1 *tags[]\2 = { "1", "2", "3", "4" };/g' $config_header
 
 # Configure terminal
 sed -i 's/\(.*termcmd.*\) = { "st", NULL };/\1 = { "alacritty", NULL };/g' $config_header
