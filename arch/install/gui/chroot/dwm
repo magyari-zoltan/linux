@@ -32,6 +32,15 @@ pacman -S picom --noconfirm
 # Image viewer used also to set background image
 pacman -S feh --noconfirm
 
+# Install sound control
+pacman -S pipewire pipewire-pulse wireplumber --noconfirm
+
+# Install volume controller
+pacman -S pavucontrol --noconfirm
+
+# Install file manager
+pacman -S pcmanfm --noconfirm
+
 # ------------------------------------------------------------------------------
 # Create xinit config
 # ------------------------------------------------------------------------------

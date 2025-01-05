@@ -1,6 +1,0 @@
-#!/bin/bash
-
-echo "--------------------------------------------------------------------------------"
-echo "Install gnome specific apps"
-echo "Press Enter to  ontinue, or wait 5 seconds..."
-read -t 5 -n 1  # Wait for 5 seconds or a single keypress
