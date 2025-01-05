@@ -27,7 +27,7 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
 "
 
 arch-chroot $FOLDER_MNT /bin/bash -c "
-  pacman -S epiphany --noconfirm
+  pacman -S firefox --noconfirm
 "
 
 # Development app install
