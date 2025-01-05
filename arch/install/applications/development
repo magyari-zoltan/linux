@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Install virtual-box
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  pacman -S linux-headers virtualbox gimp inkscape --noconfirm
+  usermod -aG vboxusers $user
+"
+
+# Install some image processing tools
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  pacman -S darktable gimp inkscape --noconfirm
+"
+
+# Office tools for creating and editing documents
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  pacman -S libreoffice --noconfirm
+"
+
+echo "--------------------------------------------------------------------------------"
+echo "Install applications for $profile profile"
+echo "Press Enter to  ontinue, or wait 5 seconds..."
+read -t 5 -n 1  # Wait for 5 seconds or a single keypress
+

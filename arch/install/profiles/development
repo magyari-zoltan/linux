@@ -15,6 +15,7 @@ source base/create-fstab
 source base/chroot-install
 source gui/chroot-install
 source applications/install
+source applications/development
 source home/install
 source partition/umount
 shutdown -h now
