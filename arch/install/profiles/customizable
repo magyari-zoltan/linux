@@ -13,7 +13,8 @@ source base/folders
 source base/create-fstab
 source base/chroot-install
 source gui/chroot-install
-source applications/install
+source applications/pre-install
+source applications/post-install
 source home/install
 source partition/umount
 shutdown -h now

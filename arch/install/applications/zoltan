@@ -7,6 +7,15 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
 "
 
 arch-chroot $FOLDER_MNT /bin/bash -c "
+  pacman -S firefox --noconfirm
+"
+
+# Install some image processing tools
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  pacman -S darktable gimp inkscape --noconfirm
+"
+
+arch-chroot $FOLDER_MNT /bin/bash -c "
   pacman -S libreoffice --noconfirm
 "
 

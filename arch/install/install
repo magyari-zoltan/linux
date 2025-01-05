@@ -2,7 +2,7 @@
 
 echo "Please choose the installation profile:"
 
-options=("Customizable" "Development" "Zoltán" "Photostudio" "Quit")
+options=("Customizable" "Zoltán" "Zoltán (virtual box)" "Quit")
 
 select choice in "${options[@]}"; do
     case $choice in
@@ -10,16 +10,12 @@ select choice in "${options[@]}"; do
             profile=customizable
             break
             ;;
-        "Development")
-            profile=development
-            break
-            ;;
         "Zoltán")
             profile=zoltan
             break
             ;;
-        "Photostudio")
-            profile=photostudio
+        "Zoltán (virtual box)")
+            profile=zoltan-vb
             break
             ;;
         "Quit")

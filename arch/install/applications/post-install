@@ -1,14 +1,10 @@
 #!/bin/bash
 
 arch-chroot $FOLDER_MNT /bin/bash -c "
-  pacman -S darktable gimp inkscape --noconfirm
-"
-
-arch-chroot $FOLDER_MNT /bin/bash -c "
-  pacman -S firefox --noconfirm
+  cp ~/.bashrc /home/$user/.bashrc
 "
 
 echo "--------------------------------------------------------------------------------"
-echo "Install applications for $profile profile"
+echo "Post-install"
 echo "Press Enter to  ontinue, or wait 5 seconds..."
 read -t 5 -n 1  # Wait for 5 seconds or a single keypress

@@ -10,7 +10,6 @@ function usage() {
   echo " [--boot        | -b] bios  | uefi    The boot mode to be installed. Default value is uefi."
   echo " [--gui         | -g] gnome | dwm     Graphical user interface. Defaultly installs none."
   echo " [--vboxutils   | -v] false | true    Vbox Utils to run virtual machin inside a virtual box instance"
-  echo " [--development | -p] false | true    Install development tools"
 
   echo "Press Enter to  ontinue, or wait 5 seconds..."
   read -t 5 -n 1  # Wait for 5 seconds or a single keypress
@@ -23,7 +22,6 @@ boot=""
 disk=""
 gui=""
 vboxutils=""
-development=""
 
 # Process options
 if [[ $# -gt 0 ]]; then
@@ -77,17 +75,6 @@ if [[ $# -gt 0 ]]; then
         vboxutils=$2
 
         if [[ $vboxutils != "true" ]] && [[ $vboxutils != "false" ]]; then
-          usage
-          exit 1
-        fi
-
-        shift 2
-        ;;
-
-      -p | --development)
-        development=$2
-
-        if [[ $development != "true" ]] && [[ $development != "false" ]]; then
           usage
           exit 1
         fi
@@ -173,20 +160,6 @@ while true; do
   fi
 done
 
-# Choose to install development tools
-source options/lib/dev
-while true; do
-  if [[ -z "$development" ]]; then
-    choose_dev_option
-  fi
-
-  if [[ -n "$development" ]]; then
-      break
-  else
-      echo "Input cannot be empty. Please try again."
-  fi
-done
-
 echo "--------------------------------------------------------------------------------"
 echo "Option interpreter"
 echo "boot:" $boot
@@ -194,7 +167,6 @@ echo "disk:" $disk
 echo "gui: " $gui
 echo "user:" $user
 echo "vboxutils:" $vboxutils
-echo "development:" $development
 
 echo "Press Enter to  ontinue, or wait 5 seconds..."
 read -t 5 -n 1  # Wait for 5 seconds or a single keypress

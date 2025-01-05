@@ -1,27 +1,28 @@
 #!/bin/bash
 
-# Install virtual-box
+# Install node manager
 arch-chroot $FOLDER_MNT /bin/bash -c "
-  pacman -S linux-headers virtualbox gimp inkscape --noconfirm
-  usermod -aG vboxusers $user
+  curl -L https://bit.ly/n-install | bash -s -- -y 
+  sed -i 's|\$HOME/n|\$HOME/.install/n|g' ~/.bashrc 
+
+  mv ~/n ~/$FOLDER_INSTALL/ 
 "
 
+# Install docker
 arch-chroot $FOLDER_MNT /bin/bash -c "
-  pacman -S firefox --noconfirm
-"
+  pacman -S docker --noconfirm
+  systemctl start docker
+  systemctl enable docker
 
-# Install some image processing tools
-arch-chroot $FOLDER_MNT /bin/bash -c "
-  pacman -S darktable gimp inkscape --noconfirm
-"
+  pacman -S docker-compose --noconfirm
 
-# Office tools for creating and editing documents
-arch-chroot $FOLDER_MNT /bin/bash -c "
-  pacman -S libreoffice --noconfirm
+  echo \"alias up='sudo docker-compose up -d --build'\" >> ~/.bashrc
+  echo \"alias down='sudo docker-compose down'\" >> ~/.bashrc
+  echo \"alias ld='sudo docker ps'\" >> ~/.bashrc
+  echo \"alias logs='sudo docker-compose logs'\" >> ~/.bashrc
 "
 
 echo "--------------------------------------------------------------------------------"
-echo "Install applications for $profile profile"
+echo "Install development environment"
 echo "Press Enter to  ontinue, or wait 5 seconds..."
 read -t 5 -n 1  # Wait for 5 seconds or a single keypress
-
