@@ -19,6 +19,7 @@ pacman -S webkit2gtk --noconfirm
 
 # Graphical card driver
 pacman -S mesa --noconfirm
+pacman -S xf86-video-vmware --noconfirm   # virtual box
 pacman -S xf86-video-ati --noconfirm      # AMD
 pacman -S xf86-video-intel --noconfirm    # Intel
 pacman -S xf86-video-nvidia --noconfirm   # NVIDIA
@@ -40,6 +41,17 @@ pacman -S pavucontrol --noconfirm
 
 # Install file manager
 pacman -S pcmanfm --noconfirm
+
+# ------------------------------------------------------------------------------
+# Virtual Box guest utils
+# ------------------------------------------------------------------------------
+if [[ $vboxutils == "true" ]]; then
+  pacman -S virtualbox-guest-utils linux-headers --noconfirm
+  systemctl enable vboxservice
+  systemctl start vboxservice
+  modprobe -a vboxguest vboxsf vboxvideo
+  usermod -aG vboxsf $user
+fi
 
 # ------------------------------------------------------------------------------
 # Create xinit config
