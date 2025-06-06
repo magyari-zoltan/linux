@@ -14,6 +14,9 @@ pacman -S base-devel make gcc --noconfirm
 pacman -S neovim ripgrep --noconfirm
 pacman -S ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono --noconfirm
 
+# Clipboard utility
+pacman -S xclip --noconfirm
+
 echo "--------------------------------------------------------------------------------"
 echo "Base apps were installed successfully"
 echo "Press Enter to  ontinue, or wait 5 seconds..."
