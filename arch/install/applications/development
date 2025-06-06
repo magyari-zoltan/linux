@@ -22,6 +22,23 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
   echo \"alias logs='sudo docker-compose logs'\" >> ~/.bashrc
 "
 
+# Install Postman
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  curl -L https://dl.pstmn.io/download/latest/linux64 -o /tmp/Postman-linux-x64.tar.gz
+  mkdir -p ~/$FOLDER_INSTALL
+  tar -xzf /tmp/Postman-linux-x64.tar.gz -C ~/$FOLDER_INSTALL
+  rm /tmp/Postman-linux-x64.tar.gz
+  ln -sf /home/$user/$FOLDER_INSTALL/Postman/Postman /usr/bin/postman
+  cat <<EOF > /usr/share/applications/postman.desktop
+[Desktop Entry]
+Name=Postman
+Exec=postman
+Icon=/home/$user/$FOLDER_INSTALL/Postman/app/resources/app/assets/icon.png
+Type=Application
+Categories=Development;
+EOF
+"
+
 echo "--------------------------------------------------------------------------------"
 echo "Install development environment"
 echo "Press Enter to  ontinue, or wait 5 seconds..."
