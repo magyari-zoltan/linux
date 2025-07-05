@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pacstrap -K $FOLDER_MNT base linux linux-firmware --noconfirm
+pacstrap -K $FOLDER_MNT base linux linux-firmware cryptsetup --noconfirm
 
 echo "--------------------------------------------------------------------------------"
 echo "Base system install" 

@@ -12,7 +12,14 @@ function create_partitions() {
 }
 
 function format_partitions() {
-  mkfs.ext4 ${disk}1
+  if [[ "$luks" == "true" ]]; then
+    echo -n "$luks_password" | cryptsetup luksFormat ${disk}1 -
+    echo -n "$luks_password" | cryptsetup open ${disk}1 cryptroot -
+    mkfs.ext4 /dev/mapper/cryptroot
+    cryptsetup close cryptroot
+  else
+    mkfs.ext4 ${disk}1
+  fi
 
   echo "--------------------------------------------------------------------------------"
   echo "Partitions on '$disk' device have been formatted" 
@@ -23,10 +30,19 @@ function format_partitions() {
 }
 
 function mount_partitions() {
-  mount ${disk}1 $FOLDER_MNT
+  if [[ "$luks" == "true" ]]; then
+    echo -n "$luks_password" | cryptsetup open ${disk}1 cryptroot -
+    mount /dev/mapper/cryptroot $FOLDER_MNT
+  else
+    mount ${disk}1 $FOLDER_MNT
+  fi
 
   echo "--------------------------------------------------------------------------------"
-  echo "Partition '${disk}1' has been mounted on $FOLDER_MNT" 
+  if [[ "$luks" == "true" ]]; then
+    echo "Partition '${disk}1' has been opened as cryptroot and mounted on $FOLDER_MNT"
+  else
+    echo "Partition '${disk}1' has been mounted on $FOLDER_MNT"
+  fi
 
   echo "Press Enter to  ontinue, or wait 5 seconds..."
   read -t 5 -n 1  # Wait for 5 seconds or a single keypress
@@ -34,9 +50,16 @@ function mount_partitions() {
 
 function umount_partitions() {
   umount -R $FOLDER_MNT
+  if [[ "$luks" == "true" ]]; then
+    cryptsetup close cryptroot
+  fi
 
   echo "--------------------------------------------------------------------------------"
-  echo "Partition '${disk}1' has been umounted from $FOLDER_MNT" 
+  if [[ "$luks" == "true" ]]; then
+    echo "cryptroot has been closed and unmounted from $FOLDER_MNT"
+  else
+    echo "Partition '${disk}1' has been umounted from $FOLDER_MNT"
+  fi
 
   echo "Press Enter to  ontinue, or wait 5 seconds..."
   read -t 5 -n 1  # Wait for 5 seconds or a single keypress
