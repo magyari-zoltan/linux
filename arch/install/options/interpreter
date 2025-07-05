@@ -10,6 +10,7 @@ function usage() {
   echo " [--boot        | -b] bios  | uefi    The boot mode to be installed. Default value is uefi."
   echo " [--gui         | -g] gnome | dwm     Graphical user interface. Defaultly installs none."
   echo " [--vboxutils   | -v] false | true    Vbox Utils to run virtual machin inside a virtual box instance"
+  echo " [--luks        | -l] false | true    Encrypt partitions with LUKS"
 
   echo "Press Enter to  ontinue, or wait 5 seconds..."
   read -t 5 -n 1  # Wait for 5 seconds or a single keypress
@@ -18,6 +19,8 @@ function usage() {
 
 # default option values
 user=""
+luks=""
+luks_password=""
 boot=""
 disk=""
 gui=""
@@ -75,6 +78,17 @@ if [[ $# -gt 0 ]]; then
         vboxutils=$2
 
         if [[ $vboxutils != "true" ]] && [[ $vboxutils != "false" ]]; then
+          usage
+          exit 1
+        fi
+
+        shift 2
+        ;;
+
+      -l | --luks)
+        luks=$2
+
+        if [[ $luks != "true" ]] && [[ $luks != "false" ]]; then
           usage
           exit 1
         fi
@@ -160,13 +174,33 @@ while true; do
   fi
 done
 
-echo "--------------------------------------------------------------------------------"
+# Choose luks encryption option if not provided
+source options/lib/luks
+while true; do
+  if [[ -z "$luks" ]]; then
+    choose_luks_option
+  fi
+
+  if [[ -n "$luks" ]]; then
+      break
+  else
+      echo "Input cannot be empty. Please try again."
+  fi
+done
+
+if [[ "$luks" == "true" ]]; then
+  read -s -p "Enter LUKS password: " luks_password
+  echo
+fi
+
+echo "-----------------------------------------------------------------------"
 echo "Option interpreter"
 echo "boot:" $boot
 echo "disk:" $disk
 echo "gui: " $gui
 echo "user:" $user
 echo "vboxutils:" $vboxutils
+echo "luks:" $luks
 
 echo "Press Enter to  ontinue, or wait 5 seconds..."
 read -t 5 -n 1  # Wait for 5 seconds or a single keypress

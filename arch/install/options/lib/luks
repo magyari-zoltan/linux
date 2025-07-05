@@ -1,0 +1,23 @@
+#!/bin/bash
+
+function choose_luks_option() {
+  echo "Would you like to encrypt the partitions with LUKS?"
+
+  options=("Yes" "No")
+
+  select choice in "${options[@]}"; do
+      case $choice in
+          "Yes")
+              luks="true"
+              break
+              ;;
+          "No")
+              luks="false"
+              break
+              ;;
+          *)
+              echo "Invalid option. Please try again."
+              ;;
+      esac
+  done
+}
