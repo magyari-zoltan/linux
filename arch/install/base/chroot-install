@@ -4,7 +4,7 @@ mkdir -p $FOLDER_MNT/root/$FOLDER_INSTALL/base
 mount --bind base/chroot $FOLDER_MNT/root/$FOLDER_INSTALL/base
 
 # Configure booting
-arch-chroot $FOLDER_MNT env disk="$disk" /bin/bash -c "~/$FOLDER_INSTALL/base/configure/$boot"
+arch-chroot $FOLDER_MNT env disk="$disk" luks="$luks" /bin/bash -c "~/$FOLDER_INSTALL/base/configure/$boot"
 
 # Install basic applications
 arch-chroot $FOLDER_MNT /bin/bash -c "~/$FOLDER_INSTALL/base/apps"
