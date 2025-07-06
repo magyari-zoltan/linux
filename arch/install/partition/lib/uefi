@@ -38,7 +38,7 @@ function mount_partitions() {
   else
     mount ${disk}2 $FOLDER_MNT
   fi
-  mount --mkdir ${disk}1 $FOLDER_MNT/boot/efi
+  mount --mkdir ${disk}1 $FOLDER_MNT/boot
 
   echo "--------------------------------------------------------------------------------"
   if [[ "$luks" == "true" ]]; then

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-genfstab -U $FOLDER_MNT > $FOLDER_MNT/etc/fstab
+genfstab -U $FOLDER_MNT >> $FOLDER_MNT/etc/fstab
 
 echo "--------------------------------------------------------------------------------"
 echo "Base system install - creating fstab" 
