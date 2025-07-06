@@ -17,4 +17,6 @@
     ./install
     ```
 7. Select a profile to be installed
-   - The installer creates an unencrypted `/boot/efi` partition and can optionally encrypt the root partition with LUKS.
+   - The installer creates an unencrypted boot partition and can optionally encrypt the root partition with LUKS.
+     In UEFI mode this partition is `/boot/efi`. When using BIOS with encryption enabled
+     an additional `/boot` partition is created while the root partition is encrypted.

@@ -1,7 +1,11 @@
 #!/bin/bash
 
 function create_partitions() {
-  echo -e "o\nn\n\n\n\n\na\nw\n" | fdisk $disk
+  if [[ "$luks" == "true" ]]; then
+    echo -e "o\nn\n\n\n+1G\nn\n\n\n\na\n1\nw\n" | fdisk $disk
+  else
+    echo -e "o\nn\n\n\n\n\na\nw\n" | fdisk $disk
+  fi
 
   echo "--------------------------------------------------------------------------------"
   echo "Partitions on '$disk' device have been created" 
@@ -13,8 +17,9 @@ function create_partitions() {
 
 function format_partitions() {
   if [[ "$luks" == "true" ]]; then
-    echo -n "$luks_password" | cryptsetup luksFormat ${disk}1 -
-    echo -n "$luks_password" | cryptsetup open ${disk}1 cryptroot -
+    mkfs.ext4 ${disk}1
+    echo -n "$luks_password" | cryptsetup luksFormat ${disk}2 -
+    echo -n "$luks_password" | cryptsetup open ${disk}2 cryptroot -
     mkfs.ext4 /dev/mapper/cryptroot
     cryptsetup close cryptroot
   else
@@ -31,15 +36,17 @@ function format_partitions() {
 
 function mount_partitions() {
   if [[ "$luks" == "true" ]]; then
-    echo -n "$luks_password" | cryptsetup open ${disk}1 cryptroot -
+    echo -n "$luks_password" | cryptsetup open ${disk}2 cryptroot -
     mount /dev/mapper/cryptroot $FOLDER_MNT
+    mount --mkdir ${disk}1 $FOLDER_MNT/boot
   else
     mount ${disk}1 $FOLDER_MNT
   fi
 
   echo "--------------------------------------------------------------------------------"
   if [[ "$luks" == "true" ]]; then
-    echo "Partition '${disk}1' has been opened as cryptroot and mounted on $FOLDER_MNT"
+    echo "Partition '${disk}2' has been opened as cryptroot and mounted on $FOLDER_MNT"
+    echo "Partition '${disk}1' has been mounted on $FOLDER_MNT/boot"
   else
     echo "Partition '${disk}1' has been mounted on $FOLDER_MNT"
   fi
@@ -49,6 +56,9 @@ function mount_partitions() {
 }
 
 function umount_partitions() {
+  if [[ "$luks" == "true" ]]; then
+    umount -R $FOLDER_MNT/boot
+  fi
   umount -R $FOLDER_MNT
   if [[ "$luks" == "true" ]]; then
     cryptsetup close cryptroot
@@ -56,6 +66,7 @@ function umount_partitions() {
 
   echo "--------------------------------------------------------------------------------"
   if [[ "$luks" == "true" ]]; then
+    echo "Partition '${disk}1' has been umounted from $FOLDER_MNT/boot"
     echo "cryptroot has been closed and unmounted from $FOLDER_MNT"
   else
     echo "Partition '${disk}1' has been umounted from $FOLDER_MNT"
