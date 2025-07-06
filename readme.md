@@ -11,9 +11,10 @@
     ```
 4. Install git in order to clone the install script: `pacman -Sy git --noconfirm`
 5. Clone the install script: `git clone https://github.com/devbysp/linux`
-6. Run the install with the command 
+6. Run the install with the command
     ```shell
     cd arch/install
     ./install
     ```
 7. Select a profile to be installed
+   - The installer creates an unencrypted `/boot/efi` partition and can optionally encrypt the root partition with LUKS.

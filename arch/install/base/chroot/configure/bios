@@ -29,10 +29,18 @@ pacman-key --populate
 pacman -Sy archlinux-keyring --noconfirm
 
 # Init ramfs
+root_partition="${disk}1"
+if [[ "$luks" == "true" ]]; then
+  sed -i 's/block/block encrypt/' /etc/mkinitcpio.conf
+fi
 mkinitcpio -P
 
 # Grub boot loader
 pacman -S grub --noconfirm
+if [[ "$luks" == "true" ]]; then
+  uuid=$(blkid -s UUID -o value "$root_partition")
+  sed -i "s#^GRUB_CMDLINE_LINUX=.*#GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=$uuid:cryptroot root=/dev/mapper/cryptroot\"#" /etc/default/grub
+fi
 
 # Grub install
 grub-install --target=i386-pc $disk
