@@ -20,3 +20,7 @@
    - The installer creates an unencrypted boot partition and can optionally encrypt the root partition with LUKS.
      In UEFI mode this partition is `/boot/efi`. When using BIOS with encryption enabled
      an additional `/boot` partition is created while the root partition is encrypted.
+
+## Troubleshooting
+
+If the system boots with a read-only root filesystem, preventing services such as `systemd-logind` or `systemd-journald` from starting, run the `fix-readonly-root.sh` script with root privileges to remount the root filesystem read-write and restart essential systemd units.
