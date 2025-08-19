@@ -4,7 +4,7 @@ function create_partitions() {
   if [[ "$luks" == "true" ]]; then
     echo -e "g\nn\n\n\n\n+1G\nt\nboot\nn\n\n\n\na\n1\nw\n" | fdisk $disk
   else
-    echo -e "o\nn\n\n\n\n\na\n1\nw\n" | fdisk $disk
+    echo -e "o\nn\n\n\n\n\na\nw\n" | fdisk $disk
   fi
 
   echo "--------------------------------------------------------------------------------"
