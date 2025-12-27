@@ -30,6 +30,18 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
 "
 
 arch-chroot $FOLDER_MNT /bin/bash -c "
+  cat > /usr/share/applications/darktable.desktop <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=darktable
+Exec=darktable
+Icon=/home/$user/$FOLDER_INSTALL/linux/arch/install/assets/darktable.png
+Terminal=false
+Categories=Graphics;Photography;
+EOF
+"
+
+arch-chroot $FOLDER_MNT /bin/bash -c "
   pacman -S libreoffice --noconfirm
 "
 
