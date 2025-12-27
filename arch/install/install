@@ -2,12 +2,12 @@
 
 echo "Please choose the installation profile:"
 
-options=("Zoltán" "Quit")
+options=("Development" "Quit")
 
 select choice in "${options[@]}"; do
     case $choice in
-        "Zoltán")
-            profile=zoltan
+        "Development")
+            profile=development
             break
             ;;
         "Quit")
