@@ -12,7 +12,20 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
 
 # Install some image processing tools
 arch-chroot $FOLDER_MNT /bin/bash -c "
-  pacman -S darktable gimp inkscape --noconfirm
+  pacman -S gimp inkscape --noconfirm
+"
+
+# Clone darktable instead of installing from packages
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  mkdir -p /home/$user/$FOLDER_INSTALL
+
+  if [ -d /home/$user/$FOLDER_INSTALL/darktable ]; then
+    cd /home/$user/$FOLDER_INSTALL/darktable && git pull
+  else
+    git clone --depth 1 https://github.com/darktable-org/darktable /home/$user/$FOLDER_INSTALL/darktable
+  fi
+
+  chown -R $user:$user /home/$user/$FOLDER_INSTALL
 "
 
 arch-chroot $FOLDER_MNT /bin/bash -c "
