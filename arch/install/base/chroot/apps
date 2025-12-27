@@ -8,7 +8,7 @@ systemctl enable NetworkManager
 pacman -S git --noconfirm
 
 # Basic build tools to be able to build apps from their sources
-pacman -S base-devel make gcc --noconfirm
+pacman -S base-devel make cmake gcc intltool pugixml --noconfirm
 
 # Neo vim
 pacman -S neovim ripgrep --noconfirm

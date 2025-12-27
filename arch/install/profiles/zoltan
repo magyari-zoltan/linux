@@ -17,7 +17,7 @@ source base/chroot-install
 source gui/chroot-install
 source applications/pre-install
 source applications/common
-source applications/development
+source applications/zoltan
 source applications/post-install
 source home/install
 source partition/umount
