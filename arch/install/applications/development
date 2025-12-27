@@ -8,10 +8,6 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
   mv ~/n ~/$FOLDER_INSTALL/ 
 "
 
-arch-chroot $FOLDER_MNT /bin/bash -c "
-  su - $user -c '/home/$user/$FOLDER_INSTALL/n/bin/npm install -g @openai/codex'
-"
-
 # Install docker
 arch-chroot $FOLDER_MNT /bin/bash -c "
   pacman -S docker --noconfirm
