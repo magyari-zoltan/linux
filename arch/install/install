@@ -2,20 +2,12 @@
 
 echo "Please choose the installation profile:"
 
-options=("Customizable" "Zoltán" "Zoltán (virtual box)" "Quit")
+options=("Zoltán" "Quit")
 
 select choice in "${options[@]}"; do
     case $choice in
-        "Customizable")
-            profile=customizable
-            break
-            ;;
         "Zoltán")
             profile=zoltan
-            break
-            ;;
-        "Zoltán (virtual box)")
-            profile=zoltan-vb
             break
             ;;
         "Quit")
