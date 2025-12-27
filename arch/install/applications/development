@@ -78,7 +78,7 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
 Type=Application
 Name=darktable
 Exec=darktable
-Icon=/home/$user/$FOLDER_INSTALL/linux/arch/install/assets/darktable.png
+Icon=/home/$user/$FOLDER_INSTALL/linux/arch/install/home/common/gnome/.config/darktable.png
 Terminal=false
 Categories=Graphics;Photography;
 EOF
