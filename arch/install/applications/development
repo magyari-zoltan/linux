@@ -22,7 +22,7 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
   echo \"alias logs='sudo docker-compose logs'\" >> ~/.bashrc
 "
 
-# Install Postman
+# Download and configure Postman
 arch-chroot $FOLDER_MNT /bin/bash -c "
   curl -L https://dl.pstmn.io/download/latest/linux64 -o /tmp/Postman-linux-x64.tar.gz
   mkdir -p ~/$FOLDER_INSTALL
@@ -50,7 +50,7 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
   pacman -S gimp inkscape --noconfirm
 "
 
-# Clone darktable instead of installing from packages
+# Build & install darktable from source
 arch-chroot $FOLDER_MNT /bin/bash -c "
   mkdir -p /home/$user/$FOLDER_INSTALL
 
@@ -78,10 +78,6 @@ Icon=/home/$user/$FOLDER_INSTALL/linux/arch/install/home/common/gnome/.config/da
 Terminal=false
 Categories=Graphics;Photography;
 EOF
-"
-
-arch-chroot $FOLDER_MNT /bin/bash -c "
-  pacman -S libreoffice --noconfirm
 "
 
 echo "--------------------------------------------------------------------------------"

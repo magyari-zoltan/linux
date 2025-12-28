@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Firefox
 arch-chroot $FOLDER_MNT /bin/bash -c "
   pacman -S firefox --noconfirm
 "
+
+# Libre Office
+arch-chroot $FOLDER_MNT /bin/bash -c "
+  pacman -S libreoffice --noconfirm
+"
+
