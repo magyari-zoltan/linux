@@ -21,7 +21,7 @@ arch-chroot $FOLDER_MNT /bin/bash -c "
   fi
 
   # Create bashrc
-  echo \"alias ls='exa --icons'\" >> ~/.bashrc
+  echo \"alias ls='exa --icons --group-directories-first'\" >> ~/.bashrc
   echo \"alias la='ls -hal --git --octal-permissions --smart-group'\" >> ~/.bashrc
   echo \"alias lg='la --git-ignore'\" >> ~/.bashrc
 "
