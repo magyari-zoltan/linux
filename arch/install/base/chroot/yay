@@ -1,0 +1,27 @@
+#!/bin/bash
+
+build_dir=/home/$user/.cache/yay
+
+rm -rf "$build_dir"
+install -d -o "$user" -g "$user" "$build_dir"
+
+su - "$user" -c "
+  git clone https://aur.archlinux.org/yay.git '$build_dir'
+  cd '$build_dir'
+  makepkg -s --noconfirm
+"
+
+pkg_file=$(find "$build_dir" -maxdepth 1 -type f -name 'yay-*.pkg.tar.*' | head -n 1)
+
+if [ -z "$pkg_file" ]; then
+  echo 'Failed to build yay package'
+  exit 1
+fi
+
+pacman -U --noconfirm "$pkg_file"
+rm -rf "$build_dir"
+
+echo "--------------------------------------------------------------------------------"
+echo "yay was installed successfully"
+echo "Press Enter to continue, or wait 5 seconds..."
+read -t 5 -n 1

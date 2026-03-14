@@ -20,3 +20,4 @@
    - The installer creates an unencrypted boot partition and can optionally encrypt the root partition with LUKS.
      In UEFI mode this partition is `/boot/efi`. When using BIOS with encryption enabled
      an additional `/boot` partition is created while the root partition is encrypted.
+   - The base system setup also installs the `yay` AUR helper for the created user.
