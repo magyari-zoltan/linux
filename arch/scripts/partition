@@ -1,0 +1,52 @@
+#!/bin/bash
+
+disk=/dev/sda
+luks_password=""
+
+function usage() {
+  echo "--------------------------------------------------------------------------------"
+  echo "The '$0' script was called with wrong option(s)."
+  echo "Valid options:"
+  echo " [--disk  | -d] /dev/sda      The disk on which the linux will be installed."
+  echo "                              If the option is not provided, the default disk is '/dev/sda'."
+  echo " [--help  | -h]               Displays help to the command."
+  echo "--------------------------------------------------------------------------------"
+}
+
+if [[ $# -gt 0 ]]; then
+	while [[ $# -gt 0 ]]; do
+		case "$1" in
+			-d | --disk)
+				disk=$2
+
+				if [[ -z "$disk" ]]; then
+					usage
+					exit 1
+				fi
+
+				shift 2
+				;;
+
+		  -h | --help)
+				usage
+				exit 1
+				;;
+
+		  *)
+			echo "ERROR: Unknown option $1"
+			usage
+			exit 1
+		esac
+	done
+fi
+
+echo -e "o\nn\n\n\n\n+50G\nn\n\n\n\n\na\n1\nw\n" | fdisk $disk
+echo "--------------------------------------------------------------------------------"
+echo "Partitions on '$disk' device have been created" 
+fdisk --list $disk
+
+mkfs.ext4 ${disk}1
+mkfs.ext4 ${disk}2
+echo "--------------------------------------------------------------------------------"
+echo "Partitions on '$disk' device have been formatted" 
+lsblk --fs $disk
