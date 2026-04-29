@@ -4,6 +4,7 @@
 DEVICE="/dev/sda"
 OS_SIZE="50G"
 HOME_ENCRYPTION=""
+CRYPT_NAME="encrypted-home"
 
 # Shows help, examples, and defaults. Called on --help or invalid input.
 usage() {
@@ -86,13 +87,53 @@ echo "The '$DEVICE' device has been partitioned."
 fdisk --list $DEVICE
 echo "================================================================================"
 
+# Build the full partition path for a given device and partition number
+# Handles naming differences between device types:
+# - Devices ending with a digit (e.g. /dev/nvme0n1) → use 'p' separator (/dev/nvme0n1p1)
+# - Devices not ending with a digit (e.g. /dev/sda) → no separator (/dev/sda1)
+# 
+# Args:
+#   $1 -> partition number (e.g. 1, 2, ...)
+#
+# Uses global:
+#   DEVICE -> base device path
+#
+# Output:
+#   Prints the full partition path (e.g. /dev/sda1 or /dev/nvme0n1p1)
+partition_path() {
+  local partition_number="$1"
+
+  if [[ "$DEVICE" =~ [0-9]$ ]]; then
+    printf "%sp%s" "$DEVICE" "$partition_number"
+  else
+    printf "%s%s" "$DEVICE" "$partition_number"
+  fi
+}
+
 # Create ext4 filesystems on the first and second partitions of the disk
 
 # ${DEVICE}1 -> first partition
-mkfs.ext4 ${DEVICE}1
+mkfs.ext4 "$(partition_path 1)"
 
-# ${DEVICE}2 -> second partition
-mkfs.ext4 ${DEVICE}2
+if [[ -n "$HOME_ENCRYPTION" ]]; then
+  # Write the encryption password (without newline) to stdout and pipe it to cryptsetup
+  # Initialize LUKS encryption on partition 2 in batch mode (no interactive prompts)
+  # "-" tells cryptsetup to read the passphrase from stdin
+  echo -n "$HOME_ENCRYPTION" | cryptsetup luksFormat --batch-mode "$(partition_path 2)" -
+
+  # Send the password again via stdin to unlock (open) the encrypted partition
+  # Creates a mapped device under /dev/mapper/$CRYPT_NAME
+  echo -n "$HOME_ENCRYPTION" | cryptsetup open "$(partition_path 2)" "$CRYPT_NAME" -
+
+  # Create an ext4 filesystem on the opened (decrypted) mapped device
+  mkfs.ext4 "/dev/mapper/$CRYPT_NAME"
+
+  # Close the mapped encrypted device (lock it again)
+  cryptsetup close "$CRYPT_NAME"
+else
+  # ${DEVICE}2 -> second partition
+  mkfs.ext4 "$(partition_path 2)"
+fi
 
 echo "--------------------------------------------------------------------------------"
 echo "The partitions on '$DEVICE' device have been formatted." 
