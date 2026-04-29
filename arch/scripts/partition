@@ -4,7 +4,9 @@
 DEVICE="/dev/sda"
 OS_SIZE="50G"
 HOME_ENCRYPTION=""
+BOOT="bios"
 CRYPT_NAME="encrypted-home"
+EFI_SIZE="512MiB"
 
 # Shows help, examples, and defaults. Called on --help or invalid input.
 usage() {
@@ -14,11 +16,13 @@ Usage: $(basename "$0") [OPTIONS]
 Options:
   --device <path>             Target disk device (default: /dev/sda)
   --os-size <size>            Size of OS partition (default: 50G)
+  --boot <bios|uefi>          Boot mode (default: bios)
   --home-encryption <value>   Password to enable home encryption
   -h, --help                  Show this help and exit
 
 Examples:
   $(basename "$0") --device /dev/sdb --os-size 100G
+  $(basename "$0") --boot uefi
   $(basename "$0") --home-encryption secret
 
 WARNING:
@@ -37,6 +41,17 @@ while [[ $# -gt 0 ]]; do
     --os-size)
       [[ -z "$2" ]] && echo "Missing value for --os-size" && usage && exit 1
       OS_SIZE="$2"
+      shift 2
+      ;;
+    --boot)
+      [[ -z "$2" ]] && echo "Missing value for --boot" && usage && exit 1
+      BOOT="$2"
+      if [[ "$BOOT" != "bios" ]] && [[ "$BOOT" != "uefi" ]]; then
+        echo "Invalid value for --boot: $BOOT"
+        echo "Allowed values: bios | uefi"
+        usage
+        exit 1
+      fi
       shift 2
       ;;
     --home-encryption)
@@ -65,26 +80,27 @@ done
 echo "--------------------------------------------------------------------------------"
 echo "Device: $DEVICE"
 echo "OS size: $OS_SIZE"
+echo "Boot mode: $BOOT"
 echo "Home encryption: ${HOME_ENCRYPTION:-disabled}"
 echo "================================================================================"
 
-# This command automatically partitions a disk using fdisk.
-# The lines sent by echo correspond to fdisk's interactive command:
-#
-# o        -> create a new empty DOS partition table
-# n        -> create a new partition
-# +50G     -> partition size: 50GB
-# n        -> create another partition (using remaining space)
-# (empty)  -> accept default valuse (primary partition, full remaining size)
-# a        -> set boot flag (mark partition as active)
-# 1        -> make the first partition bootable
-# w        -> write changes and exit
-echo -e "o\nn\n\n\n\n+${OS_SIZE}\nn\n\n\n\n\na\n1\nw\n" | fdisk $DEVICE
+if [[ "$BOOT" == "uefi" ]]; then
+  # UEFI layout:
+  # 1 -> EFI System Partition (FAT32, 512 MiB)
+  # 2 -> OS partition
+  # 3 -> Home partition
+  echo -e "g\nn\n1\n\n+${EFI_SIZE}\nt\n1\nuefi\nn\n2\n\n+${OS_SIZE}\nn\n3\n\n\nw\n" | fdisk "$DEVICE"
+else
+  # BIOS layout:
+  # 1 -> OS partition
+  # 2 -> Home partition
+  echo -e "o\nn\n\n\n\n+${OS_SIZE}\nn\n\n\n\n\na\n1\nw\n" | fdisk "$DEVICE"
+fi
 
 # Debug
 echo "--------------------------------------------------------------------------------"
 echo "The '$DEVICE' device has been partitioned." 
-fdisk --list $DEVICE
+fdisk --list "$DEVICE"
 echo "================================================================================"
 
 # Build the full partition path for a given device and partition number
@@ -110,20 +126,33 @@ partition_path() {
   fi
 }
 
-# Create ext4 filesystems on the first and second partitions of the disk
+# Partition formatting
+if [[ "$BOOT" == "uefi" ]]; then
+  # Create a FAT32 filesystem on partition 1 (typically for EFI system partition)
+  mkfs.fat -F 32 "$(partition_path 1)"
 
-# ${DEVICE}1 -> first partition
-mkfs.ext4 "$(partition_path 1)"
+  # Create an ext4 filesystem on partition 2 (usually for the root filesystem)
+  mkfs.ext4 "$(partition_path 2)"
+  
+  # Store the path of partition 3 in a variable (e.g., for /home)
+  home_partition="$(partition_path 3)"
+else
+  # Create an ext4 filesystem on partition 1 (usually for the root filesystem)
+  mkfs.ext4 "$(partition_path 1)"
+  
+  # Store the path of partition 3 in a variable (e.g., for /home)
+  home_partition="$(partition_path 2)"
+fi
 
 if [[ -n "$HOME_ENCRYPTION" ]]; then
   # Write the encryption password (without newline) to stdout and pipe it to cryptsetup
   # Initialize LUKS encryption on partition 2 in batch mode (no interactive prompts)
   # "-" tells cryptsetup to read the passphrase from stdin
-  echo -n "$HOME_ENCRYPTION" | cryptsetup luksFormat --batch-mode "$(partition_path 2)" -
+  echo -n "$HOME_ENCRYPTION" | cryptsetup luksFormat --batch-mode "$home_partition" -
 
   # Send the password again via stdin to unlock (open) the encrypted partition
   # Creates a mapped device under /dev/mapper/$CRYPT_NAME
-  echo -n "$HOME_ENCRYPTION" | cryptsetup open "$(partition_path 2)" "$CRYPT_NAME" -
+  echo -n "$HOME_ENCRYPTION" | cryptsetup open "$home_partition" "$CRYPT_NAME" -
 
   # Create an ext4 filesystem on the opened (decrypted) mapped device
   mkfs.ext4 "/dev/mapper/$CRYPT_NAME"
@@ -131,11 +160,10 @@ if [[ -n "$HOME_ENCRYPTION" ]]; then
   # Close the mapped encrypted device (lock it again)
   cryptsetup close "$CRYPT_NAME"
 else
-  # ${DEVICE}2 -> second partition
-  mkfs.ext4 "$(partition_path 2)"
+  mkfs.ext4 "$home_partition"
 fi
 
 echo "--------------------------------------------------------------------------------"
 echo "The partitions on '$DEVICE' device have been formatted." 
-lsblk --fs $DEVICE
+lsblk --fs "$DEVICE"
 echo "================================================================================"
