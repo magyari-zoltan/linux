@@ -1,52 +1,100 @@
 #!/bin/bash
 
-disk=/dev/sda
-luks_password=""
+# Default values
+DEVICE="/dev/sda"
+OS_SIZE="50G"
+HOME_ENCRYPTION=""
 
-function usage() {
-  echo "--------------------------------------------------------------------------------"
-  echo "The '$0' script was called with wrong option(s)."
-  echo "Valid options:"
-  echo " [--disk  | -d] /dev/sda      The disk on which the linux will be installed."
-  echo "                              If the option is not provided, the default disk is '/dev/sda'."
-  echo " [--help  | -h]               Displays help to the command."
-  echo "--------------------------------------------------------------------------------"
+# Shows help, examples, and defaults. Called on --help or invalid input.
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") [OPTIONS]
+
+Options:
+  --device <path>             Target disk device (default: /dev/sda)
+  --os-size <size>            Size of OS partition (default: 50G)
+  --home-encryption <value>   Password to enable home encryption
+  -h, --help                  Show this help and exit
+
+Examples:
+  $(basename "$0") --device /dev/sdb --os-size 100G
+  $(basename "$0") --home-encryption secret
+
+WARNING:
+  This script modifies disks → DATA LOSS ⚠️
+EOF
 }
 
-if [[ $# -gt 0 ]]; then
-	while [[ $# -gt 0 ]]; do
-		case "$1" in
-			-d | --disk)
-				disk=$2
+# Argument parsing
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --device)
+      [[ -z "$2" ]] && echo "Missing value for --device" && usage && exit 1
+      DEVICE="$2"
+      shift 2
+      ;;
+    --os-size)
+      [[ -z "$2" ]] && echo "Missing value for --os-size" && usage && exit 1
+      OS_SIZE="$2"
+      shift 2
+      ;;
+    --home-encryption)
+      [[ -z "$2" ]] && echo "Missing value for --home-encryption" && usage && exit 1
+      HOME_ENCRYPTION="$2"
+      shift 2
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    -*)
+      echo "Unknown option: $1"
+      usage
+      exit 1
+      ;;
+    *)
+      echo "Unexpected argument: $1"
+      usage
+      exit 1
+      ;;
+  esac
+done
 
-				if [[ -z "$disk" ]]; then
-					usage
-					exit 1
-				fi
-
-				shift 2
-				;;
-
-		  -h | --help)
-				usage
-				exit 1
-				;;
-
-		  *)
-			echo "ERROR: Unknown option $1"
-			usage
-			exit 1
-		esac
-	done
-fi
-
-echo -e "o\nn\n\n\n\n+50G\nn\n\n\n\n\na\n1\nw\n" | fdisk $disk
+# Debug
 echo "--------------------------------------------------------------------------------"
-echo "Partitions on '$disk' device have been created" 
-fdisk --list $disk
+echo "Device: $DEVICE"
+echo "OS size: $OS_SIZE"
+echo "Home encryption: ${HOME_ENCRYPTION:-disabled}"
+echo "================================================================================"
 
-mkfs.ext4 ${disk}1
-mkfs.ext4 ${disk}2
+# This command automatically partitions a disk using fdisk.
+# The lines sent by echo correspond to fdisk's interactive command:
+#
+# o        -> create a new empty DOS partition table
+# n        -> create a new partition
+# +50G     -> partition size: 50GB
+# n        -> create another partition (using remaining space)
+# (empty)  -> accept default valuse (primary partition, full remaining size)
+# a        -> set boot flag (mark partition as active)
+# 1        -> make the first partition bootable
+# w        -> write changes and exit
+echo -e "o\nn\n\n\n\n+${OS_SIZE}\nn\n\n\n\n\na\n1\nw\n" | fdisk $DEVICE
+
+# Debug
 echo "--------------------------------------------------------------------------------"
-echo "Partitions on '$disk' device have been formatted" 
-lsblk --fs $disk
+echo "The '$DEVICE' device has been partitioned." 
+fdisk --list $DEVICE
+echo "================================================================================"
+
+# Create ext4 filesystems on the first and second partitions of the disk
+
+# ${DEVICE}1 -> first partition
+mkfs.ext4 ${DEVICE}1
+
+# ${DEVICE}2 -> second partition
+mkfs.ext4 ${DEVICE}2
+
+echo "--------------------------------------------------------------------------------"
+echo "The partitions on '$DEVICE' device have been formatted." 
+lsblk --fs $DEVICE
+echo "================================================================================"
