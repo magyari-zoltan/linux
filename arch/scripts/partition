@@ -1,12 +1,15 @@
 #!/bin/bash
 
-# Default values
+# Arguments
 DEVICE="/dev/sda"
 OS_SIZE="50G"
-HOME_ENCRYPTION=""
 BOOT="bios"
+HOME_ENCRYPTION=""
+
+# Constants
 CRYPT_NAME="encrypted-home"
 EFI_SIZE="512MiB"
+MOUNT_POINT="/mnt"
 
 # Shows help, examples, and defaults. Called on --help or invalid input.
 usage() {
@@ -81,6 +84,7 @@ echo "--------------------------------------------------------------------------
 echo "Device: $DEVICE"
 echo "OS size: $OS_SIZE"
 echo "Boot mode: $BOOT"
+echo "Mount point: $MOUNT_POINT"
 echo "Home encryption: ${HOME_ENCRYPTION:-disabled}"
 echo "================================================================================"
 
@@ -166,4 +170,43 @@ fi
 echo "--------------------------------------------------------------------------------"
 echo "The partitions on '$DEVICE' device have been formatted." 
 lsblk --fs "$DEVICE"
+echo "================================================================================"
+
+# Partition mounting
+mkdir -p "$MOUNT_POINT"
+
+if [[ "$BOOT" == "uefi" ]]; then
+  root_partition="$(partition_path 2)"
+  efi_partition="$(partition_path 1)"
+else
+  root_partition="$(partition_path 1)"
+fi
+
+mount "$root_partition" "$MOUNT_POINT"
+
+if [[ -n "$HOME_ENCRYPTION" ]]; then
+  echo -n "$HOME_ENCRYPTION" | cryptsetup open "$home_partition" "$CRYPT_NAME" -
+  mount --mkdir /dev/mapper/$CRYPT_NAME "$MOUNT_POINT/home"
+else
+  mount --mkdir "$home_partition" "$MOUNT_POINT/home"
+fi
+
+if [[ "$BOOT" == "uefi" ]]; then
+  mount --mkdir "$efi_partition" "$MOUNT_POINT/boot/efi"
+fi
+
+echo "--------------------------------------------------------------------------------"
+echo "Partitions on '$DEVICE' have been mounted."
+echo "Root mounted on $MOUNT_POINT from $root_partition"
+
+if [[ -n "$HOME_ENCRYPTION" ]]; then
+  echo "Home partition '$home_partition' opened as '$CRYPT_NAME' and mounted on $MOUNT_POINT/home"
+else
+  echo "Home mounted on $MOUNT_POINT/home from $home_partition"
+fi
+
+if [[ "$BOOT" == "uefi" ]]; then
+  echo "EFI mounted on $MOUNT_POINT/boot/efi from $efi_partition"
+fi
+
 echo "================================================================================"
