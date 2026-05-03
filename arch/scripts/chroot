@@ -11,13 +11,13 @@ EOF
 }
 
 chroot_exec() {
-  local MOUNT_POINT="$1"    # Get the arch system mount point from the first argument.
-  local SCRIPT_PATH="$2"    # Get the script path from the second argument.
-  shift 2                   # Remove the two arguments from the argument list.
+  local MOUNT_POINT="$1"                                             # Get the arch system mount point from the first argument.
+  local SCRIPT_PATH="$2"                                             # Get the script path from the second argument.
+  shift 2                                                            # Remove the two arguments from the argument list.
 
-  local SCRIPT_NAME="$(basename "$SCRIPT_PATH")" # Get the script file name from the script path.
-  local TEMP_DIR="/tmp-chroot"                   # Temp directory where the folder containing the script will be mounted.
-  local CHROOT_SCRIPT_PATH="${TEMP_DIR}/${SCRIPT_NAME}"
+  local SCRIPT_NAME="$(basename "$SCRIPT_PATH")"                     # Get the script file name from the script path.
+  local TEMP_DIR="/tmp-chroot"                                       # Temp directory where the folder containing the script will be mounted.
+  local CHROOT_SCRIPT_PATH="${TEMP_DIR}/${SCRIPT_NAME}"              # The path to the script file within the chroot env.
 
   # Validate arguments
   if [[ -z "$MOUNT_POINT" ]]; then
@@ -41,7 +41,7 @@ chroot_exec() {
   fi
 
   # Create needed mount folder for scripts
-  local MOUNTED_SCRIPT_DIR="${MOUNT_POINT%/}/${TEMP_DIR#/}"
+  local MOUNTED_SCRIPT_DIR="${MOUNT_POINT%/}/${TEMP_DIR#/}"          # The global path to the script file outside the chroot env.
   mkdir -p "$MOUNTED_SCRIPT_DIR"
 
   # Cleanup
