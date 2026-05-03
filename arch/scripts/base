@@ -1,0 +1,33 @@
+#!/bin/bash
+
+MOUNT_POINT=/mnt
+HOME_FOLDER=/root
+INSTALL_FOLDER=.install
+CONFIG_FOLDER=.config
+HOST_NAME=arch
+
+# Install base system
+pacstrap -K $MOUNT_POINT base linux linux-firmware cryptsetup linux-headers --noconfirm
+
+echo "--------------------------------------------------------------------------------"
+echo "Base system install" 
+ls -hal $MOUNT_POINT
+echo "================================================================================"
+
+# Create essential folders
+mkdir -p $MOUNT_POINT/root/$INSTALL_FOLDER
+mkdir -p $MOUNT_POINT/root/$CONFIG_FOLDER
+
+echo "--------------------------------------------------------------------------------"
+echo "Base system install - create essential folders" 
+ls -hal $MOUNT_POINT/root
+echo "================================================================================"
+
+# Generate fstab
+genfstab -U $MOUNT_POINT >> $MOUNT_POINT/etc/fstab
+
+echo "--------------------------------------------------------------------------------"
+echo "Generated fstab" 
+cat $MOUNT_POINT/etc/fstab
+echo "================================================================================"
+
