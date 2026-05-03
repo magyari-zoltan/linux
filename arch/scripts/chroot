@@ -61,7 +61,7 @@ chroot_exec() {
 
   echo $MOUNTED_SCRIPT_DIR
   echo $TEMP_DIR/$SCRIPT_NAME
-  ls "$MOUNTED_SCRIPT_DIR"
+  ls $($MOUNTED_SCRIPT_DIR)
 
   # Execute in a chroot environment and forward script arguments unchanged.
   arch-chroot "$MOUNT_POINT" /bin/bash -c "$TEMP_DIR/$SCRIPT_NAME" "$@"
