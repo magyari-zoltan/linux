@@ -59,12 +59,8 @@ chroot_exec() {
   # Mount script folder to the dedicated folder
   mount --bind "$(dirname "$SCRIPT_PATH")" "$MOUNTED_SCRIPT_DIR"
 
-  echo $MOUNTED_SCRIPT_DIR
-  echo $TEMP_DIR/$SCRIPT_NAME
-  echo $(ls $MOUNTED_SCRIPT_DIR)
-
   # Execute in a chroot environment and forward script arguments unchanged.
-  arch-chroot "$MOUNT_POINT" /bin/bash -c "$TEMP_DIR/$SCRIPT_NAME" "$@"
+  arch-chroot "$MOUNT_POINT" /bin/bash -c "$TEMP_DIR/$SCRIPT_NAME"
 }
 
 # Display usage when --help option
