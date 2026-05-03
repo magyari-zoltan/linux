@@ -15,8 +15,6 @@ chroot_exec() {
   local SCRIPT_PATH="$2"    # Get the script path from the second argument.
   shift 2                   # Remove the two arguments from the argument list.
 
-  echo "chroot_exec: $@"    # Display argument lists
-
   local SCRIPT_NAME="$(basename "$SCRIPT_PATH")" # Get the script file name from the script path.
   local TEMP_DIR="/tmp/chroot"                   # Temp directory where the folder containing the script will be mounted.
   local CHROOT_SCRIPT_PATH="${TEMP_DIR}/${SCRIPT_NAME}"
@@ -61,7 +59,7 @@ chroot_exec() {
   # Mount script folder to the dedicated folder
   mount --bind "$(dirname "$SCRIPT_PATH")" "$MOUNTED_SCRIPT_DIR"
 
-  ls $MOUNTED_SCRIPT_DIR
+  echo $TEMP_DIR/$SCRIPT_NAME
 
   # Execute in a chroot environment and forward script arguments unchanged.
   arch-chroot "$MOUNT_POINT" /bin/bash -c "$TEMP_DIR/$SCRIPT_NAME" "$@"
