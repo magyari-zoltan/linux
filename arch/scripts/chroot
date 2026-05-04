@@ -23,8 +23,8 @@ if [[ $# -lt 2 ]]; then
 fi
 
 # Arguments
-local MOUNT_POINT="$1"                                             # Get the arch system mount point from the first argument.
-local SCRIPT_PATH="$2"                                             # Get the script path from the second argument.
+MOUNT_POINT="$1"                                             # Get the arch system mount point from the first argument.
+SCRIPT_PATH="$2"                                             # Get the script path from the second argument.
 shift 2                                                            # Remove the two arguments from the argument list.
 
 # Validate arguments
@@ -49,10 +49,10 @@ if [[ ! -f "$SCRIPT_PATH" ]]; then
 fi
 
 # Calculated constants
-local TEMP_DIR="/tmp-chroot"                                       # Temp directory where the folder containing the script will be mounted.
+TEMP_DIR="/tmp-chroot"                                       # Temp directory where the folder containing the script will be mounted.
 
 # Create needed mount folder for scripts
-local MOUNTED_SCRIPT_DIR="${MOUNT_POINT%/}/${TEMP_DIR#/}"          # The global path to the script file outside the chroot env.
+MOUNTED_SCRIPT_DIR="${MOUNT_POINT%/}/${TEMP_DIR#/}"          # The global path to the script file outside the chroot env.
 mkdir -p "$MOUNTED_SCRIPT_DIR"
 
 # Cleanup
@@ -71,7 +71,7 @@ trap cleanup_chroot_exec RETURN
 mount --bind "$(dirname "$SCRIPT_PATH")" "$MOUNTED_SCRIPT_DIR"
 
 # Calculate script name fromt script path
-local SCRIPT_NAME="$(basename "$SCRIPT_PATH")"                     # Get the script file name from the script path.
+SCRIPT_NAME="$(basename "$SCRIPT_PATH")"                     # Get the script file name from the script path.
 
 # Execute in a chroot environment and forward script arguments unchanged.
 arch-chroot "$MOUNT_POINT" /bin/bash "$TEMP_DIR/$SCRIPT_NAME" "$@"
