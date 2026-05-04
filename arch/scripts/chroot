@@ -1,66 +1,13 @@
 #!/bin/bash
 
 usage() {
-  cat <<EOF
+cat <<EOF
 Usage: $(basename "${BASH_SOURCE[0]}") <mount-point> <script-path> [script-arg ...]
 
 Examples:
   $(basename "${BASH_SOURCE[0]}") /mnt ./base/configure/uefi --disk /dev/sda --luks true
   $(basename "${BASH_SOURCE[0]}") /mnt ./gui/gnome --user zoltan --vboxutils false
 EOF
-}
-
-chroot_exec() {
-  local MOUNT_POINT="$1"                                             # Get the arch system mount point from the first argument.
-  local SCRIPT_PATH="$2"                                             # Get the script path from the second argument.
-  shift 2                                                            # Remove the two arguments from the argument list.
-
-  local SCRIPT_NAME="$(basename "$SCRIPT_PATH")"                     # Get the script file name from the script path.
-  local TEMP_DIR="/tmp-chroot"                                       # Temp directory where the folder containing the script will be mounted.
-  local CHROOT_SCRIPT_PATH="${TEMP_DIR}/${SCRIPT_NAME}"              # The path to the script file within the chroot env.
-
-  # Validate arguments
-  if [[ -z "$MOUNT_POINT" ]]; then
-    echo "Missing mount point for $(basename ${BASH_SOURCE[0]})"
-    return 1
-  fi
-
-  if [[ -z "$SCRIPT_PATH" ]]; then
-    echo "Missing script path for $(basename ${BASH_SOURCE[0]})"
-    return 1
-  fi
-
-  if [[ ! -d "$MOUNT_POINT" ]]; then
-    echo "Mount point does not exist: $MOUNT_POINT"
-    return 1
-  fi
-
-  if [[ ! -f "$SCRIPT_PATH" ]]; then
-    echo "Script file does not exist: $SCRIPT_PATH"
-    return 1
-  fi
-
-  # Create needed mount folder for scripts
-  local MOUNTED_SCRIPT_DIR="${MOUNT_POINT%/}/${TEMP_DIR#/}"          # The global path to the script file outside the chroot env.
-  mkdir -p "$MOUNTED_SCRIPT_DIR"
-
-  # Cleanup
-  cleanup_chroot_exec() {
-	# Unmount mounted script folder
-    umount "$MOUNTED_SCRIPT_DIR" 2>/dev/null || true
-	
-	# Remove mounted script folder
-    rmdir "$MOUNTED_SCRIPT_DIR" 2>/dev/null || true
-  }
-
-  # Execute cleanup method on return
-  trap cleanup_chroot_exec RETURN
-
-  # Mount script folder to the dedicated folder
-  mount --bind "$(dirname "$SCRIPT_PATH")" "$MOUNTED_SCRIPT_DIR"
-
-  # Execute in a chroot environment and forward script arguments unchanged.
-  arch-chroot "$MOUNT_POINT" /bin/bash "$TEMP_DIR/$SCRIPT_NAME" "$@"
 }
 
 # Display usage when --help option
@@ -75,5 +22,62 @@ if [[ $# -lt 2 ]]; then
   exit 1
 fi
 
-# Execute the script
-chroot_exec "$@"
+# Arguments
+local MOUNT_POINT="$1"                                             # Get the arch system mount point from the first argument.
+local SCRIPT_PATH="$2"                                             # Get the script path from the second argument.
+shift 2                                                            # Remove the two arguments from the argument list.
+
+# Validate arguments
+if [[ -z "$MOUNT_POINT" ]]; then
+  echo "Missing mount point for $(basename ${BASH_SOURCE[0]})"
+  return 1
+fi
+
+if [[ -z "$SCRIPT_PATH" ]]; then
+  echo "Missing script path for $(basename ${BASH_SOURCE[0]})"
+  return 1
+fi
+
+if [[ ! -d "$MOUNT_POINT" ]]; then
+  echo "Mount point does not exist: $MOUNT_POINT"
+  return 1
+fi
+
+if [[ ! -f "$SCRIPT_PATH" ]]; then
+  echo "Script file does not exist: $SCRIPT_PATH"
+  return 1
+fi
+
+# Calculated constants
+local TEMP_DIR="/tmp-chroot"                                       # Temp directory where the folder containing the script will be mounted.
+
+# Create needed mount folder for scripts
+local MOUNTED_SCRIPT_DIR="${MOUNT_POINT%/}/${TEMP_DIR#/}"          # The global path to the script file outside the chroot env.
+mkdir -p "$MOUNTED_SCRIPT_DIR"
+
+# Cleanup
+cleanup_chroot_exec() {
+  # Unmount mounted script folder
+  umount "$MOUNTED_SCRIPT_DIR" 2>/dev/null || true
+  
+  # Remove mounted script folder
+  rmdir "$MOUNTED_SCRIPT_DIR" 2>/dev/null || true
+}
+
+# Execute cleanup method on return
+trap cleanup_chroot_exec RETURN
+
+# Mount script folder to the dedicated folder
+mount --bind "$(dirname "$SCRIPT_PATH")" "$MOUNTED_SCRIPT_DIR"
+
+# Calculate script name fromt script path
+local SCRIPT_NAME="$(basename "$SCRIPT_PATH")"                     # Get the script file name from the script path.
+
+# Execute in a chroot environment and forward script arguments unchanged.
+arch-chroot "$MOUNT_POINT" /bin/bash "$TEMP_DIR/$SCRIPT_NAME" "$@"
+
+echo "--------------------------------------------------------------------------------"
+echo "The '$SCRIPT_NAME' executed with arch-chroot."
+echo "The script has been called with the '$@' arguments."
+echo "================================================================================"
+

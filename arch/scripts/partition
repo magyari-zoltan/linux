@@ -1,16 +1,5 @@
 #!/bin/bash
 
-# Arguments
-DEVICE="/dev/sda"
-OS_SIZE="50G"
-BOOT="bios"
-HOME_ENCRYPTION=""
-
-# Constants
-CRYPT_NAME="encrypted-home"
-EFI_SIZE="512MiB"
-ARCH_MOUNT_POINT="/mnt"
-
 # Shows help, examples, and defaults. Called on --help or invalid input.
 usage() {
   cat <<EOF
@@ -32,6 +21,17 @@ WARNING:
   This script modifies disks → DATA LOSS ⚠️
 EOF
 }
+
+# Arguments
+DEVICE="/dev/sda"
+OS_SIZE="50G"
+BOOT="bios"
+HOME_ENCRYPTION=""
+
+# Constants
+CRYPT_NAME="encrypted-home"
+EFI_SIZE="512MiB"
+ARCH_MOUNT_POINT="/mnt"
 
 # Argument parsing
 while [[ $# -gt 0 ]]; do
